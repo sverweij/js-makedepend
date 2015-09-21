@@ -1,7 +1,7 @@
 ### Makedepend.js 
 A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 
-For all two of you using `Makefiles` to build JavaDcript based projects.
+For all two of you using `Makefiles` to build JavaScript based projects.
 
 ### Basic usage
 Include this target in your Makefile (assuming your JavaScript source code resides in `src`).
