@@ -1,0 +1,46 @@
+{
+  "name": "makedepend.js",
+  "version": "0.1.0",
+  "description": "Determines dependencies of javascript modules and saves them in a Makefile. Just like the makedepend command does for C.",
+  "bin": {
+    "makedepend.js": "src/makedepend.js"
+  },
+  "scripts": {
+    "test": "mocha -R dot --recursive test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive test",
+    "lint": "jshint src test --verbose --show-non-errors",
+    "nsp": "nsp package",
+    "npm-check-updates": "ncu --upgrade"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sverweij/makedepend.js.git"
+  },
+  "keywords": [
+    "makedepend",
+    "Makefile",
+    "javascript",
+    "depenencies",
+    "ES6",
+    "AMD",
+    "CommonJS",
+    "RequireJS"
+  ],
+  "author": "Sander Verweij",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sverweij/makedepend.js/issues"
+  },
+  "homepage": "https://github.com/sverweij/makedepend.js",
+  "devDependencies": {
+    "istanbul": "^0.3.20",
+    "jshint": "^2.8.0",
+    "mocha": "^2.3.3",
+    "npm-check-updates": "^2.2.3",
+    "nsp": "^1.1.0"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "madge": "^0.5.0"
+  }
+}
