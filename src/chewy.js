@@ -1,5 +1,5 @@
-var core  = require('./core');
-var fs    = require('fs');
+var core  = require("./core");
+var fs    = require("fs");
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- makedepend.js depends on it.";
 
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
@@ -25,19 +25,33 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
     );
 }
 
+function fileExists(pFile) {
+    try {
+        fs.accessSync(pFile,fs.R_OK);
+    } catch (e){
+        return false;
+    }
+    return true;
+}
+
+
 exports.main = function (pDirOrFile, pExclude, pOutputTo, pDelimiter){
     var lExclude   = !!pExclude   ? pExclude  : "";
     var lOutputTo  = !!pOutputTo  ? pOutputTo : "Makefile";
     var lDelimiter = !!pDelimiter ? pDelimiter : STARTING_STRING_DELIMITER;
 
-    if ("-" === lOutputTo) {
-        core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
-            process.stdout.write(pLine);
-        });
+    if (fileExists(pDirOrFile)) {
+        if ("-" === lOutputTo) {
+            core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
+                process.stdout.write(pLine);
+            });
+        } else {
+            appendToOrReplaceInFile(
+                lOutputTo,
+                core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter)
+            );
+        }
     } else {
-        appendToOrReplaceInFile(
-            lOutputTo,
-            core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter)
-        );
+        process.stderr.write("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
     }
 };
