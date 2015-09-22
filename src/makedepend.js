@@ -1,5 +1,5 @@
-var program = require('commander');
-var core = require('./chewy');
+var program = require("commander");
+var chewy   = require("./chewy");
 
 program
     .version('0.1.0')
@@ -8,4 +8,4 @@ program
     .option('-s, --delimiter <string>', 'starting string delimiter')
     .parse(process.argv);
 
-core.main(program.args[0], program.exclude, program.outputTo, program.delimiter);
+chewy.main(program.args[0], program.exclude, program.outputTo, program.delimiter);
