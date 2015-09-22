@@ -6,11 +6,12 @@
     "makedepend.js": "src/makedepend.js"
   },
   "scripts": {
-    "test": "mocha -R dot --recursive test",
+    "test": "mocha -R dot test",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive test",
     "lint": "jshint src test --verbose --show-non-errors",
     "nsp": "nsp package",
-    "npm-check-updates": "ncu --upgrade"
+    "npm-check-updates": "ncu --upgrade",
+    "plato": "plato -r -d platoreports -x \"test\" src/"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,8 @@
     "jshint": "^2.8.0",
     "mocha": "^2.3.3",
     "npm-check-updates": "^2.2.3",
-    "nsp": "^1.1.0"
+    "nsp": "^1.1.0",
+    "plato": "^1.5.0"
   },
   "dependencies": {
     "commander": "^2.8.1",

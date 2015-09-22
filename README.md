@@ -16,10 +16,11 @@ Usage: makedepend [options]
 
 Options:
 
-  -h, --help              output usage information
-  -V, --version           output the version number
-  -f, --output-to <file>  Makefile to output to, if different from Makefile.
-  -x, --exclude <regex>   a regular expression for excluding modules
+  -h, --help               output usage information
+  -V, --version            output the version number
+  -f, --output-to <file>   Makefile to output to, if different from Makefile.
+  -x, --exclude <regex>    a regular expression for excluding modules
+  -s, --delimiter <string> starting string delimiter
 
 ```
 

@@ -33,7 +33,7 @@ VERSION:
 prerequisites:
 	$(NPM) install
 
-dev-build: $(GENERATED_SOURCES_NODE) src/index.html src/embed.html src/tutorial.html
+dev-build: src/makedepend.js
 
 lint:
 	$(NPM) run lint
