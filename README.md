@@ -25,7 +25,8 @@ Options:
 ```
 
 ### TODO before releasing as npm package:
-  - [ ] automate test & coverage
+  - [x] set up automated test & coverage
+  - [ ] automate some e2e scenarios
   - [ ] describe general operation 
     - (and the `# DO NOT DELETE THIS LINE -- makedepend.js depends on it` behavior.)
     - `-f -` to generate to `stdout`
@@ -36,7 +37,7 @@ makedepend options maybe to include in a later release:
 - [ ] -wwidth   - line width 
 - [ ] -m        - warn about multiple inclusion (makedepend like)
 - [ ] -c        - warn about circular dependencies (newish - comes free with madge)
-- [ ] -s        - starting string delimiter (if you want it different from the `# DO NOT DELETE THIS LINE ...` thing
+- [x] -s        - starting string delimiter (if you want it different from the `# DO NOT DELETE THIS LINE ...` thing
 
 ### Never features
-- [ ]-Iincludedir, -Yincludedir - as we don't yet have #includes in js land
+- [ ] -Iincludedir, -Yincludedir - as we don't yet have #includes in js land
