@@ -1,6 +1,5 @@
 var assert = require("assert");
-var core = require("../src/chewy.js");
-var fs = require("fs");
+var chewy = require("../src/chewy.js");
 
 describe('#chewy', function() {
     it("dummy to make coverage report more realistic", function() {
