@@ -7,6 +7,7 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
         var lOutputFile = fs.readFileSync(pOutputTo, {encoding: 'utf8', flag: 'r'});
         var lLines      = lOutputFile.split('\n');
         var lDelimiterPosition = lLines.indexOf(pDelimiter);
+        console.log(pDelimiter);
         
         if (lDelimiterPosition > -1){
             fs.writeFileSync(
@@ -16,7 +17,7 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
             );
         }
     } catch (e){
-        process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.");
+        process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.\n");
     }
     fs.appendFileSync(
         pOutputTo,
@@ -47,7 +48,8 @@ exports.main = function (pDirOrFile, pExclude, pOutputTo, pDelimiter){
         } else {
             appendToOrReplaceInFile(
                 lOutputTo,
-                core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter)
+                core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter),
+                lDelimiter
             );
         }
     } else {
