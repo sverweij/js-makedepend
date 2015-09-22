@@ -3,8 +3,9 @@
  * - all es6, amd and commonjs dependencies in the src tree
  */
 
-var path  = require('path');
-var madge = require('madge');
+var path  = require("path");
+var madge = require("madge");
+var fs    = require("fs");
 
 function sourcify(pDirOrFile, pString){
     var lDir = path.dirname(pDirOrFile) === "." ? pDirOrFile : path.dirname(pDirOrFile);
@@ -21,15 +22,16 @@ function getDepString(pDirOrFile, pArray, pStartWith){
             .filter(function (pDep){
                 // Don't include dependencies for which no corresponding
                 // file exists. This prevents erroneous files from entering
-                // the dependency tree, but also from core node modules 
-                // (path, fs, http, ...) from being mentioned 
+                // the dependency tree, but also from core node modules
+                // (path, fs, http, ...) from being mentioned
                 try {
                     fs.accessSync(sourcify(pDirOrFile, pDep),fs.R_OK);
                 } catch (_e){
                     return false;
                 }
                 return true;
-            }).reduce(function(pSum, pDep){
+            })
+            .reduce(function(pSum, pDep){
                 return pSum + " \\\n\t" + sourcify(pDirOrFile, pDep);
             }, sourcify(pDirOrFile, pStartWith) + ":"
         );
