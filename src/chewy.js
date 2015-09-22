@@ -34,7 +34,6 @@ function fileExists(pFile) {
     return true;
 }
 
-
 exports.main = function (pDirOrFile, pExclude, pOutputTo, pDelimiter){
     var lExclude   = !!pExclude   ? pExclude  : "";
     var lOutputTo  = !!pOutputTo  ? pOutputTo : "Makefile";
