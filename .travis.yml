@@ -1,0 +1,32 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - stable
+
+install:
+  - npm install
+
+script:
+  - make lint cover
+#  - npm run nsp
+#  - make install
+
+branches:
+  except:
+    - gh-pages
+
+cache:
+  directories:
+    - node_modules
+
+addons:
+    code_climate:
+        repo_token: 7535275c84e888990e9ad6c089fac6877451c46fdc9add915f2a645abfe22194
+
+after_success:
+  - npm run codeclimate-cover-submit
+#  - npm run codecov-submit
+
+# 4abd82b4-6e29-4046-ba2f-a9698d7028ef
