@@ -5,10 +5,9 @@ GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-MAKEDEPEND=node src/makedepend.js
+MAKEDEPEND=src/js-makedepend
 
 GENERATED_SOURCES=
-
 
 .PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
 
@@ -33,7 +32,7 @@ VERSION:
 prerequisites:
 	$(NPM) install
 
-dev-build: src/makedepend.js
+dev-build: src/js-makedepend src/cli.js
 
 lint:
 	$(NPM) run lint
@@ -90,13 +89,13 @@ src/chewy.js: \
 	src/core.js \
 	src/utl.js
 
+src/cli.js: \
+	node_modules/commander/index.js \
+	src/chewy.js
+
 src/core.js: \
 	node_modules/madge/lib/madge.js \
 	src/utl.js
-
-src/makedepend.js: \
-	node_modules/commander/index.js \
-	src/chewy.js
 
 src/utl.js:
 

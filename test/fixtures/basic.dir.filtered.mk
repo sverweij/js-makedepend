@@ -7,11 +7,11 @@ src/chewy.js: \
 	src/core.js \
 	src/utl.js
 
+src/cli.js: \
+	src/chewy.js
+
 src/core.js: \
 	src/utl.js
-
-src/makedepend.js: \
-	src/chewy.js
 
 src/utl.js:
 

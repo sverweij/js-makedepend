@@ -12,9 +12,9 @@ Note: I will publish this as an npm module only when it's mature enough (tests a
 
 ## Basic usage
 Include this target in your Makefile .
-```Makefile
+```
 depend:
-    makedepend.js src/
+    makedependjs src/
 ```
 (This assumes 
  - your JavaScript source code resides in `src` 
@@ -33,4 +33,3 @@ Options:
   -s, --delimiter <string> starting string delimiter
 
 ```
-
