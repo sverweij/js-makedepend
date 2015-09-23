@@ -1,5 +1,7 @@
 var core  = require("./core");
 var fs    = require("fs");
+var utl   = require("./utl");
+
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- makedepend.js depends on it.";
 
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
@@ -7,7 +9,6 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
         var lOutputFile = fs.readFileSync(pOutputTo, {encoding: 'utf8', flag: 'r'});
         var lLines      = lOutputFile.split('\n');
         var lDelimiterPosition = lLines.indexOf(pDelimiter);
-        console.log(pDelimiter);
         
         if (lDelimiterPosition > -1){
             fs.writeFileSync(
@@ -26,21 +27,12 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
     );
 }
 
-function fileExists(pFile) {
-    try {
-        fs.accessSync(pFile,fs.R_OK);
-    } catch (e){
-        return false;
-    }
-    return true;
-}
+exports.main = function (pDirOrFile, pOptions){
+    var lExclude   = !!pOptions.exclude   ? pOptions.exclude  : "";
+    var lOutputTo  = !!pOptions.outputTo  ? pOptions.outputTo : "Makefile";
+    var lDelimiter = !!pOptions.delimiter ? pOptions.delimiter : STARTING_STRING_DELIMITER;
 
-exports.main = function (pDirOrFile, pExclude, pOutputTo, pDelimiter){
-    var lExclude   = !!pExclude   ? pExclude  : "";
-    var lOutputTo  = !!pOutputTo  ? pOutputTo : "Makefile";
-    var lDelimiter = !!pDelimiter ? pDelimiter : STARTING_STRING_DELIMITER;
-
-    if (fileExists(pDirOrFile)) {
+    if (utl.fileExists(pDirOrFile)) {
         if ("-" === lOutputTo) {
             core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
                 process.stdout.write(pLine);

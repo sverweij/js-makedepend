@@ -5,7 +5,7 @@
 
 var path  = require("path");
 var madge = require("madge");
-var fs    = require("fs");
+var utl   = require("./utl");
 
 function sourcify(pDirOrFile, pString){
     var lDir = path.dirname(pDirOrFile) === "." ? pDirOrFile : path.dirname(pDirOrFile);
@@ -16,6 +16,7 @@ function stringCompare (pOne, pTwo){
     return pOne.localeCompare(pTwo);
 }
 
+
 function getDepString(pDirOrFile, pArray, pStartWith){
     return pArray
             .sort(stringCompare)
@@ -24,12 +25,7 @@ function getDepString(pDirOrFile, pArray, pStartWith){
                 // file exists. This prevents erroneous files from entering
                 // the dependency tree, but also from core node modules
                 // (path, fs, http, ...) from being mentioned
-                try {
-                    fs.accessSync(sourcify(pDirOrFile, pDep),fs.R_OK);
-                } catch (_e){
-                    return false;
-                }
-                return true;
+                return utl.fileExists(sourcify(pDirOrFile, pDep));
             })
             .reduce(function(pSum, pDep){
                 return pSum + " \\\n\t" + sourcify(pDirOrFile, pDep);

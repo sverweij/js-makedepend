@@ -9,7 +9,7 @@ describe('#core - main', function() {
              "# amd dependencies\n",
              "",
              "# commonJS dependencies\n",
-             "src/chewy.js: \\\n\tsrc/core.js\n\nsrc/core.js: \\\n\tnode_modules/madge/lib/madge.js\n\nsrc/makedepend.js: \\\n\tnode_modules/commander/index.js \\\n\tsrc/chewy.js\n\n",
+             "src/chewy.js: \\\n\tsrc/core.js \\\n\tsrc/utl.js\n\nsrc/core.js: \\\n\tnode_modules/madge/lib/madge.js \\\n\tsrc/utl.js\n\nsrc/makedepend.js: \\\n\tnode_modules/commander/index.js \\\n\tsrc/chewy.js\n\nsrc/utl.js:\n\n",
              "# ES6 dependencies\n",
              ""
         ];
@@ -26,7 +26,7 @@ describe('#core - main', function() {
              "# amd dependencies\n",
              "",
              "# commonJS dependencies\n",
-             "src/chewy.js: \\\n\tsrc/core.js\n\n",
+             "src/chewy.js: \\\n\tsrc/core.js \\\n\tsrc/utl.js\n\n",
              "# ES6 dependencies\n",
              ""
         ];

@@ -8,4 +8,11 @@ program
     .option('-s, --delimiter <string>', 'starting string delimiter')
     .parse(process.argv);
 
-chewy.main(program.args[0], program.exclude, program.outputTo, program.delimiter);
+chewy.main(
+    program.args[0], 
+    {
+        exclude: program.exclude,
+        outputTo: program.outputTo,
+        delimiter: program.delimiter
+    }
+);
