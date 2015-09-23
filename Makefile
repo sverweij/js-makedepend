@@ -5,7 +5,7 @@ GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-MAKEDEPEND=src/js-makedepend
+MAKEDEPEND=bin/js-makedepend
 
 GENERATED_SOURCES=
 
@@ -13,9 +13,9 @@ GENERATED_SOURCES=
 
 help:
 	@echo
-	@echo " --------------------------------------------------------"
+	@echo " -------------------------------------------------------- "
 	@echo "| More information and other targets: see README.md      |"
-	@echo " --------------------------------------------------------"
+	@echo " -------------------------------------------------------- "
 	@echo
 
 
@@ -32,7 +32,7 @@ VERSION:
 prerequisites:
 	$(NPM) install
 
-dev-build: src/js-makedepend src/cli.js
+dev-build: bin/js-makedepend src/cli.js
 
 lint:
 	$(NPM) run lint
@@ -81,7 +81,7 @@ depend:
 clean-generated-sources: 
 	rm -rf $(GENERATED_SOURCES)
 
-# DO NOT DELETE THIS LINE -- makedepend.js depends on it.
+# DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
 # commonJS dependencies

@@ -2,7 +2,7 @@ var core  = require("./core");
 var fs    = require("fs");
 var utl   = require("./utl");
 
-var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- makedepend.js depends on it.";
+var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
     try {

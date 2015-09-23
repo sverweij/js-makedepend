@@ -1,5 +1,5 @@
 var assert = require("assert");
-// var makedepend = require("../src/makedepend.js");
+// var makedepend = require("../src/js-makedepend");
 
 describe('#makedepend', function() {
     it("dummy to make coverage report more realistic", function() {

@@ -1,4 +1,4 @@
-# makedepend.js 
+# js-makedepend
 A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 
 For all two of you using `Makefiles` to build JavaScript based projects. 
@@ -18,11 +18,11 @@ depend:
 ```
 (This assumes 
  - your JavaScript source code resides in `src` 
- - you have installed makedepend.js globally)
+ - you have installed js-makedepend globally)
 
 ## All options
 ```
-Usage: makedepend [options]
+Usage: js-makedepend [options]
 
 Options:
 

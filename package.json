@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Determines dependencies of javascript modules and saves them in a Makefile. Just like the makedepend command does for C.",
   "bin": {
-    "js-makedepend": "src/js-makedepend"
+    "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
     "codeclimate-cover-submit": "codeclimate-test-reporter < coverage/lcov.info",

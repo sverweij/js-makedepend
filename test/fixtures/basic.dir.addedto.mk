@@ -1,6 +1,6 @@
 Here is some content
 It's not ended by a linebreak
-# DO NOT DELETE THIS LINE -- makedepend.js depends on it.
+# DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
 # commonJS dependencies

@@ -9,7 +9,7 @@ var FIX_DIR = "./test/fixtures";
 
 var testPairs = [
     {
-        description : "basic operation on makedepend.js' src/",
+        description : "basic operation on js-makedepend' src/",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.mk")
@@ -18,7 +18,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/ again - should not change output",
+        description : "basic operation on js-makedepend' src/ again - should not change output",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.mk")
@@ -27,7 +27,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/chewy.js",
+        description : "basic operation on js-makedepend' src/chewy.js",
         dirOrFile   : "src/chewy.js",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.file.mk")
@@ -36,7 +36,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/ - with node_modules filtered",
+        description : "basic operation on js-makedepend' src/ - with node_modules filtered",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.filtered.mk"),
@@ -46,7 +46,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/ - with an existing file - should just add",
+        description : "basic operation on js-makedepend' src/ - with an existing file - should just add",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.addedto.mk"),
@@ -55,7 +55,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/ - with an existing file again - should have same result",
+        description : "basic operation on js-makedepend' src/ - with an existing file again - should have same result",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.addedto.mk"),
@@ -64,7 +64,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on makedepend.js' src/ - non-standard delimiter",
+        description : "basic operation on js-makedepend' src/ - non-standard delimiter",
         dirOrFile   : "src",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.delimiter.mk"),
