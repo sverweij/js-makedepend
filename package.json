@@ -12,7 +12,8 @@
     "nsp": "nsp package",
     "npm-check-updates": "ncu --upgrade",
     "plato": "plato -r -d platoreports -x \"test\" src/",
-    "test": "mocha -R dot test"
+    "test": "mocha -R dot test",
+    "test-long": "mocha"
   },
   "repository": {
     "type": "git",
