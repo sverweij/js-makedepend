@@ -3,11 +3,15 @@ A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 
 For all two of you using `Makefiles` to build JavaScript based projects. 
 
-Note: will be published as an npm module when all items on [TODO before release as npm package](https://trello.com/b/YdKXLhGb/makedepend-js) list are done.
+[![Build Status](https://travis-ci.org/sverweij/makedepend.js.svg?branch=master)](https://travis-ci.org/sverweij/makedepend.js)
+[![Code Climate](https://codeclimate.com/github/sverweij/makedepend.js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/makedepend.js)
+[![Test Coverage](https://codeclimate.com/github/sverweij/makedepend.js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/makedepend.js/coverage)
+
+Note: I will publish this as an npm module when it's mature enough. It's close, but not there yet; see items on [TODO before release as npm package](https://trello.com/b/YdKXLhGb/makedepend-js).
 
 
 ## Basic usage
-Include this target in your Makefile (assuming your JavaScript source code resides in `src`).
+Include this target in your Makefile (assuming your JavaScript source code resides in `src` and you have installed makedepend.js globally).
 ```Makefile
 depend:
     makedepend.js src/
@@ -26,7 +30,4 @@ Options:
   -s, --delimiter <string> starting string delimiter
 
 ```
-## Build status and other flare
-[![Build Status](https://travis-ci.org/sverweij/makedepend.js.svg?branch=master)](https://travis-ci.org/sverweij/makedepend.js)
-[![Code Climate](https://codeclimate.com/github/sverweij/makedepend.js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/makedepend.js)
-[![Test Coverage](https://codeclimate.com/github/sverweij/makedepend.js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/makedepend.js/coverage)
+
