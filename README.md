@@ -29,3 +29,4 @@ Options:
 ## Build status and other flare
 [![Build Status](https://travis-ci.org/sverweij/makedepend.js.svg?branch=master)](https://travis-ci.org/sverweij/makedepend.js)
 [![Code Climate](https://codeclimate.com/github/sverweij/makedepend.js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/makedepend.js)
+[![Test Coverage](https://codeclimate.com/github/sverweij/makedepend.js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/makedepend.js/coverage)
