@@ -14,7 +14,7 @@ Note: I will publish this as an npm module only when it's mature enough (tests a
 Include this target in your Makefile .
 ```
 depend:
-    makedependjs src/
+    js-makedepend src/
 ```
 (This assumes 
  - your JavaScript source code resides in `src` 
