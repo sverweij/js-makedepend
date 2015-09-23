@@ -101,7 +101,7 @@ describe('#chewy', function() {
     });
     
     after("tear down", function(){
-        // resetOutputDir();
+        resetOutputDir();
     });
     
     describe("file based tests", function(){
