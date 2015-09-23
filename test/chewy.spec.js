@@ -116,13 +116,44 @@ describe('#chewy', function() {
         });
     });
     describe("specials", function(){
-        xit("stdout", function() {
+        it("- outputs to stdout", function() {
+            var intercept = require("intercept-stdout");
+
+            var lCapturedStdout = "";
+            var unhook_intercept = intercept(function(pText) {
+                lCapturedStdout += pText;
+            });
             chewy.main("src", {outputTo: "-"});
+            unhook_intercept();
+            fs.writeFileSync(
+                path.join(OUT_DIR, "basic.dir.stdout.mk"),
+                lCapturedStdout,
+                "utf8"
+            );
 
             tst.assertFileEqual(
                 path.join(OUT_DIR, "basic.dir.stdout.mk"),
                 path.join(FIX_DIR, "basic.dir.stdout.mk")
             );
-        });        
+        });
+        it("non-existing dir/ file generates an error", function() {
+            var intercept = require("intercept-stdout");
+
+            var lCapturedStdout = "";
+            var unhook_intercept_stdout = intercept(function(pText) {
+                // This space intentionally left empty
+            });
+            var unhook_intercept_stderr = intercept(function(pText) {
+                lCapturedStdout += pText;
+            });
+            chewy.main("this-directory-really-doesnot-exist", {outputTo: "basic.dir.wontmarch.mk"});
+            unhook_intercept_stdout();
+            unhook_intercept_stderr();
+            
+            return assert.equal(
+                lCapturedStdout,
+                "Can't open 'this-directory-really-doesnot-exist' for reading. Does it exist?\n"
+            );
+        });
     });
 });
