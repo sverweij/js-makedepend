@@ -7,15 +7,18 @@ For all two of you using `Makefiles` to build JavaScript based projects.
 [![Code Climate](https://codeclimate.com/github/sverweij/makedepend.js/badges/gpa.svg)](https://codeclimate.com/github/sverweij/makedepend.js)
 [![Test Coverage](https://codeclimate.com/github/sverweij/makedepend.js/badges/coverage.svg)](https://codeclimate.com/github/sverweij/makedepend.js/coverage)
 
-Note: I will publish this as an npm module when it's mature enough. It's close, but not there yet; see items on [TODO before release as npm package](https://trello.com/b/YdKXLhGb/makedepend-js).
+Note: I will publish this as an npm module only when it's mature enough (tests automated, dependencies managed). It's close, but not there yet; see items on [TODO before release as npm package](https://trello.com/b/YdKXLhGb/makedepend-js).
 
 
 ## Basic usage
-Include this target in your Makefile (assuming your JavaScript source code resides in `src` and you have installed makedepend.js globally).
+Include this target in your Makefile .
 ```Makefile
 depend:
     makedepend.js src/
 ```
+(This assumes 
+ - your JavaScript source code resides in `src` 
+ - you have installed makedepend.js globally)
 
 ## All options
 ```
