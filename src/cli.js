@@ -16,7 +16,8 @@ if (!!program.args[0]){
         {
             exclude: program.exclude,
             outputTo: program.outputTo,
-            delimiter: program.delimiter
+            delimiter: program.delimiter,
+            flatDefine: program.flatDefine
         }
     );
 } else {

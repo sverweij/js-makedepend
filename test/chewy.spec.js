@@ -152,7 +152,7 @@ describe('#chewy', function() {
             
             return assert.equal(
                 lCapturedStdout,
-                "Can't open 'this-directory-really-doesnot-exist' for reading. Does it exist?\n"
+                "ERROR: Can't open 'this-directory-really-doesnot-exist' for reading. Does it exist?\n"
             );
         });
     });

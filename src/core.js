@@ -35,7 +35,11 @@ function getDepString(pDirOrFile, pArray, pStartWith){
 }
 
 function getDeps(pDirOrFile, pExclude, pFormat){
-    var lDeps = madge([pDirOrFile], {format: pFormat, exclude: pExclude}).tree;
+    var lDeps = madge(
+        // [utl.getDirectory(pDirOrFile)],
+        pDirOrFile,
+        {format: pFormat, exclude: pExclude}
+    ).tree;
 
     return Object.keys(lDeps)
             .filter(function(pDep){

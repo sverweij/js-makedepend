@@ -18,7 +18,7 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
             );
         }
     } catch (e){
-        process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.\n");
+        // process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.\n");
     }
     fs.appendFileSync(
         pOutputTo,
@@ -27,24 +27,36 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
     );
 }
 
-exports.main = function (pDirOrFile, pOptions){
-    var lExclude   = !!pOptions.exclude   ? pOptions.exclude  : "";
-    var lOutputTo  = !!pOptions.outputTo  ? pOptions.outputTo : "Makefile";
-    var lDelimiter = !!pOptions.delimiter ? pOptions.delimiter : STARTING_STRING_DELIMITER;
+function validateParameters(pDirOrFile, pOptions){
+    if (!utl.fileExists(pDirOrFile)) {
+        throw Error("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
+    }
+    if (!!pOptions.flatDefine && !fs.statSync(pDirOrFile).isFile()) {
+        throw Error("Flat defines only work on files, not on directories\n");
+    }    
+}
 
-    if (utl.fileExists(pDirOrFile)) {
+exports.main = function (pDirOrFile, pOptions){
+    var lExclude    = !!pOptions.exclude    ? pOptions.exclude  : "";
+    var lOutputTo   = !!pOptions.outputTo   ? pOptions.outputTo : "Makefile";
+    var lDelimiter  = !!pOptions.delimiter  ? pOptions.delimiter : STARTING_STRING_DELIMITER;
+    
+    try {
+        validateParameters(pDirOrFile, pOptions);
         if ("-" === lOutputTo) {
             core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
                 process.stdout.write(pLine);
             });
+            // process.stdout.write("# flat dependencies from here\n");
         } else {
             appendToOrReplaceInFile(
                 lOutputTo,
                 core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter),
                 lDelimiter
             );
+            // fs.appendFileSync(lOutputTo, "# flat dependencies from here\n", "utf8");
         }
-    } else {
-        process.stderr.write("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
+    } catch (e) {
+        process.stderr.write("ERROR: " + e.message);
     }
 };
