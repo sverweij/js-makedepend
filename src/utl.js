@@ -1,4 +1,5 @@
-var fs = require ("fs");
+var fs   = require ("fs");
+var path = require ("path");
 
 exports.fileExists = function (pFile) {
     try {
@@ -7,4 +8,8 @@ exports.fileExists = function (pFile) {
         return false;
     }
     return true;
+};
+
+exports.getDirectory = function(pDirOrFile) {
+    return fs.statSync(pDirOrFile).isDirectory() ? pDirOrFile : path.dirname(pDirOrFile);
 };

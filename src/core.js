@@ -8,14 +8,15 @@ var madge = require("madge");
 var utl   = require("./utl");
 
 function sourcify(pDirOrFile, pString){
-    var lDir = path.dirname(pDirOrFile) === "." ? pDirOrFile : path.dirname(pDirOrFile);
-    return path.join(lDir, pString + ".js");
+    return path.join(
+        utl.getDirectory(pDirOrFile), 
+        pString + ".js"
+    );
 }
 
 function stringCompare (pOne, pTwo){
     return pOne.localeCompare(pTwo);
 }
-
 
 function getDepString(pDirOrFile, pArray, pStartWith){
     return pArray
