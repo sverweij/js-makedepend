@@ -6,6 +6,7 @@
 var path  = require("path");
 var madge = require("madge");
 var utl   = require("./utl");
+var fs    = require("fs");
 
 function sourcify(pDirOrFile, pString){
     return path.join(
@@ -26,28 +27,54 @@ function getDepString(pDirOrFile, pArray, pStartWith){
                 // file exists. This prevents erroneous files from entering
                 // the dependency tree, but also from core node modules
                 // (path, fs, http, ...) from being mentioned
-                return utl.fileExists(sourcify(pDirOrFile, pDep));
+                return utl.fileExists(sourcify(LE_DIRECTOIRE, pDep));
             })
             .reduce(function(pSum, pDep){
-                return pSum + " \\\n\t" + sourcify(pDirOrFile, pDep);
-            }, sourcify(pDirOrFile, pStartWith) + ":"
+                return pSum + " \\\n\t" + sourcify(LE_DIRECTOIRE, pDep);
+            }, sourcify(LE_DIRECTOIRE, pStartWith) + ":"
         );
 }
-
-function getDeps(pDirOrFile, pExclude, pFormat){
-    var lDeps = madge(
-        // [utl.getDirectory(pDirOrFile)],
-        pDirOrFile,
-        {format: pFormat, exclude: pExclude}
-    ).tree;
-
-    return Object.keys(lDeps)
+function walkFile(pDeps, pFile){
+    return Object.keys(pDeps)
             .filter(function(pDep){
-                return lDeps[pDep].length > 0;
+                return (pDeps[pDep].length > 0) && (sourcify(LE_DIRECTOIRE, pDep) === pFile);
             })
             .reduce(function(pSum, pDep){
-                return pSum + getDepString(pDirOrFile, lDeps[pDep], pDep) + "\n\n";
+                return pSum + getDepString(pFile, pDeps[pDep], pDep) + "\n\n" +
+                    pDeps[pDep].reduce(function(pDepSum, pDepDep){
+                        if (utl.fileExists(sourcify(LE_DIRECTOIRE, pDepDep))){
+                            return pDepSum + walkFile(pDeps, sourcify(LE_DIRECTOIRE, pDepDep));
+                        } else {
+                            return "";
+                        }
+                    }, "");
             }, "");
+}
+
+function walkDir(pDeps, pDir){
+    return Object.keys(pDeps)
+            .filter(function(pDep){
+                return pDeps[pDep].length > 0;
+            })
+            .reduce(function(pSum, pDep){
+                return pSum + getDepString(pDir, pDeps[pDep], pDep) + "\n\n";
+            }, "");
+}
+var LE_DIRECTOIRE="";
+function getDeps(pDirOrFile, pExclude, pFormat){
+    LE_DIRECTOIRE = utl.getDirectory(pDirOrFile);
+    var lDeps = madge(
+        [LE_DIRECTOIRE],
+        // pDirOrFile,
+        {format: pFormat, exclude: pExclude}
+    ).tree;
+    
+    if (fs.statSync(pDirOrFile).isFile()){
+        return walkFile(lDeps, pDirOrFile);
+    } else {
+        return walkDir(lDeps, pDirOrFile);
+    }
+
 }
 
 exports.getDependencyStrings = function (pDirOrFile, pExclude, pDelimiter){

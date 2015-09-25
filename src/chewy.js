@@ -37,9 +37,9 @@ function validateParameters(pDirOrFile, pOptions){
 }
 
 exports.main = function (pDirOrFile, pOptions){
-    var lExclude    = !!pOptions.exclude    ? pOptions.exclude  : "";
-    var lOutputTo   = !!pOptions.outputTo   ? pOptions.outputTo : "Makefile";
-    var lDelimiter  = !!pOptions.delimiter  ? pOptions.delimiter : STARTING_STRING_DELIMITER;
+    var lExclude   = !!pOptions.exclude   ? pOptions.exclude  : "";
+    var lOutputTo  = !!pOptions.outputTo  ? pOptions.outputTo : "Makefile";
+    var lDelimiter = !!pOptions.delimiter ? pOptions.delimiter : STARTING_STRING_DELIMITER;
     
     try {
         validateParameters(pDirOrFile, pOptions);
