@@ -81,6 +81,9 @@ depend:
 clean-generated-sources: 
 	rm -rf $(GENERATED_SOURCES)
 
+sinopia:
+	sinopia
+
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
