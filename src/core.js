@@ -96,7 +96,6 @@ function getDeps(pDirOrFile, pExclude, pFormat){
     } else {
         return walkDir(lDepencies, pDirOrFile);
     }
-
 }
 
 exports.getDependencyStrings = function (pDirOrFile, pExclude, pDelimiter){
