@@ -5,11 +5,11 @@ GIT_DEPLOY_FROM_BRANCH=master
 CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
 SEDVERSION=utl/sedversion.sh
 NPM=npm
-MAKEDEPEND=bin/js-makedepend
+MAKEDEPEND=bin/js-makedepend -x node_modules
 
 GENERATED_SOURCES=
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites report test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
 
 help:
 	@echo
@@ -44,7 +44,7 @@ tag:
 	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
 	$(GIT) push --tags
 
-report:
+static-analysis:
 	$(NPM) run plato
 
 test: dev-build
@@ -76,7 +76,7 @@ run-update-dependencies:
 	$(NPM) install
 	
 depend:
-	$(MAKEDEPEND) src
+	$(MAKEDEPEND) src/cli.js
 
 clean-generated-sources: 
 	rm -rf $(GENERATED_SOURCES)
@@ -88,18 +88,14 @@ sinopia:
 
 # amd dependencies
 # commonJS dependencies
+src/cli.js: \
+	src/chewy.js
+
 src/chewy.js: \
 	src/core.js \
 	src/utl.js
 
-src/cli.js: \
-	node_modules/commander/index.js \
-	src/chewy.js
-
 src/core.js: \
-	node_modules/madge/lib/madge.js \
 	src/utl.js
-
-src/utl.js:
 
 # ES6 dependencies
