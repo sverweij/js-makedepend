@@ -178,7 +178,7 @@ describe('#chewy', function() {
             var unhook_intercept_stderr = intercept(function(pText) {
                 lCapturedStdout += pText;
             });
-            chewy.main("this-doesnot-exist", {outputTo: ""});
+            chewy.main("this-doesnot-exist", {outputTo: path.join(OUT_DIR, "cjs.dir.wontmarch.mk")});
             unhook_intercept_stdout();
             unhook_intercept_stderr();
             
