@@ -14,3 +14,4 @@ test/fixtures/cjs/sub/dir.js: \
 	test/fixtures/cjs/sub/depindir.js
 
 # ES6 dependencies
+# all sources in a define

@@ -21,3 +21,4 @@ test/fixtures/cjs/two_only_one.js: \
 	test/fixtures/cjs/sub/dir.js
 
 # ES6 dependencies
+# all sources in a define

@@ -1,5 +1,4 @@
-Here is some content
-It's not ended by a linebreak
+
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
@@ -23,3 +22,4 @@ test/fixtures/amd/two_only_one.js: \
 # commonJS dependencies
 # ES6 dependencies
 # all sources in a define
+ALL_SRC=

@@ -14,3 +14,4 @@ test/fixtures/amd/sub/dir.js: \
 
 # commonJS dependencies
 # ES6 dependencies
+# all sources in a define

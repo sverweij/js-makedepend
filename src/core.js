@@ -76,7 +76,29 @@ function toFilteredDepencyArray(pDepencyTreeObject){
 
 function getFlatDeps(pDirOrFile, pExclude, pFlatDefine){
     if (!!pFlatDefine){
-        return pFlatDefine.concat("=stuff\n\n");
+        var BASE_DIR = utl.getDirectory(pDirOrFile);
+        sourcify = _.curry(sourcifyFn)(BASE_DIR);
+        
+        return _(
+            toFilteredDepencyArray (
+                madge(
+                    [BASE_DIR],
+                    {format: "cjs", exclude: pExclude}
+                ).tree
+            )
+        )
+        .pluck("deplist")
+        .flatten()
+        .sort()
+        .uniq(true)
+        .reduce(
+            function(pSum, pDep){
+                return pSum + pDep + " " ;
+            },
+            pFlatDefine + "="
+        )
+        .concat("\n");
+        
     } else {
         return "";
     }
@@ -107,6 +129,7 @@ exports.getDependencyStrings = function (pDirOrFile, pOptions){
         .concat(getDeps(pDirOrFile, pOptions.exclude, "cjs"))
         .concat("# ES6 dependencies\n")
         .concat(getDeps(pDirOrFile, pOptions.exclude, "es6"))
+        .concat("# all sources in a define\n")
         .concat(getFlatDeps(pDirOrFile, pOptions.exclude, pOptions.flatDefine))
         ;
 };

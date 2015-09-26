@@ -73,6 +73,16 @@ var testPairs = [
         expect      : "{{moduleType}}.dir.delimiter.mk",
         cleanup     : true
     },
+    {
+        description : "js-makedepend -f test/output/{{moduleType}}.def.mk -d ALL_SRC test/fixtures/{{moduleType}}",
+        dirOrFile   : "test/fixtures/{{moduleType}}",
+        options     : {
+            outputTo  : path.join(OUT_DIR, "{{moduleType}}.def.mk"),
+            flatDefine: "ALL_SRC"
+        },
+        expect      : "{{moduleType}}.def.mk",
+        cleanup     : true
+    }
 ];
 
 function resetOutputDir(){
@@ -114,6 +124,9 @@ function setModuleType(pTestPairs, pModuleType){
         }
         if(!!pTestPair.options.exclude){
             lRetval.options.exclude = pTestPair.options.exclude;
+        }
+        if(!!pTestPair.options.flatDefine){
+            lRetval.options.flatDefine = pTestPair.options.flatDefine;
         }
         return lRetval;
     });
