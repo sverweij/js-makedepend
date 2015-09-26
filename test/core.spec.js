@@ -9,7 +9,7 @@ describe('#core - main', function() {
              "# amd dependencies\n",
              "",
              "# commonJS dependencies\n",
-             "test/fixtures/cjs/one_only_one.js:\n\ntest/fixtures/cjs/one_only_two.js:\n\ntest/fixtures/cjs/root_one.js: \\\n\tnode_modules/commander/index.js \\\n\ttest/fixtures/cjs/one_only_one.js \\\n\ttest/fixtures/cjs/one_only_two.js \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/shared.js:\n\ntest/fixtures/cjs/sub/depindir.js:\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\n",
+             "test/fixtures/cjs/root_one.js: \\\n\tnode_modules/commander/index.js \\\n\ttest/fixtures/cjs/one_only_one.js \\\n\ttest/fixtures/cjs/one_only_two.js \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\n",
              "# ES6 dependencies\n",
              ""
         ];
@@ -26,7 +26,7 @@ describe('#core - main', function() {
              "# amd dependencies\n",
              "",
              "# commonJS dependencies\n",
-             "test/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/shared.js:\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\ntest/fixtures/cjs/sub/depindir.js:\n\n",
+             "test/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\n",
              "# ES6 dependencies\n",
              ""
         ];
