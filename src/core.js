@@ -25,28 +25,29 @@ function getDepString(pDirOrFile, pArray, pStartWith){
     return pArray
             .sort(stringCompare)
             .reduce(function(pSum, pDep){
-                return pSum + " \\\n\t" + sourcify(BASE_DIR, pDep);
-            }, sourcify(BASE_DIR, pStartWith) + ":"
+                return pSum + " \\\n\t" + pDep;
+            }, pStartWith + ":"
         );
 }
 
 function walkFile(pModDeps, pFile){
     return pModDeps
         .filter(function(pModDep){
-            return sourcify(BASE_DIR, pModDep.module) === pFile;
+            return pModDep.module === pFile;
         })
         .reduce(function(pSum, pModDep){
             return pSum + getDepString(pFile, pModDep.deplist, pModDep.module) + "\n\n" +
                 pModDep.deplist.reduce(function(pDepSum, pDep){
-                    return pDepSum + walkFile(pModDeps, sourcify(BASE_DIR, pDep));
+                    return pDepSum + walkFile(pModDeps, pDep);
                 }, "");
         }, "");
 }
 
 function walkDir(pModDeps, pDir){
-    return pModDeps.reduce(function(pSum, pModDep){
+    return pModDeps
+        .reduce(function(pSum, pModDep){
                 return pSum + getDepString(pDir, pModDep.deplist, pModDep.module) + "\n\n";
-            }, "");
+        }, "");
 }
 
 function filterExistingFiles(pArray){
@@ -56,7 +57,13 @@ function filterExistingFiles(pArray){
     // (path, fs, http, ...) from being mentioned
 
     return pArray.filter(function(pDep){
-        return utl.fileExists(sourcify(BASE_DIR, pDep));
+        return utl.fileExists(pDep);
+    });
+}
+
+function sourcifyModules(pModules){
+    return pModules.map(function(pModule){
+        return sourcify(BASE_DIR, pModule);
     });
 }
 
@@ -64,8 +71,10 @@ function toFilteredDepencyArray(pDepencyTreeObject){
     return Object.keys(pDepencyTreeObject)
         .map(function(pKey){
             return {
-                module: pKey,
-                deplist: filterExistingFiles(pDepencyTreeObject[pKey])
+                module: sourcify(BASE_DIR, pKey),
+                deplist: filterExistingFiles(
+                    sourcifyModules(pDepencyTreeObject[pKey])
+                )
             };
         })
         .filter(function(pModDeps){
