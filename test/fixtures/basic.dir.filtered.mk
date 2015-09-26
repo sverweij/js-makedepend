@@ -3,16 +3,28 @@
 
 # amd dependencies
 # commonJS dependencies
-src/chewy.js: \
-	src/core.js \
-	src/utl.js
+test/fixtures/cjs/one_only_one.js:
 
-src/cli.js: \
-	src/chewy.js
+test/fixtures/cjs/one_only_two.js:
 
-src/core.js: \
-	src/utl.js
+test/fixtures/cjs/root_one.js: \
+	test/fixtures/cjs/one_only_one.js \
+	test/fixtures/cjs/one_only_two.js \
+	test/fixtures/cjs/shared.js \
+	test/fixtures/cjs/sub/dir.js
 
-src/utl.js:
+test/fixtures/cjs/root_two.js: \
+	test/fixtures/cjs/shared.js \
+	test/fixtures/cjs/two_only_one.js
+
+test/fixtures/cjs/shared.js:
+
+test/fixtures/cjs/sub/depindir.js:
+
+test/fixtures/cjs/sub/dir.js: \
+	test/fixtures/cjs/sub/depindir.js
+
+test/fixtures/cjs/two_only_one.js: \
+	test/fixtures/cjs/sub/dir.js
 
 # ES6 dependencies

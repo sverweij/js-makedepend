@@ -9,8 +9,8 @@ var FIX_DIR = "./test/fixtures";
 
 var testPairs = [
     {
-        description : "basic operation on js-makedepend' src/",
-        dirOrFile   : "src",
+        description : "js-makedepend -f test/output/basic.dir.mk test/fixtures/cjs",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.mk")
         },
@@ -18,8 +18,8 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/ again - should not change output",
-        dirOrFile   : "src",
+        description : "js-makedepend -f test/output/basic.dir.mk test/fixtures/cjs",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.mk")
         },
@@ -27,8 +27,8 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/chewy.js",
-        dirOrFile   : "src/chewy.js",
+        description : "js-makedepend -f test/output/basic.file.mk test/fixtures/cjs/root_one.js",
+        dirOrFile   : "test/fixtures/cjs/root_one.js",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.file.mk")
         },
@@ -36,8 +36,8 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/ - with node_modules filtered",
-        dirOrFile   : "src",
+        description : "js-makedepend -f test/output/basic.dir.filtered.mk -x node_modules test/fixtures/cjs",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.filtered.mk"),
             exclude   : "node_modules"
@@ -46,8 +46,8 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/ - with an existing file - should just add",
-        dirOrFile   : "src",
+        description : "js-makedepend -f test/output/basic.dir.addedto.mk test/fixtures/cjs - should just add",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.addedto.mk"),
         },
@@ -55,8 +55,8 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/ - with an existing file again - should have same result",
-        dirOrFile   : "src",
+        description : "js-makedepend -f test/output/basic.dir.addedto.mk test/fixtures/cjs - again; should have same result",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.addedto.mk"),
         },
@@ -64,11 +64,11 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "basic operation on js-makedepend' src/ - non-standard delimiter",
-        dirOrFile   : "src",
+        description : "js-makedepend -s '# NON-STANDARD DELIMITER' test/fixtures/cjs - non-standard delimiter",
+        dirOrFile   : "test/fixtures/cjs",
         options     : {
             outputTo  : path.join(OUT_DIR, "basic.dir.delimiter.mk"),
-            delimiter : "# THIS IS A NON-STANDARD DELIMITER STRING"
+            delimiter : "# NON-STANDARD DELIMITER"
         },
         expect      : "basic.dir.delimiter.mk",
         cleanup     : true
@@ -116,14 +116,14 @@ describe('#chewy', function() {
         });
     });
     describe("specials", function(){
-        it("- outputs to stdout", function() {
+        it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", function() {
             var intercept = require("intercept-stdout");
 
             var lCapturedStdout = "";
             var unhook_intercept = intercept(function(pText) {
                 lCapturedStdout += pText;
             });
-            chewy.main("src", {outputTo: "-"});
+            chewy.main("test/fixtures/cjs", {outputTo: "-"});
             unhook_intercept();
             fs.writeFileSync(
                 path.join(OUT_DIR, "basic.dir.stdout.mk"),
@@ -136,7 +136,7 @@ describe('#chewy', function() {
                 path.join(FIX_DIR, "basic.dir.stdout.mk")
             );
         });
-        it("non-existing dir/ file generates an error", function() {
+        it("js-makedepend -f basic.dir.wontmarch.mk this-doesnot-exist - non-existing generates an error", function() {
             var intercept = require("intercept-stdout");
 
             var lCapturedStdout = "";
@@ -146,13 +146,13 @@ describe('#chewy', function() {
             var unhook_intercept_stderr = intercept(function(pText) {
                 lCapturedStdout += pText;
             });
-            chewy.main("this-directory-really-doesnot-exist", {outputTo: "basic.dir.wontmarch.mk"});
+            chewy.main("this-doesnot-exist", {outputTo: ""});
             unhook_intercept_stdout();
             unhook_intercept_stderr();
             
             return assert.equal(
                 lCapturedStdout,
-                "ERROR: Can't open 'this-directory-really-doesnot-exist' for reading. Does it exist?\n"
+                "ERROR: Can't open 'this-doesnot-exist' for reading. Does it exist?\n"
             );
         });
     });
