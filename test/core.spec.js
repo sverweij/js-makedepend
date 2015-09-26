@@ -2,15 +2,16 @@ var assert = require("assert");
 var core = require("../src/core.js");
 
 describe('#core - main', function() {
-    it("basic operation on cli.js' src/", function() {
-        var lActualDepLines = core.getDependencyStrings("src", "", "# DO NOT DELETE THIS LINE");
-        var lExpectedDepLines = [ '\n# DO NOT DELETE THIS LINE\n\n',
-            '# amd dependencies\n',
-            '',
-            '# commonJS dependencies\n',
-            'src/chewy.js: \\\n\tsrc/core.js \\\n\tsrc/utl.js\n\nsrc/cli.js: \\\n\tnode_modules/commander/index.js \\\n\tsrc/chewy.js\n\nsrc/core.js: \\\n\tnode_modules/madge/lib/madge.js \\\n\tsrc/utl.js\n\nsrc/utl.js:\n\n',
-            '# ES6 dependencies\n',
-            ''
+    it("basic operation on test/fixtures/cjs", function() {
+        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs", "", "# DO NOT DELETE THIS LINE");
+        var lExpectedDepLines = [
+             "\n# DO NOT DELETE THIS LINE\n\n",
+             "# amd dependencies\n",
+             "",
+             "# commonJS dependencies\n",
+             "test/fixtures/cjs/one_only_one.js:\n\ntest/fixtures/cjs/one_only_two.js:\n\ntest/fixtures/cjs/root_one.js: \\\n\tnode_modules/commander/index.js \\\n\ttest/fixtures/cjs/one_only_one.js \\\n\ttest/fixtures/cjs/one_only_two.js \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/shared.js:\n\ntest/fixtures/cjs/sub/depindir.js:\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\n",
+             "# ES6 dependencies\n",
+             ""
         ];
 
         lExpectedDepLines.forEach(function(pExpectedLine, pNr){
@@ -18,17 +19,18 @@ describe('#core - main', function() {
         });
     });
     
-    it("basic operation on cli.js' src/chewy.js", function() {
-        var lActualDepLines = core.getDependencyStrings("src/chewy.js", "", "# DO NOT DELETE THIS LINE");
-        var lExpectedDepLines = [ 
-          '\n# DO NOT DELETE THIS LINE\n\n',
-          '# amd dependencies\n',
-          '',
-          '# commonJS dependencies\n',
-          'src/chewy.js: \\\n\tsrc/core.js \\\n\tsrc/utl.js\n\nsrc/utl.js:\n\n',
-          '# ES6 dependencies\n',
-          '' 
-      ];
+    it("basic operation on test/fixtures/cjs/root_two.js", function() {
+        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs/root_two.js", "", "# DO NOT DELETE THIS LINE");
+        var lExpectedDepLines = [
+             "\n# DO NOT DELETE THIS LINE\n\n",
+             "# amd dependencies\n",
+             "",
+             "# commonJS dependencies\n",
+             "test/fixtures/cjs/root_two.js: \\\n\ttest/fixtures/cjs/shared.js \\\n\ttest/fixtures/cjs/two_only_one.js\n\ntest/fixtures/cjs/shared.js:\n\ntest/fixtures/cjs/two_only_one.js: \\\n\ttest/fixtures/cjs/sub/dir.js\n\ntest/fixtures/cjs/sub/dir.js: \\\n\ttest/fixtures/cjs/sub/depindir.js\n\ntest/fixtures/cjs/sub/depindir.js:\n\n",
+             "# ES6 dependencies\n",
+             ""
+        ];
+        
         lExpectedDepLines.forEach(function(pExpectedLine, pNr){
             assert.equal(lActualDepLines[pNr], pExpectedLine);
         });
