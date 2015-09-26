@@ -3,7 +3,7 @@ var core = require("../src/core.js");
 
 describe('#core - main', function() {
     it("basic operation on test/fixtures/cjs", function() {
-        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs", "", "# DO NOT DELETE THIS LINE");
+        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs", {delimiter:"# DO NOT DELETE THIS LINE"});
         var lExpectedDepLines = [
              "\n# DO NOT DELETE THIS LINE\n\n",
              "# amd dependencies\n",
@@ -20,7 +20,7 @@ describe('#core - main', function() {
     });
     
     it("basic operation on test/fixtures/cjs/root_two.js", function() {
-        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs/root_two.js", "", "# DO NOT DELETE THIS LINE");
+        var lActualDepLines = core.getDependencyStrings("test/fixtures/cjs/root_two.js", {delimiter:"# DO NOT DELETE THIS LINE"});
         var lExpectedDepLines = [
              "\n# DO NOT DELETE THIS LINE\n\n",
              "# amd dependencies\n",

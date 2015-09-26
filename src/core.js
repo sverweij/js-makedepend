@@ -7,15 +7,15 @@ var path  = require("path");
 var madge = require("madge");
 var utl   = require("./utl");
 var fs    = require("fs");
+var _     = require("lodash");
 
-var BASE_DIR="";
-
-function sourcify(pDirOrFile, pString){
+var sourcifyFn = function (pDirOrFile, pString){
     return path.join(
         utl.getDirectory(pDirOrFile), 
         pString + ".js"
     );
-}
+};
+var sourcify = {};
 
 function stringCompare (pOne, pTwo){
     return pOne.localeCompare(pTwo);
@@ -50,30 +50,22 @@ function walkDir(pModDeps, pDir){
         }, "");
 }
 
-function filterExistingFiles(pArray){
-    // Don't include dependencies for which no corresponding
-    // file exists. This prevents erroneous files from entering
-    // the dependency tree, but also from core node modules
-    // (path, fs, http, ...) from being mentioned
-
-    return pArray.filter(function(pDep){
-        return utl.fileExists(pDep);
-    });
-}
-
-function sourcifyModules(pModules){
-    return pModules.map(function(pModule){
-        return sourcify(BASE_DIR, pModule);
-    });
-}
-
 function toFilteredDepencyArray(pDepencyTreeObject){
     return Object.keys(pDepencyTreeObject)
         .map(function(pKey){
             return {
-                module: sourcify(BASE_DIR, pKey),
-                deplist: filterExistingFiles(
-                    sourcifyModules(pDepencyTreeObject[pKey])
+                module: sourcify(pKey), //sourcify(BASE_DIR, pModule);
+                deplist: pDepencyTreeObject[pKey]
+                            .map(function(pModule){
+                                return sourcify(pModule); //sourcify(BASE_DIR, pModule);
+                            })
+                            // Don't include dependencies for which no corresponding
+                            // file exists. This prevents erroneous files from entering
+                            // the dependency tree, but also from core node modules
+                            // (path, fs, http, ...) from being mentioned
+                            .filter(function(pDep){
+                                return utl.fileExists(pDep);
+                            }
                 )
             };
         })
@@ -82,8 +74,17 @@ function toFilteredDepencyArray(pDepencyTreeObject){
         });
 }
 
+function getFlatDeps(pDirOrFile, pExclude, pFlatDefine){
+    if (!!pFlatDefine){
+        return pFlatDefine.concat("=stuff\n\n");
+    } else {
+        return "";
+    }
+}
+
 function getDeps(pDirOrFile, pExclude, pFormat){
-    BASE_DIR = utl.getDirectory(pDirOrFile);
+    var BASE_DIR = utl.getDirectory(pDirOrFile);
+    sourcify = _.curry(sourcifyFn)(BASE_DIR);
     var lDepencies = toFilteredDepencyArray (
         madge(
             [BASE_DIR],
@@ -98,13 +99,14 @@ function getDeps(pDirOrFile, pExclude, pFormat){
     }
 }
 
-exports.getDependencyStrings = function (pDirOrFile, pExclude, pDelimiter){
-    return ["\n" + pDelimiter + "\n\n"]
+exports.getDependencyStrings = function (pDirOrFile, pOptions){
+    return ["\n" + pOptions.delimiter + "\n\n"]
         .concat("# amd dependencies\n")
-        .concat(getDeps(pDirOrFile, pExclude, "amd"))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "amd"))
         .concat("# commonJS dependencies\n")
-        .concat(getDeps(pDirOrFile, pExclude, "cjs"))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "cjs"))
         .concat("# ES6 dependencies\n")
-        .concat(getDeps(pDirOrFile, pExclude, "es6"))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "es6"))
+        .concat(getFlatDeps(pDirOrFile, pOptions.exclude, pOptions.flatDefine))
         ;
 };

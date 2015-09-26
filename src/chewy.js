@@ -1,6 +1,7 @@
 var core  = require("./core");
 var fs    = require("fs");
 var utl   = require("./utl");
+var _     = require("lodash");
 
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 
@@ -34,24 +35,24 @@ function validateParameters(pDirOrFile){
 }
 
 exports.main = function (pDirOrFile, pOptions){
-    var lExclude   = !!pOptions.exclude   ? pOptions.exclude  : "";
-    var lOutputTo  = !!pOptions.outputTo  ? pOptions.outputTo : "Makefile";
-    var lDelimiter = !!pOptions.delimiter ? pOptions.delimiter : STARTING_STRING_DELIMITER;
+    _.defaults(pOptions, {
+        exclude: "",
+        outputTo: "Makefile",
+        delimiter: STARTING_STRING_DELIMITER,
+    });
     
     try {
         validateParameters(pDirOrFile);
-        if ("-" === lOutputTo) {
-            core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
+        if ("-" === pOptions.outputTo) {
+            core.getDependencyStrings(pDirOrFile, pOptions).forEach(function(pLine){
                 process.stdout.write(pLine);
             });
-            // process.stdout.write("# flat dependencies from here\n");
         } else {
             appendToOrReplaceInFile(
-                lOutputTo,
-                core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter),
-                lDelimiter
+                pOptions.outputTo,
+                core.getDependencyStrings(pDirOrFile, pOptions),
+                pOptions.delimiter
             );
-            // fs.appendFileSync(lOutputTo, "# flat dependencies from here\n", "utf8");
         }
     } catch (e) {
         process.stderr.write("ERROR: " + e.message);
