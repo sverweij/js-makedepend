@@ -27,13 +27,10 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
     );
 }
 
-function validateParameters(pDirOrFile, pOptions){
+function validateParameters(pDirOrFile){
     if (!utl.fileExists(pDirOrFile)) {
         throw Error("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
-    }
-    if (!!pOptions.flatDefine && !fs.statSync(pDirOrFile).isFile()) {
-        throw Error("Flat defines only work on files, not on directories\n");
-    }    
+    }   
 }
 
 exports.main = function (pDirOrFile, pOptions){
@@ -42,7 +39,7 @@ exports.main = function (pDirOrFile, pOptions){
     var lDelimiter = !!pOptions.delimiter ? pOptions.delimiter : STARTING_STRING_DELIMITER;
     
     try {
-        validateParameters(pDirOrFile, pOptions);
+        validateParameters(pDirOrFile);
         if ("-" === lOutputTo) {
             core.getDependencyStrings(pDirOrFile, lExclude, lDelimiter).forEach(function(pLine){
                 process.stdout.write(pLine);
