@@ -121,12 +121,12 @@ function resetOutputDir(){
 function setModuleType(pTestPairs, pModuleType){
     return pTestPairs.map(function(pTestPair){
         var lRetval = {
-            description: pTestPair.description.replace("{{moduleType}}", pModuleType),
-            dirOrFile: pTestPair.dirOrFile.replace("{{moduleType}}", pModuleType),
+            description: pTestPair.description.replace(/{{moduleType}}/g, pModuleType),
+            dirOrFile: pTestPair.dirOrFile.replace(/{{moduleType}}/g, pModuleType),
             options: {
-                outputTo: pTestPair.options.outputTo.replace("{{moduleType}}", pModuleType),
+                outputTo: pTestPair.options.outputTo.replace(/{{moduleType}}/g, pModuleType),
             },
-            expect: pTestPair.expect.replace("{{moduleType}}", pModuleType),
+            expect: pTestPair.expect.replace(/{{moduleType}}/g, pModuleType),
             cleanup: pTestPair.cleanup
         };
         if (!!pTestPair.options.delimiter){
