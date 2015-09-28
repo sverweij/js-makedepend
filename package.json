@@ -36,18 +36,18 @@
   },
   "homepage": "https://github.com/sverweij/makedepend.js",
   "devDependencies": {
-    "codeclimate-test-reporter": "^0.1.1",
-    "intercept-stdout": "^0.1.2",
-    "istanbul": "^0.3.20",
-    "jshint": "^2.8.0",
-    "mocha": "^2.3.3",
-    "npm-check-updates": "^2.2.3",
-    "nsp": "^1.1.0",
-    "plato": "^1.5.0"
+    "codeclimate-test-reporter": "0.1.1",
+    "intercept-stdout": "0.1.2",
+    "istanbul": "0.3.20",
+    "jshint": "2.8.0",
+    "mocha": "2.3.3",
+    "npm-check-updates": "2.2.3",
+    "nsp": "1.1.0",
+    "plato": "1.5.0"
   },
   "dependencies": {
-    "commander": "^2.8.1",
-    "lodash": "^3.10.1",
-    "madge": "^0.5.0"
+    "commander": "2.8.1",
+    "lodash": "3.10.1",
+    "madge": "0.5.0"
   }
 }
