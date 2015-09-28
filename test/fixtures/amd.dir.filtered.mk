@@ -20,4 +20,3 @@ test/fixtures/amd/two_only_one.js: \
 
 # commonJS dependencies
 # ES6 dependencies
-# all sources in a define

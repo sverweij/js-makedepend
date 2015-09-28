@@ -17,36 +17,36 @@ var sourcifyFn = function (pDirOrFile, pString){
 };
 var sourcify = {};
 
-function stringCompare (pOne, pTwo){
-    return pOne.localeCompare(pTwo);
+function getDepString(pArray, pStartWith){
+    return _(pArray)
+            .sort()
+            .reduce(
+                function(pSum, pDep){
+                    return pSum + " \\\n\t" + pDep;
+                }, pStartWith + ":"
+            );
 }
 
-function getDepString(pDirOrFile, pArray, pStartWith){
-    return pArray
-            .sort(stringCompare)
-            .reduce(function(pSum, pDep){
-                return pSum + " \\\n\t" + pDep;
-            }, pStartWith + ":"
-        );
-}
-
-function walkFile(pModDeps, pFile){
+function extractFileDeps(pModDeps, pFile){
     return pModDeps
         .filter(function(pModDep){
             return pModDep.module === pFile;
         })
         .reduce(function(pSum, pModDep){
-            return pSum + getDepString(pFile, pModDep.deplist, pModDep.module) + "\n\n" +
-                pModDep.deplist.reduce(function(pDepSum, pDep){
-                    return pDepSum + walkFile(pModDeps, pDep);
-                }, "");
-        }, "");
+            return pSum.concat(pModDep)
+                    .concat(
+                         pModDep.deplist.reduce(function(pDepSum, pDep){
+                            return pDepSum.concat(extractFileDeps(pModDeps, pDep));
+                         }, [])
+                    )
+            ;
+        }, []);
 }
 
-function walkDir(pModDeps, pDir){
+function deps2String(pModDeps){
     return pModDeps
         .reduce(function(pSum, pModDep){
-                return pSum + getDepString(pDir, pModDep.deplist, pModDep.module) + "\n\n";
+                return pSum + getDepString(pModDep.deplist, pModDep.module) + "\n\n";
         }, "");
 }
 
@@ -74,19 +74,9 @@ function toFilteredDepencyArray(pDepencyTreeObject){
         });
 }
 
-function getFlatDeps(pDirOrFile, pExclude, pFlatDefine){
-    if (!!pFlatDefine){
-        var BASE_DIR = utl.getDirectory(pDirOrFile);
-        sourcify = _.curry(sourcifyFn)(BASE_DIR);
-        
-        return _(
-            toFilteredDepencyArray (
-                madge(
-                    [BASE_DIR],
-                    {format: "cjs", exclude: pExclude}
-                ).tree
-            )
-        )
+function deps2FlatString(pDependencyList, pFlatDefine){
+    if (!!pFlatDefine && pDependencyList.length > 0){
+        return _(pDependencyList)
         .pluck("deplist")
         .flatten()
         .sort()
@@ -104,32 +94,33 @@ function getFlatDeps(pDirOrFile, pExclude, pFlatDefine){
     }
 }
 
-function getDeps(pDirOrFile, pExclude, pFormat){
+function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine){
     var BASE_DIR = utl.getDirectory(pDirOrFile);
     sourcify = _.curry(sourcifyFn)(BASE_DIR);
-    var lDepencies = toFilteredDepencyArray (
+    var lDeps = toFilteredDepencyArray (
         madge(
             [BASE_DIR],
             {format: pFormat, exclude: pExclude}
         ).tree
     );
-    
     if (fs.statSync(pDirOrFile).isFile()){
-        return walkFile(lDepencies, pDirOrFile);
+        return !!pFlatDefine ? 
+                deps2FlatString(extractFileDeps(lDeps, pDirOrFile), pFlatDefine) :
+                deps2String(extractFileDeps(lDeps, pDirOrFile));
     } else {
-        return walkDir(lDepencies, pDirOrFile);
+        return !!pFlatDefine ?
+                deps2FlatString(lDeps, pFlatDefine) :
+                deps2String(lDeps, pDirOrFile);
     }
 }
 
 exports.getDependencyStrings = function (pDirOrFile, pOptions){
     return ["\n" + pOptions.delimiter + "\n\n"]
         .concat("# amd dependencies\n")
-        .concat(getDeps(pDirOrFile, pOptions.exclude, "amd"))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "amd", pOptions.flatDefine))
         .concat("# commonJS dependencies\n")
-        .concat(getDeps(pDirOrFile, pOptions.exclude, "cjs"))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "cjs", pOptions.flatDefine))
         .concat("# ES6 dependencies\n")
-        .concat(getDeps(pDirOrFile, pOptions.exclude, "es6"))
-        .concat("# all sources in a define\n")
-        .concat(getFlatDeps(pDirOrFile, pOptions.exclude, pOptions.flatDefine))
+        .concat(getDeps(pDirOrFile, pOptions.exclude, "es6", pOptions.flatDefine))
         ;
 };
