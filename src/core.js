@@ -115,7 +115,7 @@ function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine){
 }
 
 exports.getDependencyStrings = function (pDirOrFile, pOptions){
-    return ["\n" + pOptions.delimiter + "\n\n"]
+    return (!(pOptions.append) ? ["\n" + pOptions.delimiter + "\n\n"] : [])
         .concat("# amd dependencies\n")
         .concat(getDeps(pDirOrFile, pOptions.exclude, "amd", pOptions.flatDefine))
         .concat("# commonJS dependencies\n")

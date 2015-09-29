@@ -5,21 +5,23 @@ var _     = require("lodash");
 
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 
-function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter){
-    try {
-        var lOutputFile = fs.readFileSync(pOutputTo, {encoding: 'utf8', flag: 'r'});
-        var lLines      = lOutputFile.split('\n');
-        var lDelimiterPosition = lLines.indexOf(pDelimiter);
-        
-        if (lDelimiterPosition > -1){
-            fs.writeFileSync(
-                pOutputTo,
-                lLines.splice(0, lDelimiterPosition).join('\n'),
-                {encoding: 'utf8', flag: 'w'}
-            );
+function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend){
+    if (!pAppend){
+        try {
+            var lOutputFile = fs.readFileSync(pOutputTo, {encoding: 'utf8', flag: 'r'});
+            var lLines      = lOutputFile.split('\n');
+            var lDelimiterPosition = lLines.indexOf(pDelimiter);
+            
+            if (lDelimiterPosition > -1){
+                fs.writeFileSync(
+                    pOutputTo,
+                    lLines.splice(0, lDelimiterPosition).join('\n'),
+                    {encoding: 'utf8', flag: 'w'}
+                );
+            }
+        } catch (e){
+            // process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.\n");
         }
-    } catch (e){
-        // process.stdout.write("'" + pOutputTo + "' didn't exist. We'll create the file instead.\n");
     }
     fs.appendFileSync(
         pOutputTo,
@@ -38,7 +40,7 @@ exports.main = function (pDirOrFile, pOptions){
     _.defaults(pOptions, {
         exclude: "",
         outputTo: "Makefile",
-        delimiter: STARTING_STRING_DELIMITER,
+        delimiter: STARTING_STRING_DELIMITER
     });
     
     try {
