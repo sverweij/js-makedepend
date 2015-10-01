@@ -12,5 +12,5 @@ test/fixtures/amd/root_one.js: \
 test/fixtures/amd/sub/dir.js: \
 	test/fixtures/amd/sub/depindir.js
 
-# commonJS dependencies
-# ES6 dependencies
+# cjs dependencies
+# es6 dependencies

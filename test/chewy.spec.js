@@ -68,7 +68,8 @@ var testPairs = [
         dirOrFile   : "test/fixtures/{{moduleType}}",
         options     : {
             outputTo  : path.join(OUT_DIR, "{{moduleType}}.dir.delimiter.mk"),
-            delimiter : "# NON-STANDARD DELIMITER"
+            delimiter : "# NON-STANDARD DELIMITER",
+            system    : "es6,amd,cjs"
         },
         expect      : "{{moduleType}}.dir.delimiter.mk",
         cleanup     : true
@@ -138,6 +139,9 @@ function setModuleType(pTestPairs, pModuleType){
         if(!!pTestPair.options.flatDefine){
             lRetval.options.flatDefine = pTestPair.options.flatDefine;
         }
+        if(!!pTestPair.options.system){
+            lRetval.options.system = pTestPair.options.system;
+        }
         return lRetval;
     });
 }
@@ -194,20 +198,45 @@ describe('#chewy', function() {
         it("js-makedepend -f cjs.dir.wontmarch.mk this-doesnot-exist - non-existing generates an error", function() {
             var intercept = require("intercept-stdout");
 
-            var lCapturedStdout = "";
+            var lCapturedStderr = "";
             var unhook_intercept_stdout = intercept(function(pText) {
                 // This space intentionally left empty
             });
             var unhook_intercept_stderr = intercept(function(pText) {
-                lCapturedStdout += pText;
+                lCapturedStderr += pText;
             });
             chewy.main("this-doesnot-exist", {outputTo: path.join(OUT_DIR, "cjs.dir.wontmarch.mk")});
             unhook_intercept_stdout();
             unhook_intercept_stderr();
             
             return assert.equal(
-                lCapturedStdout,
+                lCapturedStderr,
                 "ERROR: Can't open 'this-doesnot-exist' for reading. Does it exist?\n"
+            );
+        });
+        it("js-makedepend -f /dev/null -M invalidmodulesystem - generates error", function() {
+            var intercept = require("intercept-stdout");
+
+            var lCapturedStderr = "";
+            var unhook_intercept_stdout = intercept(function(pText) {
+                // This space intentionally left empty
+            });
+            var unhook_intercept_stderr = intercept(function(pText) {
+                lCapturedStderr += pText;
+            });
+            chewy.main(
+                "test/fixtures", 
+                {
+                    outputTo: path.join(OUT_DIR, "/dev/null"),
+                    system: "invalidmodulesystem"
+                }
+            );
+            unhook_intercept_stdout();
+            unhook_intercept_stderr();
+            
+            return assert.equal(
+                lCapturedStderr,
+                "ERROR: Invalid module system list: 'invalidmodulesystem'\n"
             );
         });
     });

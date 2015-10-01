@@ -4,6 +4,7 @@ var utl   = require("./utl");
 var _     = require("lodash");
 
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
+var DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
 
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend){
     if (!pAppend){
@@ -30,21 +31,41 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend){
     );
 }
 
-function validateParameters(pDirOrFile){
+function normalizeModuleSystems(pSystemList){
+    if (_.isString(pSystemList)){
+        return _(pSystemList.split(",")).sort().uniq();
+    }
+    /* istanbul ignore else  */
+    if (_.isArray(pSystemList)){
+        return _(pSystemList).sort().uniq();
+    }
+    /* istanbul ignore next  */
+    return DEFAULT_MODULE_SYSTEMS;
+}
+
+function validateParameters(pDirOrFile, pOptions){
     if (!utl.fileExists(pDirOrFile)) {
         throw Error("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
-    }   
+    }
+    if (!!pOptions.system && _.isString(pOptions.system)) {
+        var lParamArray = pOptions.system.match(/^((cjs|amd|es6)(,|$))+$/gi);
+        if (!lParamArray || lParamArray.length !== 1){
+            throw Error("Invalid module system list: '" + pOptions.system + "'\n");    
+        }
+    }
 }
 
 exports.main = function (pDirOrFile, pOptions){
     _.defaults(pOptions, {
         exclude: "",
         outputTo: "Makefile",
-        delimiter: STARTING_STRING_DELIMITER
+        delimiter: STARTING_STRING_DELIMITER,
+        system: DEFAULT_MODULE_SYSTEMS
     });
     
     try {
-        validateParameters(pDirOrFile);
+        validateParameters(pDirOrFile, pOptions);
+        pOptions.system = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
             core.getDependencyStrings(pDirOrFile, pOptions).forEach(function(pLine){
                 process.stdout.write(pLine);

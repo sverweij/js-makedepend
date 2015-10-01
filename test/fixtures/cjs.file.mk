@@ -2,7 +2,7 @@
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
-# commonJS dependencies
+# cjs dependencies
 test/fixtures/cjs/root_one.js: \
 	node_modules/commander/index.js \
 	test/fixtures/cjs/one_only_one.js \
@@ -13,4 +13,4 @@ test/fixtures/cjs/root_one.js: \
 test/fixtures/cjs/sub/dir.js: \
 	test/fixtures/cjs/sub/depindir.js
 
-# ES6 dependencies
+# es6 dependencies
