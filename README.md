@@ -24,6 +24,7 @@ depend:
 Include these snippets to your Makefile to
 - put dependencies in a separate include
 - only traverse CommonJS dependencies
+- don't include any source that resides in `node_modules`
 - besides all dependencies
   - define a `ROOT_ONE_SRC` with a flattened list of all files on which 
   `src/root_module_one.js` depends
