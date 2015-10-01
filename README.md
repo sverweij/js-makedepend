@@ -12,7 +12,7 @@ Note: I will publish this as an npm module only when it's mature enough (tests a
 
 ## Basic usage
 Include this target in your Makefile .
-```
+```makefile
 depend:
     js-makedepend src/
 ```
@@ -21,8 +21,17 @@ depend:
  - you have installed js-makedepend globally)
 
 ## More advanced usage
-```
-MAKEDEPEND=js-makedepend --output-to dependencies.mk --exclude node_modules --system cjs
+Include these snippets to your Makefile to
+- put dependencies in a separate include
+- only traverse CommonJS dependencies
+- besides all dependencies
+  - define a `ROOT_ONE_SRC` with a flattened list of all files on which 
+  `src/root_module_one.js` depends
+  - define a `ROOT_TWO_SRC` with a flattened list of all files on which 
+  `src/root_module_one.js` depends
+  
+```makefile
+MAKEDEPEND=node_modules/.bin/js-makedepend --output-to dependencies.mk --exclude node_modules --system cjs
 include dependencies.mk
 
 depend:
