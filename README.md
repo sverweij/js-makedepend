@@ -20,6 +20,17 @@ depend:
  - your JavaScript source code resides in `src` 
  - you have installed js-makedepend globally)
 
+## More advanced usage
+```
+MAKEDEPEND=js-makedepend --output-to dependencies.mk --exclude node_modules --system cjs
+include dependencies.mk
+
+depend:
+    $(MAKEDEPEND)
+    $(MAKEDEPEND) --append --flat-define ROOT_ONE_SRC src/root_module_one.js
+    $(MAKEDEPEND) --append --flat-define ROOT_TWO_SRC src/root_module_two.js
+```
+
 ## All options
 ```
 Usage: js-makedepend [options] <directory-or-file>
