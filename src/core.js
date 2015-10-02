@@ -115,16 +115,11 @@ function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine){
 }
 
 exports.getDependencyStrings = function (pDirOrFile, pOptions){
-    return (!(pOptions.append) ? ["\n" + pOptions.delimiter + "\n\n"] : [])
-        .concat(pOptions.system.reduce(function(pSum, pSystem){
-            return pSum + "# " + pSystem + " dependencies\n" +
-                   getDeps(pDirOrFile, pOptions.exclude, pSystem, pOptions.flatDefine);
-        }, ""))
-        // .concat("# amd dependencies\n")
-        // .concat(getDeps(pDirOrFile, pOptions.exclude, "amd", pOptions.flatDefine))
-        // .concat("# commonJS dependencies\n")
-        // .concat(getDeps(pDirOrFile, pOptions.exclude, "cjs", pOptions.flatDefine))
-        // .concat("# ES6 dependencies\n")
-        // .concat(getDeps(pDirOrFile, pOptions.exclude, "es6", pOptions.flatDefine))
-        ;
+    return pOptions.system.reduce(function(pSum, pSystem){
+            return pSum
+                    .concat(["# " + pSystem + " dependencies\n"])
+                    .concat(
+                        getDeps(pDirOrFile, pOptions.exclude, pSystem, pOptions.flatDefine)
+                    );
+        }, !(pOptions.append) ? ["\n" + pOptions.delimiter + "\n\n"] : []);
 };
