@@ -93,6 +93,41 @@ var testPairs = [
         },
         expect      : "{{moduleType}}.file.flatdef.mk",
         cleanup     : true
+    },
+    {
+        description : "js-makedepend -a step 1: init {{moduleType}}",
+        dirOrFile   : "test/fixtures/{{moduleType}}",
+        options     : {
+            outputTo  : path.join(OUT_DIR, "{{moduleType}}.file.initandappend.mk"),
+            system    : "{{moduleType}}",
+            append    : false
+        },
+        expect      : "{{moduleType}}.file.initandappend.1.mk",
+        cleanup     : true
+    },
+    {
+        description : "js-makedepend -a step 2: add flat for root_one.js {{moduleType}}",
+        dirOrFile   : "test/fixtures/{{moduleType}}/root_one.js",
+        options     : {
+            outputTo  : path.join(OUT_DIR, "{{moduleType}}.file.initandappend.mk"),
+            flatDefine: "ROOT_ONE_SRC",
+            system    : "{{moduleType}}",
+            append    : true
+        },
+        expect      : "{{moduleType}}.file.initandappend.2.mk",
+        cleanup     : true
+    },
+    {
+        description : "js-makedepend -a step 3: add flat for root_two.js {{moduleType}}",
+        dirOrFile   : "test/fixtures/{{moduleType}}/root_two.js",
+        options     : {
+            outputTo  : path.join(OUT_DIR, "{{moduleType}}.file.initandappend.mk"),
+            flatDefine: "ROOT_TWO_SRC",
+            system    : "{{moduleType}}",
+            append    : true
+        },
+        expect      : "{{moduleType}}.file.initandappend.3.mk",
+        cleanup     : true
     }
 ];
 
@@ -140,7 +175,10 @@ function setModuleType(pTestPairs, pModuleType){
             lRetval.options.flatDefine = pTestPair.options.flatDefine;
         }
         if(!!pTestPair.options.system){
-            lRetval.options.system = pTestPair.options.system;
+            lRetval.options.system = pTestPair.options.system.replace(/{{moduleType}}/g, pModuleType);
+        }
+        if(!!pTestPair.options.append){
+            lRetval.options.append = pTestPair.options.append;
         }
         return lRetval;
     });

@@ -74,7 +74,8 @@ exports.main = function (pDirOrFile, pOptions){
             appendToOrReplaceInFile(
                 pOptions.outputTo,
                 core.getDependencyStrings(pDirOrFile, pOptions),
-                pOptions.delimiter
+                pOptions.delimiter,
+                pOptions.append
             );
         }
     } catch (e) {
