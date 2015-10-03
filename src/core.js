@@ -78,7 +78,7 @@ function toFilteredDepencyArray(pDepencyTreeObject, pBaseDir){
 function deps2FlatString(pDependencyList, pFlatDefine){
     if (!!pFlatDefine && pDependencyList.length > 0){
         return _(pDependencyList)
-        .pluck("deplist")
+        .map("deplist")
         .flatten()
         .sort()
         .uniq(true)
