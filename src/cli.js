@@ -1,8 +1,9 @@
 var program = require("commander");
 var chewy   = require("./chewy");
+var VERSION = require('../package.json').version;
 
 program
-    .version('0.1.0')
+    .version(VERSION)
     .option('-f, --output-to <file>', 'Makefile to output to (default: Makefile)')
     .option('-x, --exclude <regex>', 'a regular expression for excluding modules')
     .option('-s, --delimiter <string>', 'starting string delimiter')
