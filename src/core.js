@@ -9,13 +9,12 @@ var utl   = require("./utl");
 var fs    = require("fs");
 var _     = require("lodash");
 
-var sourcifyFn = function (pDirOrFile, pString){
+function sourcify (pBaseDir, pString){
     return path.join(
-        utl.getDirectory(pDirOrFile), 
+        pBaseDir, 
         pString + ".js"
     );
-};
-var sourcify = {};
+}
 
 function getDepString(pArray, pStartWith){
     return _(pArray)
@@ -27,20 +26,25 @@ function getDepString(pArray, pStartWith){
             );
 }
 
+function thisFileOnly(pFile, pModDep){
+    return pModDep.module === pFile;
+}
+
+function concatModDep (pModDeps, pFileDepArray, pModDep){
+    return pFileDepArray
+            .concat(pModDep)
+            .concat(
+                 pModDep.deplist.reduce(function(pDepSum, pFileDepArray){
+                    return pDepSum.concat(extractFileDeps(pModDeps, pFileDepArray));
+                 }, [])
+            )
+    ;
+}
+
 function extractFileDeps(pModDeps, pFile){
     return pModDeps
-        .filter(function(pModDep){
-            return pModDep.module === pFile;
-        })
-        .reduce(function(pSum, pModDep){
-            return pSum.concat(pModDep)
-                    .concat(
-                         pModDep.deplist.reduce(function(pDepSum, pDep){
-                            return pDepSum.concat(extractFileDeps(pModDeps, pDep));
-                         }, [])
-                    )
-            ;
-        }, []);
+        .filter(_.curry(thisFileOnly)(pFile))
+        .reduce(_.curry(concatModDep)(pModDeps), []);
 }
 
 function deps2String(pModDeps){
@@ -50,28 +54,25 @@ function deps2String(pModDeps){
         }, "");
 }
 
-function toFilteredDepencyArray(pDepencyTreeObject){
+function withDependenciesOnly(pModDeps){
+    return pModDeps.deplist.length > 0;
+}
+
+function toFilteredDepencyArray(pDepencyTreeObject, pBaseDir){
     return Object.keys(pDepencyTreeObject)
         .map(function(pKey){
             return {
-                module: sourcify(pKey), //sourcify(BASE_DIR, pModule);
+                module: sourcify(pBaseDir, pKey), //sourcify(BASE_DIR, pModule);
                 deplist: pDepencyTreeObject[pKey]
-                            .map(function(pModule){
-                                return sourcify(pModule); //sourcify(BASE_DIR, pModule);
-                            })
+                            .map(_.curry(sourcify)(pBaseDir)) //sourcify(BASE_DIR, pModule);
                             // Don't include dependencies for which no corresponding
                             // file exists. This prevents erroneous files from entering
                             // the dependency tree, but also from core node modules
                             // (path, fs, http, ...) from being mentioned
-                            .filter(function(pDep){
-                                return utl.fileExists(pDep);
-                            }
-                )
+                            .filter(utl.fileExists)
             };
         })
-        .filter(function(pModDeps){
-            return pModDeps.deplist.length > 0;
-        });
+        .filter(withDependenciesOnly);
 }
 
 function deps2FlatString(pDependencyList, pFlatDefine){
@@ -95,13 +96,12 @@ function deps2FlatString(pDependencyList, pFlatDefine){
 }
 
 function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine){
-    var BASE_DIR = utl.getDirectory(pDirOrFile);
-    sourcify = _.curry(sourcifyFn)(BASE_DIR);
     var lDeps = toFilteredDepencyArray (
         madge(
-            [BASE_DIR],
+            [utl.getDirectory(pDirOrFile)],
             {format: pFormat, exclude: pExclude}
-        ).tree
+        ).tree,
+        utl.getDirectory(pDirOrFile)
     );
     if (fs.statSync(pDirOrFile).isFile()){
         return !!pFlatDefine ? 
