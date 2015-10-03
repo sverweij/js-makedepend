@@ -75,14 +75,14 @@ function toFilteredDepencyArray(pDepencyTreeObject, pBaseDir){
         .filter(withDependenciesOnly);
 }
 
-function deps2FlatString(pDependencyList, pFlatDefine){
+function deps2FlatString(pDependencyList, pFlatDefine, pFile){
     if (!!pFlatDefine && pDependencyList.length > 0){
         return _(pDependencyList)
         .map("deplist")
         .flatten()
         .sort()
         .uniq(true)
-        .reduce(addToMakefileString, pFlatDefine + "=")
+        .reduce(addToMakefileString, pFlatDefine + "=" + (!!pFile ? pFile : ""))
         .concat("\n");
         
     } else {
@@ -100,7 +100,7 @@ function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine){
     );
     if (fs.statSync(pDirOrFile).isFile()){
         return !!pFlatDefine ? 
-                deps2FlatString(extractFileDeps(lDeps, pDirOrFile), pFlatDefine) :
+                deps2FlatString(extractFileDeps(lDeps, pDirOrFile), pFlatDefine, pDirOrFile) :
                 deps2String(extractFileDeps(lDeps, pDirOrFile));
     } else {
         return !!pFlatDefine ?

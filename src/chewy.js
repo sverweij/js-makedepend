@@ -67,8 +67,11 @@ exports.main = function (pDirOrFile, pOptions){
         validateParameters(pDirOrFile, pOptions);
         pOptions.system = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
-            core.getDependencyStrings(pDirOrFile, pOptions)
-                .forEach(process.stdout.write);
+            core.getDependencyStrings(pDirOrFile, pOptions).forEach(
+                function(pLine){
+                    process.stdout.write(pLine);
+                }
+            );
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,

@@ -20,7 +20,7 @@ test/fixtures/amd/two_only_one.js: \
 	test/fixtures/amd/sub/dir.js
 
 # amd dependencies
-ROOT_ONE_SRC= \
+ROOT_ONE_SRC=test/fixtures/amd/root_one.js \
 	node_modules/commander/index.js \
 	test/fixtures/amd/one_only_one.js \
 	test/fixtures/amd/one_only_two.js \

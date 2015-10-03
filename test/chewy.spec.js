@@ -75,7 +75,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "js-makedepend -f test/output/{{moduleType}}.def.mk -d ALL_SRC test/fixtures/{{moduleType}}",
+        description : "js-makedepend -f test/output/{{moduleType}}.dir.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
         dirOrFile   : "test/fixtures/{{moduleType}}",
         options     : {
             outputTo  : path.join(OUT_DIR, "{{moduleType}}.dir.flatdef.mk"),
@@ -85,7 +85,7 @@ var testPairs = [
         cleanup     : true
     },
     {
-        description : "js-makedepend -f test/output/{{moduleType}}.def.mk -d ALL_SRC test/fixtures/{{moduleType}}",
+        description : "js-makedepend -f test/output/{{moduleType}}.file.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
         dirOrFile   : "test/fixtures/{{moduleType}}/root_one.js",
         options     : {
             outputTo  : path.join(OUT_DIR, "{{moduleType}}.file.flatdef.mk"),
