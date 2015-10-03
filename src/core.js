@@ -16,14 +16,14 @@ function sourcify (pBaseDir, pString){
     );
 }
 
+function addToMakefileString(pString, pAddition){
+    return pString + " \\\n\t" + pAddition;
+}
+
 function getDepString(pArray, pStartWith){
     return _(pArray)
             .sort()
-            .reduce(
-                function(pSum, pDep){
-                    return pSum + " \\\n\t" + pDep;
-                }, pStartWith + ":"
-            );
+            .reduce(addToMakefileString, pStartWith + ":");
 }
 
 function thisFileOnly(pFile, pModDep){
@@ -82,12 +82,7 @@ function deps2FlatString(pDependencyList, pFlatDefine){
         .flatten()
         .sort()
         .uniq(true)
-        .reduce(
-            function(pSum, pDep){
-                return pSum + pDep + " " ;
-            },
-            pFlatDefine + "="
-        )
+        .reduce(addToMakefileString, pFlatDefine + "=")
         .concat("\n");
         
     } else {
