@@ -6,6 +6,8 @@ For all two of you using `Makefiles` to build JavaScript based projects.
 [![Build Status](https://travis-ci.org/sverweij/js-makedepend.svg?branch=master)](https://travis-ci.org/sverweij/js-makedepend)
 [![Code Climate](https://codeclimate.com/github/sverweij/js-makedepend/badges/gpa.svg)](https://codeclimate.com/github/sverweij/js-makedepend)
 [![Test Coverage](https://codeclimate.com/github/sverweij/js-makedepend/badges/coverage.svg)](https://codeclimate.com/github/sverweij/js-makedepend/coverage)
+[![Dependency Status](https://david-dm.org/sverweij/js-makedepend.svg)](https://david-dm.org/sverweij/js-makedepend)
+[![devDependency Status](https://david-dm.org/sverweij/js-makedepend/dev-status.svg)](https://david-dm.org/sverweij/js-makedepend#info=devDependencies)
 [![npm stable version](https://img.shields.io/npm/v/js-makedepend.svg?label=stable)](https://npmjs.org/package/js-makedepend)
 
 
