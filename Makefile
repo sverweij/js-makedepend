@@ -2,12 +2,8 @@
 GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
-CSSLINT=node node_modules/csslint/cli.js --format=compact --quiet --ignore=ids
-SEDVERSION=utl/sedversion.sh
 NPM=npm
-MAKEDEPEND=bin/js-makedepend -x node_modules
-
-GENERATED_SOURCES=
+MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures" --system cjs
 
 .PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
 
@@ -18,21 +14,13 @@ help:
 	@echo " -------------------------------------------------------- "
 	@echo
 
-
 # production rules
-
-$(PRODDIRS):
-	mkdir -p $@
-
-# file targets prod
-VERSION:
-	@echo 0.0.0 > $@
 
 # "phony" targets
 prerequisites:
 	$(NPM) install
 
-dev-build: bin/js-makedepend src/cli.js
+dev-build: bin/js-makedepend $(ALL_SRC)
 
 lint:
 	$(NPM) run lint
@@ -41,7 +29,7 @@ cover: dev-build
 	$(NPM) run cover
 
 tag: 
-	$(GIT) tag -a `cat VERSION` -m "tag release `cat VERSION`"
+	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
 	$(GIT) push --tags
 
 static-analysis:
@@ -68,7 +56,7 @@ check: noconsolestatements lint test
 	
 fullcheck: check outdated nsp
 
-update-dependencies: run-update-dependencies clean-generated-sources dev-build test
+update-dependencies: run-update-dependencies dev-build test
 	$(GIT) diff package.json
 	
 run-update-dependencies: 
@@ -77,17 +65,15 @@ run-update-dependencies:
 	
 depend:
 	$(MAKEDEPEND) src/cli.js
-
-clean-generated-sources: 
-	rm -rf $(GENERATED_SOURCES)
+	$(MAKEDEPEND) --append --flat-define ALL_SRC src/cli.js
+	$(MAKEDEPEND) --append test
 
 sinopia:
 	sinopia
 
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
-# amd dependencies
-# commonJS dependencies
+# cjs dependencies
 src/cli.js: \
 	src/chewy.js
 
@@ -98,4 +84,15 @@ src/chewy.js: \
 src/core.js: \
 	src/utl.js
 
-# ES6 dependencies
+# cjs dependencies
+ALL_SRC=src/cli.js \
+	src/chewy.js \
+	src/core.js \
+	src/utl.js
+# cjs dependencies
+test/chewy.spec.js: \
+	src/chewy.js \
+	test/utl/testutensils.js
+
+test/core.spec.js: \
+	src/core.js
