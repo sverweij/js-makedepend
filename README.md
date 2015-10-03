@@ -7,8 +7,6 @@ For all two of you using `Makefiles` to build JavaScript based projects.
 [![Code Climate](https://codeclimate.com/github/sverweij/js-makedepend/badges/gpa.svg)](https://codeclimate.com/github/sverweij/js-makedepend)
 [![Test Coverage](https://codeclimate.com/github/sverweij/js-makedepend/badges/coverage.svg)](https://codeclimate.com/github/sverweij/js-makedepend/coverage)
 
-Note: I will publish this as an npm module only when it's mature enough (tests automated with 100% coverage, dependencies managed). It's close, but not there yet; see items on [TODO before release as npm package](https://trello.com/b/YdKXLhGb/makedepend-js).
-
 
 ## Basic usage
 Include this target in your Makefile .
