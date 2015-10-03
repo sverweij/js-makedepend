@@ -20,7 +20,7 @@ help:
 prerequisites:
 	$(NPM) install
 
-dev-build: bin/js-makedepend $(ALL_SRC)
+dev-build: bin/js-makedepend $(ALL_SRC) package.json
 
 lint:
 	$(NPM) run lint
@@ -29,7 +29,15 @@ cover: dev-build
 	$(NPM) run cover
 
 bump-patch:
-	npm version patch
+	$(NPM) version patch
+
+bump-minor:
+	$(NPM) version minor
+
+bump-major:
+	$(NPM) version major
+
+publish:
 	$(GIT) push
 	$(GIT) push --tags
 	$(NPM) publish
