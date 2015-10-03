@@ -28,9 +28,11 @@ lint:
 cover: dev-build
 	$(NPM) run cover
 
-tag: 
-	$(GIT) tag -a `utl/getver` -m "tag release `utl/getver`"
+bump-patch:
+	npm version patch
+	$(GIT) push
 	$(GIT) push --tags
+	$(NPM) publish
 
 static-analysis:
 	$(NPM) run plato
