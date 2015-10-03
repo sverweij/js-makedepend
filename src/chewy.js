@@ -58,10 +58,10 @@ function validateParameters(pDirOrFile, pOptions){
 
 exports.main = function (pDirOrFile, pOptions){
     _.defaults(pOptions, {
-        exclude: "",
-        outputTo: "Makefile",
-        delimiter: STARTING_STRING_DELIMITER,
-        system: DEFAULT_MODULE_SYSTEMS
+        exclude   : "",
+        outputTo  : "Makefile",
+        delimiter : STARTING_STRING_DELIMITER,
+        system    : DEFAULT_MODULE_SYSTEMS
     });
     
     try {

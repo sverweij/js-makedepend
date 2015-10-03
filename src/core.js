@@ -62,9 +62,9 @@ function toFilteredDepencyArray(pDepencyTreeObject, pBaseDir){
     return Object.keys(pDepencyTreeObject)
         .map(function(pKey){
             return {
-                module: sourcify(pBaseDir, pKey), //sourcify(BASE_DIR, pModule);
+                module: sourcify(pBaseDir, pKey), 
                 deplist: pDepencyTreeObject[pKey]
-                            .map(_.curry(sourcify)(pBaseDir)) //sourcify(BASE_DIR, pModule);
+                            .map(_.curry(sourcify)(pBaseDir))
                             // Don't include dependencies for which no corresponding
                             // file exists. This prevents erroneous files from entering
                             // the dependency tree, but also from core node modules
