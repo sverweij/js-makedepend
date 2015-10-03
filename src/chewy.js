@@ -5,6 +5,7 @@ var _     = require("lodash");
 
 var STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 var DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
+var MODULE_SYSTEM_LIST_RE     = /^((cjs|amd|es6)(,|$))+$/gi;
 
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend){
     if (!pAppend){
@@ -48,9 +49,9 @@ function validateParameters(pDirOrFile, pOptions){
         throw Error("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
     }
     if (!!pOptions.system && _.isString(pOptions.system)) {
-        var lParamArray = pOptions.system.match(/^((cjs|amd|es6)(,|$))+$/gi);
+        var lParamArray = pOptions.system.match(MODULE_SYSTEM_LIST_RE);
         if (!lParamArray || lParamArray.length !== 1){
-            throw Error("Invalid module system list: '" + pOptions.system + "'\n");    
+            throw Error("Invalid module system list: '" + pOptions.system + "'\n"); 
         }
     }
 }
