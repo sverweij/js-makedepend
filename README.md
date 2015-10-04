@@ -16,12 +16,12 @@ For all two of you using `Makefiles` to build JavaScript based projects.
 npm install -g js-makedepend
 ```
 
-1. Include this target in your Makefile (assuming your javascript is in `src/`):
+2. Include this target in your Makefile (assuming your javascript is in `src/`):
 ```makefile
 depend:
 	js-makedepend src/
 ```
-2. Run `make depend`    
+3. Run `make depend`    
    js-makedepend will have added the dependencies in `src/` to your Makefile. See the examples below to see how that looks.
 
 
@@ -199,9 +199,9 @@ Include these snippets to your Makefile to
 - don't include any source that resides in `node_modules`
 - besides all dependencies
   - define a `ROOT_ONE_SRC` with a flattened list of all files on which 
-  `src/root_module_one.js` depends
+  `src/root_one.js` depends
   - define a `ROOT_TWO_SRC` with a flattened list of all files on which 
-  `src/root_module_one.js` depends
+  `src/root_two.js` depends
   
 ```makefile
 MAKEDEPEND=node_modules/.bin/js-makedepend \
