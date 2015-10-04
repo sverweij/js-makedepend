@@ -41,7 +41,7 @@
     "istanbul": "0.3.21",
     "jshint": "2.8.0",
     "mocha": "2.3.3",
-    "npm-check-updates": "2.2.4",
+    "npm-check-updates": "2.3.0",
     "nsp": "1.1.0",
     "plato": "1.5.0"
   },

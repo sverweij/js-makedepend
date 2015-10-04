@@ -54,6 +54,13 @@ nsp:
 outdated:
 	$(NPM) outdated
 
+update-dependencies: run-update-dependencies dev-build test
+	$(GIT) diff package.json
+	
+run-update-dependencies: 
+	$(NPM) run npm-check-updates
+	$(NPM) install
+
 noconsolestatements:
 	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
 	grep -r console src/* | grep -c console | grep ^0$$
@@ -65,13 +72,6 @@ consolecheck:
 check: noconsolestatements lint test
 	
 fullcheck: check outdated nsp
-
-update-dependencies: run-update-dependencies dev-build test
-	$(GIT) diff package.json
-	
-run-update-dependencies: 
-	$(NPM) run npm-check-updates
-	$(NPM) install
 	
 depend:
 	$(MAKEDEPEND) src/cli.js
