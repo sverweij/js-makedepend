@@ -107,7 +107,7 @@ src/sub/dir.js: \
 # es6 dependencies
 ```
 
-### Flattened in a DEFINE: --flat-define
+### Flattened in a DEFINE: `--flat-define`
 Sometimes all you need is just all sources in one define.
 `js-makedepend --flat-define ROOT_ONE_ALL_SRC src/root_one.js`
 will do just that:
@@ -147,7 +147,7 @@ In the above samples you'll notice the presence of a dependency in the
 that, add the `--exclude` with a regular expression, e.g. 
 ```makefile
 depend:
-	`js-makedepend --exclude node_modules --flat-define ALL_SRC src/`
+	js-makedepend --exclude node_modules --flat-define ALL_SRC src/
 ```
 
 ### Output to something else: `--output-to`
@@ -168,7 +168,7 @@ the depend target for the first time.
 
 If you pick `-` as a filename, js-makedepend will emit to stdout.
 
-### Picking module systems: `--system`
+### Selecting module systems: `--system`
 By `js-makedepend` runs through your sources thrice, once for every module
 system it knows. If you don't want that, specify the systems your interested in
 in a comma-separated list:
