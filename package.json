@@ -35,6 +35,9 @@
     "url": "https://github.com/sverweij/js-makedepend/issues"
   },
   "homepage": "https://github.com/sverweij/js-makedepend",
+  "engines": {
+    "node": ">=0.12"
+  },
   "devDependencies": {
     "codeclimate-test-reporter": "0.1.1",
     "intercept-stdout": "0.1.2",
@@ -48,6 +51,7 @@
   "dependencies": {
     "commander": "2.8.1",
     "lodash": "3.10.1",
-    "madge": "0.5.0"
+    "madge": "0.5.0",
+    "semver": "^5.0.3"
   }
 }
