@@ -11,17 +11,16 @@ For all two of you using `Makefiles` to build JavaScript based projects.
 [![npm stable version](https://img.shields.io/npm/v/js-makedepend.svg?label=stable)](https://npmjs.org/package/js-makedepend)
 [![MIT licensed](https://img.shields.io/github/license/sverweij/js-makedepend.svg)](LICENSE)
 ## Installation and basic usage
-1. Install with `npm`
+1) Install with `npm`
 ```shell
 npm install -g js-makedepend
 ```
-
-2. Include this target in your Makefile (assuming your javascript is in `src/`):
+2) Include this target in your Makefile (assuming your javascript is in `src/`):
 ```makefile
 depend:
 	js-makedepend src/
 ```
-3. Run `make depend`    
+3) Run `make depend`    
    js-makedepend will have added the dependencies in `src/` to your Makefile. See the examples below to see how that looks.
 
 
