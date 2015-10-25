@@ -41,17 +41,17 @@
   "devDependencies": {
     "codeclimate-test-reporter": "0.1.1",
     "intercept-stdout": "0.1.2",
-    "istanbul": "0.3.22",
+    "istanbul": "0.4.0",
     "jshint": "2.8.0",
     "mocha": "2.3.3",
-    "npm-check-updates": "2.3.2",
+    "npm-check-updates": "2.3.4",
     "nsp": "1.1.0",
     "plato": "1.5.0"
   },
   "dependencies": {
     "commander": "2.9.0",
     "lodash": "3.10.1",
-    "madge": "0.5.1",
+    "madge": "0.5.2",
     "semver": "5.0.3"
   }
 }
