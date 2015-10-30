@@ -1,0 +1,5 @@
+{
+	"preset": "airbnb",
+	"disallowYodaConditions": false,
+	"validateQuoteMarks": "\""
+}

@@ -5,7 +5,7 @@ GIT_DEPLOY_FROM_BRANCH=master
 NPM=npm
 MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures" --system cjs
 
-.PHONY: help dev-build install deploy-gh-pages check fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
 
 help:
 	@echo
@@ -24,6 +24,9 @@ dev-build: bin/js-makedepend $(ALL_SRC) package.json
 
 lint:
 	$(NPM) run lint
+
+stylecheck:
+	$(NPM) run jscs
 
 cover: dev-build
 	$(NPM) run cover
@@ -69,7 +72,7 @@ noconsolestatements:
 consolecheck:
 	grep -r console src/*
 
-check: noconsolestatements lint test
+check: noconsolestatements lint stylecheck test
 	
 fullcheck: check outdated nsp
 	

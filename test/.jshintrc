@@ -2,5 +2,6 @@
     "node":true,
     "mocha":true,
     "multistr":true,
-    "unused":false
+    "unused":false,
+    "esnext":true
 }
