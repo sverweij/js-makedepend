@@ -10,7 +10,7 @@ install:
   - npm install
 
 script:
-  - make lint cover
+  - make lint stylecheck cover
 #  - npm run nsp
 #  - make install
 
