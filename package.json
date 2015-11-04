@@ -9,7 +9,7 @@
     "codeclimate-cover-submit": "codeclimate-test-reporter < coverage/lcov.info",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
     "lint": "jshint src test --verbose",
-    "nsp": "nsp package",
+    "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
     "jscs": "jscs src test/*.js test/utl",
     "plato": "plato -r -d platoreports -x \"test\" src/",
@@ -47,7 +47,7 @@
     "jshint": "2.8.0",
     "mocha": "2.3.3",
     "npm-check-updates": "2.3.4",
-    "nsp": "1.1.0",
+    "nsp": "2.0.1",
     "plato": "1.5.0"
   },
   "dependencies": {
