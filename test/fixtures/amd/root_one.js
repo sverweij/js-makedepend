@@ -1,5 +1,5 @@
 require(
-    ["fs", 
+    ["fs",
      "../../../node_modules/commander/index",
      "./shared",
      "./sub/dir",
@@ -12,6 +12,6 @@ require(
         subdir,
         one_only_one,
         one_only_two){
-            // do stuff
+    // do stuff
     }
 );

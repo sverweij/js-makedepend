@@ -1,3 +1,3 @@
 define(["./sub/dir"], function(subdir){
-    // do stuff
+// do stuff
 });

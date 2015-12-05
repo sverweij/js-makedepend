@@ -1,3 +1,3 @@
 define([], function(){
-    // do stuff
+// do stuff
 });
