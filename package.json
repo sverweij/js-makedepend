@@ -10,7 +10,7 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
     "lint": "jshint src test --verbose",
     "nsp": "nsp check",
-    "npm-check-updates": "ncu --upgrade",
+    "npm-check-updates": "ncu '/^(?!jshint).*$/' --upgrade",
     "jscs": "jscs src test/*.js test/utl",
     "plato": "plato -r -d platoreports -x \"test\" src/",
     "test": "mocha -R dot test",
@@ -46,8 +46,8 @@
     "jscs": "2.7.0",
     "jshint": "2.8.0",
     "mocha": "2.3.4",
-    "npm-check-updates": "2.5.4",
-    "nsp": "2.1.0",
+    "npm-check-updates": "2.5.5",
+    "nsp": "2.2.0",
     "plato": "1.5.0"
   },
   "dependencies": {
