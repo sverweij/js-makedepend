@@ -40,6 +40,10 @@ bump-minor:
 bump-major:
 	$(NPM) version major
 
+tag:
+	$(GIT) tag -a v`utl/getver` -m "v`utl/getver`"
+	$(GIT) push --tags
+
 publish:
 	$(GIT) push
 	$(GIT) push --tags
