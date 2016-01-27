@@ -45,7 +45,7 @@
     "istanbul": "0.4.2",
     "jscs": "2.9.0",
     "jshint": "2.9.1",
-    "mocha": "2.4.1",
+    "mocha": "2.4.4",
     "npm-check-updates": "2.5.7",
     "nsp": "2.2.0",
     "plato": "1.5.0"
