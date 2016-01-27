@@ -49,6 +49,9 @@ publish:
 	$(GIT) push --tags
 	$(NPM) publish
 
+push-mirrors: 
+	$(GIT) push bitbucket-mirror
+
 static-analysis:
 	$(NPM) run plato
 
