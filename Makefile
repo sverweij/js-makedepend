@@ -49,8 +49,13 @@ publish:
 	$(GIT) push --tags
 	$(NPM) publish
 
-push-mirrors: 
+mirrors: .git/refs/remotes/bitbucket-mirror .git/refs/remotes/gitlab-mirror
+	$(GIT) remote add bitbucket-mirror git@bitbucket.org:sverweij/js-makedepend.git
+	$(GIT) remote add gitlab-mirror https://gitlab.com/sverweij/js-makedepend.git
+
+push-mirrors: mirrors
 	$(GIT) push bitbucket-mirror
+	$(GIT) push gitlab-mirror
 
 static-analysis:
 	$(NPM) run plato
