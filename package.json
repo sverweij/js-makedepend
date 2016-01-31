@@ -45,14 +45,14 @@
     "istanbul": "0.4.2",
     "jscs": "2.9.0",
     "jshint": "2.9.1",
-    "mocha": "2.4.4",
+    "mocha": "2.4.5",
     "npm-check-updates": "2.5.7",
     "nsp": "2.2.0",
     "plato": "1.5.0"
   },
   "dependencies": {
     "commander": "2.9.0",
-    "lodash": "4.0.1",
+    "lodash": "4.1.0",
     "madge": "0.5.3",
     "semver": "5.1.0"
   }
