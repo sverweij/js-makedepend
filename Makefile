@@ -56,7 +56,7 @@ publish:
 	$(GIT) remote add gitlab-mirror https://gitlab.com/sverweij/js-makedepend.git
 
 mirrors: .git/refs/remotes/bitbucket-mirror \
-	.git/refs/remotes/gitlab-mirror \
+	.git/refs/remotes/gitlab-mirror
 
 push-mirrors: mirrors
 	$(GIT) push bitbucket-mirror
