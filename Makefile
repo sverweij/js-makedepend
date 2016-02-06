@@ -105,6 +105,7 @@ sinopia:
 
 # cjs dependencies
 src/cli.js: \
+	package.json \
 	src/chewy.js
 
 src/chewy.js: \
@@ -116,6 +117,7 @@ src/core.js: \
 
 # cjs dependencies
 ALL_SRC=src/cli.js \
+	package.json \
 	src/chewy.js \
 	src/core.js \
 	src/utl.js
