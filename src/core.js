@@ -12,7 +12,8 @@ var _     = require("lodash");
 function sourcify(pBaseDir, pString) {
     return path.join(
         pBaseDir,
-        pString.endsWith(".json") ? pString : pString + ".js"
+        // rather use endsWith, but not available in node < 4
+        !!pString.match(/\.json$/) ? pString : pString + ".js"
     );
 }
 
