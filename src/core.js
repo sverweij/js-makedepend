@@ -12,7 +12,7 @@ var _     = require("lodash");
 function sourcify(pBaseDir, pString) {
     return path.join(
         pBaseDir,
-        pString + ".js"
+        pString.endsWith(".json") ? pString : pString + ".js"
     );
 }
 
