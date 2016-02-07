@@ -1,6 +1,6 @@
-var fs   = require("fs");
-var path = require("path");
-var _    = require("lodash");
+const fs   = require("fs");
+const path = require("path");
+const _    = require("lodash");
 
 exports.fileExists = _.memoize(function(pFile) {
     try {

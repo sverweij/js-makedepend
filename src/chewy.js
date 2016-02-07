@@ -1,7 +1,7 @@
-var core  = require("./core");
-var fs    = require("fs");
-var utl   = require("./utl");
-var _     = require("lodash");
+const core  = require("./core");
+const fs    = require("fs");
+const utl   = require("./utl");
+const _     = require("lodash");
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
@@ -10,9 +10,9 @@ const MODULE_SYSTEM_LIST_RE     = /^((cjs|amd|es6)(,|$))+$/gi;
 function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend) {
     if (!pAppend) {
         try {
-            var lOutputFile = fs.readFileSync(pOutputTo, {encoding: "utf8", flag: "r"});
-            var lLines      = lOutputFile.split("\n");
-            var lDelimiterPosition = lLines.indexOf(pDelimiter);
+            const lOutputFile = fs.readFileSync(pOutputTo, {encoding: "utf8", flag: "r"});
+            const lLines      = lOutputFile.split("\n");
+            const lDelimiterPosition = lLines.indexOf(pDelimiter);
 
             if (lDelimiterPosition > -1) {
                 fs.writeFileSync(
@@ -51,7 +51,7 @@ function validateParameters(pDirOrFile, pOptions) {
     }
 
     if (!!pOptions.system && _.isString(pOptions.system)) {
-        var lParamArray = pOptions.system.match(MODULE_SYSTEM_LIST_RE);
+        const lParamArray = pOptions.system.match(MODULE_SYSTEM_LIST_RE);
         if (!lParamArray || lParamArray.length !== 1) {
             throw Error("Invalid module system list: '" + pOptions.system + "'\n");
         }

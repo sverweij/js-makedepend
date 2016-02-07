@@ -3,11 +3,11 @@
  * - all es6, amd and commonjs dependencies in the src tree
  */
 
-var path  = require("path");
-var madge = require("madge");
-var utl   = require("./utl");
-var fs    = require("fs");
-var _     = require("lodash");
+const path  = require("path");
+const madge = require("madge");
+const utl   = require("./utl");
+const fs    = require("fs");
+const _     = require("lodash");
 
 function sourcify(pBaseDir, pString) {
     return path.join(
@@ -93,7 +93,7 @@ function deps2FlatString(pDependencyList, pFlatDefine, pFile) {
 }
 
 function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine) {
-    var lDeps = toFilteredDepencyArray(
+    const lDeps = toFilteredDepencyArray(
         madge(
             [utl.getDirectory(pDirOrFile)],
             {format: pFormat, exclude: pExclude}

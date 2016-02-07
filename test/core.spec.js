@@ -1,5 +1,5 @@
-var assert = require("assert");
-var core = require("../src/core.js");
+const assert = require("assert");
+const core   = require("../src/core.js");
 
 describe("#core - main", function() {
     it("basic operation on test/fixtures/cjs", function() {

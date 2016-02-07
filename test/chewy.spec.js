@@ -1,8 +1,8 @@
-var assert = require("assert");
-var chewy  = require("../src/chewy.js");
-var fs     = require("fs");
-var tst    = require("./utl/testutensils");
-var path   = require("path");
+const assert = require("assert");
+const chewy  = require("../src/chewy.js");
+const fs     = require("fs");
+const tst    = require("./utl/testutensils");
+const path   = require("path");
 
 const OUT_DIR = "./test/output";
 const FIX_DIR = "./test/fixtures";

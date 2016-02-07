@@ -1,7 +1,7 @@
-var program  = require("commander");
-var chewy    = require("./chewy");
-var $package = require("../package.json");
-var semver   = require("semver");
+const program  = require("commander");
+const chewy    = require("./chewy");
+const $package = require("../package.json");
+const semver   = require("semver");
 
 /* istanbul ignore if  */
 if (!semver.satisfies(process.versions.node, $package.engines.node)) {

@@ -1,6 +1,6 @@
-var assert = require("assert");
-var fs     = require("fs");
-var crypto = require("crypto");
+const assert = require("assert");
+const fs     = require("fs");
+const crypto = require("crypto");
 
 module.exports = (function() {
 
