@@ -128,7 +128,7 @@ var testPairs = [
         },
         expect: "{{moduleType}}.file.initandappend.3.mk",
         cleanup: true,
-    },
+    }
 ];
 
 function resetOutputDir() {

@@ -8,6 +8,7 @@ ALL_SRC= \
 	test/fixtures/cjs/one_only_one.js \
 	test/fixtures/cjs/one_only_two.js \
 	test/fixtures/cjs/shared.js \
+	test/fixtures/cjs/somedata.json \
 	test/fixtures/cjs/sub/depindir.js \
 	test/fixtures/cjs/sub/dir.js \
 	test/fixtures/cjs/two_only_one.js

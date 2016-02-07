@@ -12,6 +12,7 @@ test/fixtures/amd/root_one.js: \
 
 test/fixtures/amd/root_two.js: \
 	test/fixtures/amd/shared.js \
+	test/fixtures/amd/somedata.json \
 	test/fixtures/amd/two_only_one.js
 
 test/fixtures/amd/sub/dir.js: \
