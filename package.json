@@ -40,13 +40,13 @@
     "node": ">=0.12"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.3.0",
+    "codeclimate-test-reporter": "0.3.1",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.2",
     "jscs": "2.9.0",
     "jshint": "2.9.1",
     "mocha": "2.4.5",
-    "npm-check-updates": "2.5.7",
+    "npm-check-updates": "2.5.8",
     "nsp": "2.2.0",
     "plato": "1.5.0"
   },
