@@ -90,6 +90,7 @@ consolecheck:
 	grep -r console src/*
 
 check: noconsolestatements lint stylecheck test
+	./bin/js-makedepend --version # if that runs the cli script works
 	
 fullcheck: check outdated nsp
 	
