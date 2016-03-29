@@ -75,11 +75,9 @@ outdated:
 	$(NPM) outdated
 
 update-dependencies: run-update-dependencies dev-build test
-	$(NPM) shrinkwrap
 	$(GIT) diff package.json
 	
 run-update-dependencies:
-	rm -f npm-shrinkwrap.json 
 	$(NPM) run npm-check-updates
 	$(NPM) install
 
