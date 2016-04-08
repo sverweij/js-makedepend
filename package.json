@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "commander": "2.9.0",
-    "lodash": "4.8.2",
+    "lodash": "4.9.0",
     "madge": "0.5.3",
     "semver": "5.1.0"
   }
