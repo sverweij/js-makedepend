@@ -35,9 +35,9 @@ function concatModDep(pModDeps, pFileDepArray, pModDep) {
     return pFileDepArray
             .concat(pModDep)
             .concat(
-                 pModDep.deplist.reduce(function(pDepSum, pListEntry) {
-                     return pDepSum.concat(extractFileDeps(pModDeps, pListEntry));
-                 }, [])
+                pModDep.deplist.reduce(function(pDepSum, pListEntry) {
+                    return pDepSum.concat(extractFileDeps(pModDeps, pListEntry));
+                }, [])
             )
     ;
 }
