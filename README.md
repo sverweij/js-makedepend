@@ -1,14 +1,15 @@
 # js-makedepend
 A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 
-For all two of you using `Makefiles` to build JavaScript based projects. 
+For all two of you using `Makefiles` to build JavaScript based projects.
 
 [![Build Status](https://travis-ci.org/sverweij/js-makedepend.svg?branch=master)](https://travis-ci.org/sverweij/js-makedepend)
 [![Code Climate](https://codeclimate.com/github/sverweij/js-makedepend/badges/gpa.svg)](https://codeclimate.com/github/sverweij/js-makedepend)
 [![Test Coverage](https://codeclimate.com/github/sverweij/js-makedepend/badges/coverage.svg)](https://codeclimate.com/github/sverweij/js-makedepend/coverage)
 [![Dependency Status](https://david-dm.org/sverweij/js-makedepend.svg)](https://david-dm.org/sverweij/js-makedepend)
 [![devDependency Status](https://david-dm.org/sverweij/js-makedepend/dev-status.svg)](https://david-dm.org/sverweij/js-makedepend#info=devDependencies)
-[![npm stable version](https://img.shields.io/npm/v/js-makedepend.svg?label=stable)](https://npmjs.org/package/js-makedepend)
+[![npm stable version](https://img.shields.io/npm/v/js-makedepend.svg)](https://npmjs.com/package/js-makedepend)
+[![total downloads on npm](https://img.shields.io/npm/dt/js-makedepend.svg?maxAge=2592000)](https://npmjs.com/package/js-makedepend)
 [![MIT licensed](https://img.shields.io/github/license/sverweij/js-makedepend.svg)](LICENSE)
 
 ## Installation and basic usage
@@ -86,7 +87,7 @@ src/two_only_one.js: \
 ```
 
 #### On a file
-You can also pass a file as an argument. `js-makedepend src/root_two.js` 
+You can also pass a file as an argument. `js-makedepend src/root_two.js`
 will only emit the (recursive) dependencies of `src/root_two.js`:
 
 ```makefile
@@ -132,8 +133,8 @@ You might have noted the `# DO NOT DELETE THIS LINE -- js-makedepend depends on 
 there. In next runs js-makedepends by default will _replace_ everything
 below that line.
 
-If you want to have the output of multiple runs of js-makedepend in your 
-Makefile use `--append` e.g. 
+If you want to have the output of multiple runs of js-makedepend in your
+Makefile use `--append` e.g.
 
 ```makefile
 depend:
@@ -142,17 +143,17 @@ depend:
 ```
 
 ### Excluding stuff to walk through: `--exclude`
-In the above samples you'll notice the presence of a dependency in the 
+In the above samples you'll notice the presence of a dependency in the
 `node_modules` tree: `../../node_modules/commander/index.js`. If you don't want
-that, add the `--exclude` with a regular expression, e.g. 
+that, add the `--exclude` with a regular expression, e.g.
 ```makefile
 depend:
 	js-makedepend --exclude node_modules --flat-define ALL_SRC src/
 ```
 
 ### Output to something else: `--output-to`
-If your depency tree is big, you might want to put your dependencies in a 
-separate file, using `make`'s `include`. 
+If your depency tree is big, you might want to put your dependencies in a
+separate file, using `make`'s `include`.
 
 ```makefile
 include jsdependencies.mk
@@ -161,7 +162,7 @@ depend:
 	js-makedepend --output-to jsdependencies.mk src/
 ```
 
-Note: running this when jsdepencies.mk doesn't exist yet will make `make` stop 
+Note: running this when jsdepencies.mk doesn't exist yet will make `make` stop
 with an error. Either create it before running make (e.g. `touch jsdependencies.mk`)
 or include the `include jsdepencies` in your Makefile only after running
 the depend target for the first time.
@@ -177,7 +178,7 @@ in a comma-separated list:
 	js-makedepend --system amd,es6 src/
 ```
 ### Use your own delimiter string: `--delimiter`
-By default `js-makedepend` emits a demarcation line so it can find its 
+By default `js-makedepend` emits a demarcation line so it can find its
 output on a next run:
 ```
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
@@ -198,11 +199,11 @@ Include these snippets to your Makefile to
 - Only traverse CommonJS dependencies
 - don't include any source that resides in `node_modules`
 - besides all dependencies
-  - define a `ROOT_ONE_SRC` with a flattened list of all files on which 
+  - define a `ROOT_ONE_SRC` with a flattened list of all files on which
   `src/root_one.js` depends
-  - define a `ROOT_TWO_SRC` with a flattened list of all files on which 
+  - define a `ROOT_TWO_SRC` with a flattened list of all files on which
   `src/root_two.js` depends
-  
+
 ```makefile
 MAKEDEPEND=node_modules/.bin/js-makedepend \
 	--output-to dependencies.mk \
@@ -219,10 +220,10 @@ depend:
 [MIT](LICENSE)
 
 ## Thanks
-- [Patrik Henningsson](https://github.com/pahen) - who wrote 
+- [Patrik Henningsson](https://github.com/pahen) - who wrote
   [MaDGe](https://github.com/pahen/madge), which does most of js-makedepend's
   heavy lifting.
 - ... and the creators of [detective](https://github.com/substack/node-detective),
-  [amdetective](https://github.com/mixu/amdetective), and 
+  [amdetective](https://github.com/mixu/amdetective), and
   [detective-es6](https://github.com/mrjoelkemp/node-detective-es6), which do
   some of the heavy lifting for MaDGe.
