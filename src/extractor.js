@@ -1,5 +1,3 @@
-/* jshint esnext: true */
-/* global require, console, exports, process */
 "use strict";
 
 const acorn    = require('acorn');

@@ -1,5 +1,3 @@
-/* jshint esnext: true */
-/* global require, console, exports, process */
 "use strict";
 
 const path    = require('path');
@@ -27,7 +25,7 @@ function resolveCJSModule(pModuleName, pBaseDir) {
             );
 }
 
-function resolveAMDModule(pModuleName, pBaseDir) {
+function resolveAMDModule(pModuleName /*, pBaseDir*/) {
     // TODO resolution of non-relative AMD modules
     //      AMD de gakste!!
     // lookups:
