@@ -47,7 +47,7 @@
     "jshint": "2.9.2",
     "mocha": "2.4.5",
     "npm-check-updates": "2.6.4",
-    "nsp": "2.3.2",
+    "nsp": "2.4.0",
     "plato": "1.5.0"
   },
   "dependencies": {
