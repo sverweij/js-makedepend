@@ -1,0 +1,140 @@
+[
+    {
+        "title": "test on extractor.spec.js",
+        "input": {
+            "fileName": "test/extractor.spec.js"
+        },
+        "expected": [
+            {
+                "module": "../src/extractor",
+                "resolved": "src/extractor.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/amd.json",
+                "resolved": "test/extractor-fixtures/amd.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/cjs.json",
+                "resolved": "test/extractor-fixtures/cjs.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/es6.json",
+                "resolved": "test/extractor-fixtures/es6.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "chai",
+                "resolved": "node_modules/chai/index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "test on js-makedepend cjs fixture one",
+        "input": {
+            "fileName": "../js-makedepend/test/extractor-fixtures/cjs/root_one.js",
+            "baseDir": "../js-makedepend"
+        },
+        "expected": [
+            {
+                "module": "./one_only_one",
+                "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./one_only_two",
+                "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./shared",
+                "resolved": "test/extractor-fixtures/cjs/shared.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./sub/dir",
+                "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "commander",
+                "resolved": "node_modules/commander/index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "fs",
+                "resolved": "fs",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "empty module",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/empty.js"
+        },
+        "expected": []
+    },
+    {
+        "title": "direct requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/direct-require.js"
+        },
+        "expected": [
+            {
+                "module": "./empty",
+                "resolved": "test/extractor-fixtures/cjs/empty.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "fs",
+                "resolved": "fs",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "declare-and-use requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/declare-and-use.js"
+        },
+        "expected": [
+            {
+                "module": "os",
+                "resolved": "os",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "uniq duplicate requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/duplicates.js"
+        },
+        "expected": [
+            {
+                "module": "os",
+                "resolved": "os",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    }
+]
