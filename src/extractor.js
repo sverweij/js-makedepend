@@ -137,7 +137,7 @@ function extractDependencies(pFileName, pOptions) {
         pOptions = _.defaults(
             pOptions,
             {
-                baseDir: process.env.PWD,
+                baseDir: process.cwd(),
                 moduleSystems: ["cjs", "es6", "amd"]
             }
         );
