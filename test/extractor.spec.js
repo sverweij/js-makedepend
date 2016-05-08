@@ -22,12 +22,12 @@ function runFixture(pFixture) {
     });
 }
 
-describe ('CommonJS', () => cjsFixtures.forEach(runFixture));
-describe ('ES6', () => es6Fixtures.forEach(runFixture));
-describe ('AMD', () => amdFixtures.forEach(runFixture));
+describe ('CommonJS - ', () => cjsFixtures.forEach(runFixture));
+describe ('ES6 - ', () => es6Fixtures.forEach(runFixture));
+describe ('AMD - ', () => amdFixtures.forEach(runFixture));
 
 describe('Error scenarios - ', () => {
-    it('Raises an exception on sytax errors', () => {
+    it('Raises an exception on syntax errors', () => {
         expect(
             () => extractor.extractDependencies("test/extractor-fixtures/syntax-error.js")
         ).to.throw("Extracting dependencies ran afoul of... Unexpected token (1:3)");
