@@ -155,8 +155,9 @@ function extractRecursive (pFileName, pOptions, pDepth) {
     pDepth = pDepth ? pDepth : 0;
     lDependencies
         .filter(pDep => !(pDep.coreModule) /* TODO: ignore shizzle here */)
-        .forEach(pDep => {console.log(_.repeat('  ', pDepth), pDep.resolved);
-        extractRecursive(pDep.resolved, pOptions, pDepth+1);}
+        .forEach(pDep => {
+            extractRecursive(pDep.resolved, pOptions, pDepth+1);
+        }
         );
     // return lDependencies;
 }
