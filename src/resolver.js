@@ -8,10 +8,6 @@ function isRelativeModuleName(pString) {
     return pString.startsWith(".");
 }
 
-function normalizeDepName(pDep) {
-    return pDep.endsWith(".js")||pDep.endsWith(".json")||pDep.endsWith(".node")? pDep : pDep + ".js";
-}
-
 function resolveCJSModule(pModuleName, pBaseDir) {
     if(resolve.isCore(pModuleName)){
         return {
@@ -22,12 +18,7 @@ function resolveCJSModule(pModuleName, pBaseDir) {
         return {
             resolved: path.relative(
                 pBaseDir,
-                resolve.sync(
-                    pModuleName,
-                    {
-                        basedir: pBaseDir
-                    }
-                )
+                resolve.sync(pModuleName, {basedir: pBaseDir})
             ),
             coreModule: false
         };
@@ -46,14 +37,12 @@ function resolveAMDModule(pModuleName /*, pBaseDir*/) {
     };
 }
 
-exports.isRelativeModuleName = isRelativeModuleName;
-
 exports.resolveModuleToPath = function (pDependency, pBaseDir, pFileDir) {
     if(isRelativeModuleName(pDependency.moduleName)){
         return {
             resolved: path.relative(
                         pBaseDir,
-                        path.join(pFileDir, normalizeDepName(pDependency.moduleName))
+                        resolve.sync(pDependency.moduleName, {basedir: pFileDir})
                     ),
             coreModule: false
         };

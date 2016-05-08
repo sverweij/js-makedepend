@@ -17,22 +17,19 @@ function getAST(pFileName) {
     );
 }
 
-function extractCommonJSDependencies(pAST, pDependencyArray, pModuleSystem) {
+function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
+    // var/const lalala = require('./lalala');
+    // require('./lalala');
+    // require('./lalala').doFunkyStuff();
+
     walk.simple(
         pAST,
         {
-            "Identifier": function (pNode) {
-                let lNode;
-
-                if (pNode.name === 'require'){
-                    lNode = walk.findNodeAfter(
-                            pAST,
-                            pNode.end+1,
-                            () => true
-                    );
-                    if (typeof lNode !== 'undefined' && lNode.node.value){
-                        pDependencyArray.push({
-                            moduleName: lNode.node.value,
+            "CallExpression": pNode => {
+                if (pNode.callee.type==="Identifier" && pNode.callee.name==="require"){
+                    if(pNode.arguments && pNode.arguments[0] && pNode.arguments[0].value){
+                        pDependencies.push({
+                            moduleName: pNode.arguments[0].value,
                             moduleSystem: pModuleSystem ? pModuleSystem : "cjs"
                         });
                     }
@@ -42,15 +39,15 @@ function extractCommonJSDependencies(pAST, pDependencyArray, pModuleSystem) {
     );
 }
 
-function extractES6Dependencies(pAST, pDependencyArray) {
-    let pushSourceValue = pNode => {
+function extractES6Dependencies(pAST, pDependencies) {
+    function pushSourceValue(pNode){
         if (pNode.source && pNode.source.value){
-            pDependencyArray.push({
+            pDependencies.push({
                 moduleName: pNode.source.value,
                 moduleSystem: "es6"
             });
         }
-    };
+    }
 
     walk.simple(
         pAST,
@@ -62,7 +59,7 @@ function extractES6Dependencies(pAST, pDependencyArray) {
     );
 }
 
-function extractAMDDependencies(pAST, pDependencyArray) {
+function extractAMDDependencies(pAST, pDependencies) {
     walk.simple(
         pAST,
         {
@@ -77,7 +74,7 @@ function extractAMDDependencies(pAST, pDependencyArray) {
                     pNode.expression.arguments
                         .filter(pArg => pArg.type === "ArrayExpression")
                         .forEach(arg =>
-                            arg.elements.forEach( el => pDependencyArray.push({
+                            arg.elements.forEach( el => pDependencies.push({
                                 moduleName: el.value,
                                 moduleSystem: "amd"
                             }))
@@ -96,7 +93,7 @@ function extractAMDDependencies(pAST, pDependencyArray) {
                         .filter(pArg => pArg.type === "FunctionExpression")
                         .forEach(pFunction => {
                             if(pFunction.params.filter(pParam => pParam.name ==="require")){
-                                extractCommonJSDependencies(pFunction.body, pDependencyArray, "amd");
+                                extractCommonJSDependencies(pFunction.body, pDependencies, "amd");
                             }
                         });
                 }
@@ -105,10 +102,10 @@ function extractAMDDependencies(pAST, pDependencyArray) {
     );
 }
 
-exports.extractDependencies = (pFileName, pOptions) => {
+function extractDependencies(pFileName, pOptions) {
     try {
         let lAST = getAST(pFileName);
-        let lDependencyArray = [];
+        let lDependencies = [];
         pOptions = _.defaults(
             pOptions,
             {
@@ -118,18 +115,18 @@ exports.extractDependencies = (pFileName, pOptions) => {
         );
 
         if (_.includes(pOptions.moduleSystems, "cjs")){
-            extractCommonJSDependencies(lAST, lDependencyArray);
+            extractCommonJSDependencies(lAST, lDependencies);
         }
 
         if (_.includes(pOptions.moduleSystems, "es6")){
-            extractES6Dependencies(lAST, lDependencyArray);
+            extractES6Dependencies(lAST, lDependencies);
         }
 
         if (_.includes(pOptions.moduleSystems, "amd")){
-            extractAMDDependencies(lAST, lDependencyArray);
+            extractAMDDependencies(lAST, lDependencies);
         }
 
-        return _(lDependencyArray)
+        return _(lDependencies)
                 .uniqBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
                 .sortBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
                 .map(
@@ -150,4 +147,19 @@ exports.extractDependencies = (pFileName, pOptions) => {
     } catch (e) {
         throw new Error(`Extracting dependencies ran afoul of... ${e.message}`);
     }
-};
+}
+
+
+function extractRecursive (pFileName, pOptions, pDepth) {
+    let lDependencies = extractDependencies(pFileName, pOptions);
+    pDepth = pDepth ? pDepth : 0;
+    lDependencies
+        .filter(pDep => !(pDep.coreModule) /* TODO: ignore shizzle here */)
+        .forEach(pDep => {console.log(_.repeat('  ', pDepth), pDep.resolved);
+        extractRecursive(pDep.resolved, pOptions, pDepth+1);}
+        );
+    // return lDependencies;
+}
+
+exports.extractDependencies = extractDependencies;
+exports.extractRecursive = extractRecursive;

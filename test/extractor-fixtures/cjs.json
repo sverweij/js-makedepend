@@ -136,5 +136,40 @@
                 "coreModule": true
             }
         ]
+    },
+    {
+        "title": "require('bladiebla.js') is apparently valid in CJS",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/dot-js-inclusion.js"
+        },
+        "expected": [
+            {
+                "module": "./direct-require.js",
+                "resolved": "test/extractor-fixtures/cjs/direct-require.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "Only match require when it's actually a function call of some sort",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/require-tester.js"
+        },
+        "expected": []
+    },
+    {
+        "title": "require('bladiebla.js') is apparently valid in CJS",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/directory-inclusion.js"
+        },
+        "expected": [
+            {
+                "module": "./sub",
+                "resolved": "test/extractor-fixtures/cjs/sub/not-the-index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
     }
 ]
