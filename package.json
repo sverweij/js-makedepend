@@ -15,7 +15,7 @@
     "plato": "plato -r -d platoreports -x \"test\" src/",
     "test": "mocha -R dot test",
     "test-long": "mocha",
-    "watch": "mocha --watch --reporter=min "
+    "watch": "mocha --watch --watch-extensions=json --reporter=min "
   },
   "repository": {
     "type": "git",
