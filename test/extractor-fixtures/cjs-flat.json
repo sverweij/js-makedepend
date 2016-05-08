@@ -1,0 +1,142 @@
+[
+    {
+        "title": "empty module",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/empty.js"
+        },
+        "expected": {
+            "test/extractor-fixtures/cjs/empty.js" :[]
+        }
+    },
+    {
+        "title": "root_one unfiltered",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/root_one.js"
+        },
+        "expected" : {
+            "test/extractor-fixtures/cjs/root_one.js": [
+                {
+                    "module": "child_process",
+                    "resolved": "child_process",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "events",
+                    "resolved": "events",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "fs",
+                    "resolved": "fs",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "commander",
+                    "resolved": "node_modules/commander/index.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "graceful-readlink",
+                    "resolved": "node_modules/graceful-readlink/index.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "path",
+                    "resolved": "path",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "./one_only_one",
+                    "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./one_only_two",
+                    "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./shared",
+                    "resolved": "test/extractor-fixtures/cjs/shared.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./depindir",
+                    "resolved": "test/extractor-fixtures/cjs/sub/depindir.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./sub/dir",
+                    "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ]
+        }
+    },
+    {
+        "title": "root_one node_modules filtered out",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/root_one.js",
+            "options": {
+                "exclude": "node_modules"
+            }
+        },
+        "expected": {
+            "test/extractor-fixtures/cjs/root_one.js": [
+                {
+                    "module": "fs",
+                    "resolved": "fs",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "path",
+                    "resolved": "path",
+                    "moduleSystem": "cjs",
+                    "coreModule": true
+                },
+                {
+                    "module": "./one_only_one",
+                    "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./one_only_two",
+                    "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./shared",
+                    "resolved": "test/extractor-fixtures/cjs/shared.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./depindir",
+                    "resolved": "test/extractor-fixtures/cjs/sub/depindir.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                },
+                {
+                    "module": "./sub/dir",
+                    "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ]
+        }
+    }
+]

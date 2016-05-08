@@ -102,6 +102,34 @@ function extractAMDDependencies(pAST, pDependencies) {
     );
 }
 
+function ignore(pString, pExcludeREString) {
+    return !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
+}
+
+/**
+ * Returns an array of dependencies present in the given file. Of
+ * each dependency it returns
+ *   module        - the name of the module as found in the file
+ *   resolved      - the filename the dependency resides in (including the path
+ *                   to the current directory or the directory passed as
+ *                   'baseDir' in the options)
+ *   moduleSystem  - the module system
+ *   coreModule    - a boolean indicating whether it is a (nodejs) core module
+ *
+ *
+ * @param  {string} pFileName path to the file
+ * @param  {object} pOptions  an object with one or more of these properties:
+ *                            - baseDir       - the directory to consider as the
+ *                                              base for all files
+ *                                              Default: the current working directory
+ *                            - moduleSystems - an array of module systems to
+ *                                              consider.
+ *                                              Default: ["cjs", "es6", "amd"]
+ *                            - exclude       - a regular expression string
+ *                              with a pattern of modules to exclude (e.g.
+ *                              "(node_modules)"). Default: none
+ * @return {array}           an array of dependency objects (see above)
+ */
 function extractDependencies(pFileName, pOptions) {
     try {
         let lAST = getAST(pFileName);
@@ -137,30 +165,65 @@ function extractDependencies(pFileName, pOptions) {
                             path.dirname(pFileName)
                         );
                         return {
-                            module        : pDependency.moduleName,
-                            resolved      : lResolved.resolved,
-                            moduleSystem  : pDependency.moduleSystem,
-                            coreModule    : lResolved.coreModule
+                            module       : pDependency.moduleName,
+                            resolved     : lResolved.resolved,
+                            moduleSystem : pDependency.moduleSystem,
+                            coreModule   : lResolved.coreModule
                         };
                     }
-                ).value();
+                )
+                .filter(pDep => ignore(pDep.resolved, pOptions.exclude))
+                .value();
     } catch (e) {
         throw new Error(`Extracting dependencies ran afoul of... ${e.message}`);
     }
 }
 
-
-function extractRecursive (pFileName, pOptions, pDepth) {
+function extractRecursive (pFileName, pOptions) {
+    pOptions = pOptions ? pOptions : {};
+    let lRetval = {};
     let lDependencies = extractDependencies(pFileName, pOptions);
-    pDepth = pDepth ? pDepth : 0;
+    lRetval[pFileName] = lDependencies;
+
     lDependencies
-        .filter(pDep => !(pDep.coreModule) /* TODO: ignore shizzle here */)
-        .forEach(pDep => {
-            extractRecursive(pDep.resolved, pOptions, pDepth+1);
-        }
+        .filter(pDep => !(pDep.coreModule))
+        .forEach(
+            pDep =>
+            lRetval = _.merge(
+                        lRetval,
+                        extractRecursive(pDep.resolved, pOptions)
+                    )
         );
-    // return lDependencies;
+
+    return lRetval;
 }
 
-exports.extractDependencies = extractDependencies;
-exports.extractRecursive = extractRecursive;
+function _extractRecursiveFlattened(pFileName, pOptions) {
+    pOptions = pOptions ? pOptions : {};
+    let lDependencies = extractDependencies(pFileName, pOptions);
+    let lRetval = _.clone(lDependencies);
+
+    lDependencies
+        .filter(pDep => !(pDep.coreModule))
+        .forEach(
+            pDep =>
+                lRetval = lRetval.concat(
+                            _extractRecursiveFlattened(pDep.resolved, pOptions)
+                        )
+        );
+
+    return _(lRetval)
+            .uniqBy(pDep => pDep.resolved)
+            .sortBy(pDep => pDep.resolved)
+            .value();
+}
+
+function extractRecursiveFlattened(pFileName, pOptions) {
+    let lRetval = {};
+    lRetval[pFileName] = _extractRecursiveFlattened(pFileName, pOptions);
+    return lRetval;
+}
+
+exports.extractDependencies       = extractDependencies;
+exports.extractRecursive          = extractRecursive;
+exports.extractRecursiveFlattened = extractRecursiveFlattened;

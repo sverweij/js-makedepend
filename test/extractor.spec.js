@@ -1,10 +1,12 @@
 /* jshint esnext: true */
 
-const expect      = require('chai').expect;
-const extractor   = require('../src/extractor');
-const cjsFixtures = require('./extractor-fixtures/cjs.json');
-const es6Fixtures = require('./extractor-fixtures/es6.json');
-const amdFixtures = require('./extractor-fixtures/amd.json');
+const expect               = require('chai').expect;
+const extractor            = require('../src/extractor');
+const cjsFixtures          = require('./extractor-fixtures/cjs.json');
+const cjsRecursiveFixtures = require('./extractor-fixtures/cjs-recursive.json');
+const cjsFlatFixtures      = require('./extractor-fixtures/cjs-flat.json');
+const es6Fixtures          = require('./extractor-fixtures/es6.json');
+const amdFixtures          = require('./extractor-fixtures/amd.json');
 
 function runFixture(pFixture) {
     it(pFixture.title, () => {
@@ -22,7 +24,30 @@ function runFixture(pFixture) {
     });
 }
 
+function runRecursiveFixture(pFixture) {
+    it(pFixture.title, () => {
+        expect(
+            extractor.extractRecursive(
+                pFixture.input.fileName,
+                pFixture.input.options
+            )
+        ).to.deep.equal(pFixture.expected);
+    });
+}
+function runRecursiveFlattenedFixture(pFixture) {
+    it(pFixture.title, () => {
+        expect(
+            extractor.extractRecursiveFlattened(
+                pFixture.input.fileName,
+                pFixture.input.options
+            )
+        ).to.deep.equal(pFixture.expected);
+    });
+}
+
 describe ('CommonJS - ', () => cjsFixtures.forEach(runFixture));
+describe ('CommonJS recursive - ', () => cjsRecursiveFixtures.forEach(runRecursiveFixture));
+describe ('CommonJS recursive flattened - ', () => cjsFlatFixtures.forEach(runRecursiveFlattenedFixture));
 describe ('ES6 - ', () => es6Fixtures.forEach(runFixture));
 describe ('AMD - ', () => amdFixtures.forEach(runFixture));
 

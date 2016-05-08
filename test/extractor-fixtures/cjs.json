@@ -18,6 +18,18 @@
                 "coreModule": false
             },
             {
+                "module": "./extractor-fixtures/cjs-flat.json",
+                "resolved": "test/extractor-fixtures/cjs-flat.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/cjs-recursive.json",
+                "resolved": "test/extractor-fixtures/cjs-recursive.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
                 "module": "./extractor-fixtures/cjs.json",
                 "resolved": "test/extractor-fixtures/cjs.json",
                 "moduleSystem": "cjs",
