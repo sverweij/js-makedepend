@@ -9,7 +9,7 @@ function isRelativeModuleName(pString) {
 }
 
 function normalizeDepName(pDep) {
-    return pDep.endsWith(".json")||pDep.endsWith(".node")? pDep : pDep + ".js";
+    return pDep.endsWith(".js")||pDep.endsWith(".json")||pDep.endsWith(".node")? pDep : pDep + ".js";
 }
 
 function resolveCJSModule(pModuleName, pBaseDir) {
