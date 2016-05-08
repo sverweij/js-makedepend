@@ -92,14 +92,14 @@ function extractAMDDependencies(pAST, pDependencyArray) {
                 if ( pNode.expression.type === "CallExpression" &&
                      pNode.expression.callee.type === "Identifier" &&
                      pNode.expression.callee.name === "define" ) {
-                         pNode.expression.arguments
-                            .filter(pArg => pArg.type === "FunctionExpression")
-                            .forEach(pFunction => {
-                                if(pFunction.params.filter(pParam => pParam.name ==="require")){
-                                    extractCommonJSDependencies(pFunction.body, pDependencyArray, "amd");
-                                }
-                            });
-                     }
+                    pNode.expression.arguments
+                        .filter(pArg => pArg.type === "FunctionExpression")
+                        .forEach(pFunction => {
+                            if(pFunction.params.filter(pParam => pParam.name ==="require")){
+                                extractCommonJSDependencies(pFunction.body, pDependencyArray, "amd");
+                            }
+                        });
+                }
             }
         }
     );
