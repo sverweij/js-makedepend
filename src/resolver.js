@@ -8,7 +8,7 @@ function isRelativeModuleName(pString) {
     return pString.startsWith(".");
 }
 
-function resolveCJSModule(pModuleName, pBaseDir) {
+function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
     if(resolve.isCore(pModuleName)){
         return {
             resolved: pModuleName,
@@ -18,7 +18,7 @@ function resolveCJSModule(pModuleName, pBaseDir) {
         return {
             resolved: path.relative(
                 pBaseDir,
-                resolve.sync(pModuleName, {basedir: pBaseDir})
+                resolve.sync(pModuleName, {basedir: pFileDir})
             ),
             coreModule: false
         };
@@ -48,7 +48,7 @@ exports.resolveModuleToPath = function (pDependency, pBaseDir, pFileDir) {
         };
     } else {
         if(_.includes(["cjs", "es6"], pDependency.moduleSystem)){
-            return resolveCJSModule(pDependency.moduleName, pBaseDir);
+            return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);
         } else {
             return resolveAMDModule(pDependency.moduleName, pBaseDir);
         }
