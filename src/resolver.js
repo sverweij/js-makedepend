@@ -13,8 +13,14 @@ function normalizeDepName(pDep) {
 }
 
 function resolveCJSModule(pModuleName, pBaseDir) {
-    return resolve.isCore(pModuleName) ? pModuleName
-            : path.relative(
+    if(resolve.isCore(pModuleName)){
+        return {
+            resolved: pModuleName,
+            coreModule: true
+        };
+    } else {
+        return {
+            resolved: path.relative(
                 pBaseDir,
                 resolve.sync(
                     pModuleName,
@@ -22,7 +28,10 @@ function resolveCJSModule(pModuleName, pBaseDir) {
                         basedir: pBaseDir
                     }
                 )
-            );
+            ),
+            coreModule: false
+        };
+    }
 }
 
 function resolveAMDModule(pModuleName /*, pBaseDir*/) {
@@ -31,17 +40,23 @@ function resolveAMDModule(pModuleName /*, pBaseDir*/) {
     // lookups:
     // - require.config kerfuffle
     // - maybe use mrjoelkemp/module-lookup-amd ?
-    return pModuleName;
+    return {
+        resolved: pModuleName,
+        coreModule: resolve.isCore(pModuleName)
+    };
 }
 
 exports.isRelativeModuleName = isRelativeModuleName;
 
 exports.resolveModuleToPath = function (pDependency, pBaseDir, pFileDir) {
     if(isRelativeModuleName(pDependency.moduleName)){
-        return path.relative(
-            pBaseDir,
-            path.join(pFileDir, normalizeDepName(pDependency.moduleName))
-        );
+        return {
+            resolved: path.relative(
+                        pBaseDir,
+                        path.join(pFileDir, normalizeDepName(pDependency.moduleName))
+                    ),
+            coreModule: false
+        };
     } else {
         if(_.includes(["cjs", "es6"], pDependency.moduleSystem)){
             return resolveCJSModule(pDependency.moduleName, pBaseDir);

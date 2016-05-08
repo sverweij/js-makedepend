@@ -17,7 +17,7 @@ function getAST(pFileName) {
     );
 }
 
-function extractCommonJSDependencies(pAST, pDependencyArray) {
+function extractCommonJSDependencies(pAST, pDependencyArray, pModuleSystem) {
     walk.simple(
         pAST,
         {
@@ -33,7 +33,7 @@ function extractCommonJSDependencies(pAST, pDependencyArray) {
                     if (typeof lNode !== 'undefined' && lNode.node.value){
                         pDependencyArray.push({
                             moduleName: lNode.node.value,
-                            moduleSystem: "cjs"
+                            moduleSystem: pModuleSystem ? pModuleSystem : "cjs"
                         });
                     }
                 }
@@ -66,16 +66,16 @@ function extractAMDDependencies(pAST, pDependencyArray) {
     walk.simple(
         pAST,
         {
-            // module as a function (define(Array, function))
-            // module with a name (define(string, Array, function))
-            // 'root' require module (require(Array, function)
             "ExpressionStatement": pNode => {
+                // module as a function (define(Array, function))
+                // module with a name (define(string, Array, function))
+                // 'root' require module (require(Array, function)
                 if ( pNode.expression.type === "CallExpression" &&
                      pNode.expression.callee.type === "Identifier" &&
                      ( pNode.expression.callee.name === "define" ||
                        pNode.expression.callee.name === "require") ){
                     pNode.expression.arguments
-                        .filter(arg => arg.type === "ArrayExpression")
+                        .filter(pArg => pArg.type === "ArrayExpression")
                         .forEach(arg =>
                             arg.elements.forEach( el => pDependencyArray.push({
                                 moduleName: el.value,
@@ -83,31 +83,33 @@ function extractAMDDependencies(pAST, pDependencyArray) {
                             }))
                         );
                 }
+                // CommonJS-wrappers:
+                //  (define(function(require, exports, module){
+                //  define(["require", ...], function(require, ...){
+                //      ... every 'require' call is a depencency
+                // Won't work if someone decides to name the first parameter of
+                // the function passed to the define something else from "require"
+                if ( pNode.expression.type === "CallExpression" &&
+                     pNode.expression.callee.type === "Identifier" &&
+                     pNode.expression.callee.name === "define" ) {
+                         pNode.expression.arguments
+                            .filter(pArg => pArg.type === "FunctionExpression")
+                            .forEach(pFunction => {
+                                if(pFunction.params.filter(pParam => pParam.name ==="require")){
+                                    extractCommonJSDependencies(pFunction.body, pDependencyArray, "amd");
+                                }
+                            });
+                     }
             }
         }
     );
-    // TODO CommonJS-wrapper (define(function(require, exports, module){
-    //      ... every 'require' call is a depencency
-    //      var aModule = require("./dont/forgetme"); // hi there
-    //      ... exports and module are optional
-    //   }))
-    //
-    //   ... and of course you could use anything for that Identifier
-    //   (define(function(pBoatyMcBoatFace){
-    //      var aModule = pBoatyMcBoatFace("./david/attenburough")
-    //   }))
-
-    // TODO define(["require", ...], function(require, ...){
-    //          var aModule = require("./modules/aModule"); // hello
-    //      })
-
 }
 
 exports.extractDependencies = (pFileName, pOptions) => {
     try {
         let lAST = getAST(pFileName);
         let lDependencyArray = [];
-        _.defaults(
+        pOptions = _.defaults(
             pOptions,
             {
                 baseDir: process.env.PWD,
@@ -127,23 +129,21 @@ exports.extractDependencies = (pFileName, pOptions) => {
             extractAMDDependencies(lAST, lDependencyArray);
         }
 
-        // TODO: does not take care of AMD lookups yet explicitly
-        //       (which in some cases _might_ work out of the box)
         return _(lDependencyArray)
                 .uniqBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
                 .sortBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
                 .map(
                     pDependency => {
-                        let pFileString = resolver.resolveModuleToPath(
+                        let lResolved = resolver.resolveModuleToPath(
                             pDependency,
                             pOptions.baseDir,
                             path.dirname(pFileName)
                         );
                         return {
                             module        : pDependency.moduleName,
-                            resolved      : pFileString,
+                            resolved      : lResolved.resolved,
                             moduleSystem  : pDependency.moduleSystem,
-                            coreModule    : (pDependency.moduleName === pFileString) && !(resolver.isRelativeModuleName(pDependency.moduleName))
+                            coreModule    : lResolved.coreModule
                         };
                     }
                 ).value();

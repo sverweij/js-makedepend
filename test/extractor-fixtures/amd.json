@@ -66,7 +66,28 @@
         ]
     },
     {
-        "title": "simplified commonjs wrapper",
+        "title": "simplified commonjs wrapper - amd only",
+        "input": {
+            "fileName": "test/extractor-fixtures/amd/simplified-commonjs-wrapper.js",
+            "moduleSystems": ["amd"]
+        },
+        "expected": [
+            {
+                "module": "./root_one",
+                "resolved": "test/extractor-fixtures/amd/root_one.js",
+                "moduleSystem": "amd",
+                "coreModule": false
+            },
+            {
+                "module": "./root_two",
+                "resolved": "test/extractor-fixtures/amd/root_two.js",
+                "moduleSystem": "amd",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "simplified commonjs wrapper - amd and cjs both",
         "input": {
             "fileName": "test/extractor-fixtures/amd/simplified-commonjs-wrapper.js"
         },
@@ -74,7 +95,19 @@
             {
                 "module": "./root_one",
                 "resolved": "test/extractor-fixtures/amd/root_one.js",
+                "moduleSystem": "amd",
+                "coreModule": false
+            },
+            {
+                "module": "./root_one",
+                "resolved": "test/extractor-fixtures/amd/root_one.js",
                 "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./root_two",
+                "resolved": "test/extractor-fixtures/amd/root_two.js",
+                "moduleSystem": "amd",
                 "coreModule": false
             },
             {
@@ -85,4 +118,6 @@
             }
         ]
     }
+
+
 ]
