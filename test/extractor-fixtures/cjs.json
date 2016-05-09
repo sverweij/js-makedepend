@@ -171,7 +171,7 @@
         "expected": []
     },
     {
-        "title": "require('bladiebla.js') is apparently valid in CJS",
+        "title": "require('bladiebla.js') for relative paths apparently valid in CJS",
         "input": {
             "fileName": "test/extractor-fixtures/cjs/directory-inclusion.js"
         },
@@ -179,6 +179,20 @@
             {
                 "module": "./sub",
                 "resolved": "test/extractor-fixtures/cjs/sub/not-the-index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "require ",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/sub/depends-on-some-module.js"
+        },
+        "expected": [
+            {
+                "module": "some-module",
+                "resolved": "test/extractor-fixtures/cjs/sub/node_modules/some-module/main.js",
                 "moduleSystem": "cjs",
                 "coreModule": false
             }

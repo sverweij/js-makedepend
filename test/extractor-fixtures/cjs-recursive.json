@@ -11,22 +11,10 @@
     {
         "title": "root_one unfiltered",
         "input": {
-            "fileName": "test/extractor-fixtures/cjs/root_one.js"
+            "fileName": "test/extractor-fixtures/cjs/root_two.js"
         },
         "expected": {
-            "test/extractor-fixtures/cjs/root_one.js": [
-                {
-                    "module": "./one_only_one",
-                    "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
-                    "moduleSystem": "cjs",
-                    "coreModule": false
-                },
-                {
-                    "module": "./one_only_two",
-                    "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
-                    "moduleSystem": "cjs",
-                    "coreModule": false
-                },
+            "test/extractor-fixtures/cjs/root_two.js": [
                 {
                     "module": "./shared",
                     "resolved": "test/extractor-fixtures/cjs/shared.js",
@@ -34,36 +22,20 @@
                     "coreModule": false
                 },
                 {
-                    "module": "./sub/dir",
-                    "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                    "module": "./somedata.json",
+                    "resolved": "test/extractor-fixtures/cjs/somedata.json",
                     "moduleSystem": "cjs",
                     "coreModule": false
                 },
                 {
-                    "module": "commander",
-                    "resolved": "node_modules/commander/index.js",
+                    "module": "./two_only_one",
+                    "resolved": "test/extractor-fixtures/cjs/two_only_one.js",
                     "moduleSystem": "cjs",
                     "coreModule": false
                 },
                 {
-                    "module": "fs",
-                    "resolved": "fs",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                }
-            ],
-            "test/extractor-fixtures/cjs/one_only_one.js": [
-                {
-                    "module": "path",
-                    "resolved": "path",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                }
-            ],
-            "test/extractor-fixtures/cjs/one_only_two.js": [
-                {
-                    "module": "path",
-                    "resolved": "path",
+                    "module": "http",
+                    "resolved": "http",
                     "moduleSystem": "cjs",
                     "coreModule": true
                 }
@@ -74,6 +46,14 @@
                     "resolved": "path",
                     "moduleSystem": "cjs",
                     "coreModule": true
+                }
+            ],
+            "test/extractor-fixtures/cjs/two_only_one.js": [
+                {
+                    "module": "./sub/dir",
+                    "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
                 }
             ],
             "test/extractor-fixtures/cjs/sub/dir.js": [
@@ -94,46 +74,6 @@
                 {
                     "module": "path",
                     "resolved": "path",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                }
-            ],
-            "node_modules/commander/index.js": [
-                {
-                    "module": "child_process",
-                    "resolved": "child_process",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                },
-                {
-                    "module": "events",
-                    "resolved": "events",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                },
-                {
-                    "module": "fs",
-                    "resolved": "fs",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                },
-                {
-                    "module": "graceful-readlink",
-                    "resolved": "node_modules/graceful-readlink/index.js",
-                    "moduleSystem": "cjs",
-                    "coreModule": false
-                },
-                {
-                    "module": "path",
-                    "resolved": "path",
-                    "moduleSystem": "cjs",
-                    "coreModule": true
-                }
-            ],
-            "node_modules/graceful-readlink/index.js": [
-                {
-                    "module": "fs",
-                    "resolved": "fs",
                     "moduleSystem": "cjs",
                     "coreModule": true
                 }
