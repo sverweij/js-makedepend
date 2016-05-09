@@ -3,7 +3,7 @@
 *.swo
 .project
 .settings/*
-node_modules
+/node_modules/
 platoreports
 jsdoc
 coverage
