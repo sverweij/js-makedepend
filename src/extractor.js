@@ -186,7 +186,7 @@ function extractRecursive (pFileName, pOptions) {
     lRetval[pFileName] = lDependencies;
 
     lDependencies
-        .filter(pDep => !(pDep.coreModule))
+        .filter(pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json")))
         .forEach(
             pDep =>
             lRetval = _.merge(
@@ -204,7 +204,7 @@ function _extractRecursiveFlattened(pFileName, pOptions) {
     let lRetval = _.clone(lDependencies);
 
     lDependencies
-        .filter(pDep => !(pDep.coreModule))
+        .filter(pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json")))
         .forEach(
             pDep =>
                 lRetval = lRetval.concat(
