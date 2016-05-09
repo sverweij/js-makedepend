@@ -1,0 +1,24 @@
+[
+    {
+        "title": "recursive on non-relative AMD modules",
+        "input": {
+            "fileName": "test/extractor-fixtures/amd/requires-non-relative-module.js"
+        },
+        "expected": {
+            "test/extractor-fixtures/amd/requires-non-relative-module.js": [
+                {
+                    "module": "lodash",
+                    "resolved": "lodash",
+                    "moduleSystem": "amd",
+                    "coreModule": false
+                },
+                {
+                    "module": "other-module-in-the-config",
+                    "resolved": "other-module-in-the-config",
+                    "moduleSystem": "amd",
+                    "coreModule": false
+                }
+            ]
+        }
+    }
+]

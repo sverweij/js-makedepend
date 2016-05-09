@@ -7,6 +7,7 @@ const cjsRecursiveFixtures = require('./extractor-fixtures/cjs-recursive.json');
 const cjsFlatFixtures      = require('./extractor-fixtures/cjs-flat.json');
 const es6Fixtures          = require('./extractor-fixtures/es6.json');
 const amdFixtures          = require('./extractor-fixtures/amd.json');
+const amdRecursiveFixtures = require('./extractor-fixtures/amd-recursive.json');
 
 function runFixture(pFixture) {
     it(pFixture.title, () => {
@@ -50,6 +51,8 @@ describe ('CommonJS recursive - ', () => cjsRecursiveFixtures.forEach(runRecursi
 describe ('CommonJS recursive flattened - ', () => cjsFlatFixtures.forEach(runRecursiveFlattenedFixture));
 describe ('ES6 - ', () => es6Fixtures.forEach(runFixture));
 describe ('AMD - ', () => amdFixtures.forEach(runFixture));
+describe ('AMD recursive - ', () => amdRecursiveFixtures.forEach(runRecursiveFixture));
+describe ('AMD recursive flattened - ', () => amdRecursiveFixtures.forEach(runRecursiveFlattenedFixture));
 
 describe('Error scenarios - ', () => {
     it('Raises an exception on syntax errors', () => {

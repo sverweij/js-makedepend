@@ -117,7 +117,25 @@
                 "coreModule": false
             }
         ]
+    },
+    {
+        "title": "require a non-relative module",
+        "input": {
+            "fileName": "test/extractor-fixtures/amd/requires-non-relative-module.js"
+        },
+        "expected": [
+            {
+                "module": "lodash",
+                "resolved": "lodash",
+                "moduleSystem": "amd",
+                "coreModule": false
+            },
+            {
+                "module": "other-module-in-the-config",
+                "resolved": "other-module-in-the-config",
+                "moduleSystem": "amd",
+                "coreModule": false
+            }
+        ]
     }
-
-
 ]

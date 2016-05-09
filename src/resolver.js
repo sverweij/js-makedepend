@@ -33,7 +33,7 @@ function resolveAMDModule(pModuleName /*, pBaseDir*/) {
     // - maybe use mrjoelkemp/module-lookup-amd ?
     return {
         resolved: pModuleName,
-        coreModule: resolve.isCore(pModuleName)
+        coreModule: !!resolve.isCore(pModuleName)
     };
 }
 

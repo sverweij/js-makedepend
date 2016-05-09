@@ -6,7 +6,7 @@ const fs       = require('fs');
 const _        = require('lodash');
 const path     = require('path');
 const resolver = require('./resolver');
-
+const utl      = require('./utl');
 
 function getAST(pFileName) {
     return acorn.parse(
@@ -181,6 +181,11 @@ function extractDependencies(pFileName, pOptions) {
 
 function extractRecursive (pFileName, pOptions) {
     pOptions = pOptions ? pOptions : {};
+    if (!utl.fileExists(pFileName)) {
+        process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
+        return;
+    }
+
     let lRetval = {};
     let lDependencies = extractDependencies(pFileName, pOptions);
     lRetval[pFileName] = lDependencies;
@@ -200,16 +205,23 @@ function extractRecursive (pFileName, pOptions) {
 
 function _extractRecursiveFlattened(pFileName, pOptions) {
     pOptions = pOptions ? pOptions : {};
+    if (!utl.fileExists(pFileName)) {
+        process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
+        return;
+    }
+
     let lDependencies = extractDependencies(pFileName, pOptions);
     let lRetval = _.clone(lDependencies);
 
     lDependencies
         .filter(pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json")))
         .forEach(
-            pDep =>
-                lRetval = lRetval.concat(
-                            _extractRecursiveFlattened(pDep.resolved, pOptions)
-                        )
+            pDep => {
+                let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions);
+                if (lDep){
+                    lRetval = lRetval.concat(lDep);
+                }
+            }
         );
 
     return _(lRetval)
