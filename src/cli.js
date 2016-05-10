@@ -17,7 +17,7 @@ program
     .option("-s, --delimiter <string>", "starting string delimiter")
     .option("-d, --flat-define <string>", "outputs a define with flat dependencies")
     .option("-a, --append", "append dependencies instead of replacing them")
-    .option("-M, --system <items>", "list of module systems (default: amd,cjs,es6)")
+    .option("-M, --module-systems <items>", "list of module systems (default: amd,cjs,es6)")
     .arguments("<directory-or-file>")
     .parse(process.argv);
 

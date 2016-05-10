@@ -52,8 +52,8 @@ function extractES6Dependencies(pAST, pDependencies) {
     walk.simple(
         pAST,
         {
-            "ImportDeclaration": pushSourceValue,
-            "ExportAllDeclaration": pushSourceValue,
+            "ImportDeclaration"     : pushSourceValue,
+            "ExportAllDeclaration"  : pushSourceValue,
             "ExportNamedDeclaration": pushSourceValue
         }
     );
@@ -179,60 +179,68 @@ function extractDependencies(pFileName, pOptions) {
     }
 }
 
-function extractRecursive (pFileName, pOptions) {
+function doMagic(pFileName, pOptions, pCallback) {
     pOptions = pOptions ? pOptions : {};
     if (!utl.fileExists(pFileName)) {
-        process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
+        // process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
         return;
     }
 
-    let lRetval = {};
-    let lDependencies = extractDependencies(pFileName, pOptions);
-    lRetval[pFileName] = lDependencies;
+    return pCallback(
+        extractDependencies(pFileName, pOptions)
+    );
+}
 
-    lDependencies
-        .filter(pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json")))
-        .forEach(
-            pDep =>
-            lRetval = _.merge(
-                        lRetval,
-                        extractRecursive(pDep.resolved, pOptions)
-                    )
-        );
+function dependencyIsFollowable(pDep) {
+    return !(pDep.coreModule) && !(pDep.resolved.endsWith(".json"));
+}
 
-    return lRetval;
+function extractRecursive (pFileName, pOptions) {
+    return doMagic(pFileName, pOptions, (pDependencies) => {
+        let lRetval = {};
+
+        lRetval[pFileName] = pDependencies;
+
+        pDependencies
+            .filter(dependencyIsFollowable)
+            .forEach(
+                pDep =>
+                lRetval = _.merge(
+                            lRetval,
+                            extractRecursive(pDep.resolved, pOptions)
+                        )
+            );
+
+        return lRetval;
+    });
 }
 
 function _extractRecursiveFlattened(pFileName, pOptions) {
-    pOptions = pOptions ? pOptions : {};
-    if (!utl.fileExists(pFileName)) {
-        process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
-        return;
-    }
+    return doMagic(pFileName, pOptions, (pDependencies) => {
+        let lRetval = _.clone(pDependencies);
 
-    let lDependencies = extractDependencies(pFileName, pOptions);
-    let lRetval = _.clone(lDependencies);
-
-    lDependencies
-        .filter(pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json")))
-        .forEach(
-            pDep => {
-                let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions);
-                if (lDep){
-                    lRetval = lRetval.concat(lDep);
+        pDependencies
+            .filter(dependencyIsFollowable)
+            .forEach(
+                pDep => {
+                    let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions);
+                    if (lDep){
+                        lRetval = lRetval.concat(lDep);
+                    }
                 }
-            }
-        );
+            );
 
-    return _(lRetval)
-            .uniqBy(pDep => pDep.resolved)
-            .sortBy(pDep => pDep.resolved)
-            .value();
+        return lRetval;
+    });
 }
 
 function extractRecursiveFlattened(pFileName, pOptions) {
     let lRetval = {};
-    lRetval[pFileName] = _extractRecursiveFlattened(pFileName, pOptions);
+    lRetval[pFileName] =
+        _(_extractRecursiveFlattened(pFileName, pOptions))
+            .uniqBy(pDep => pDep.resolved)
+            .sortBy(pDep => pDep.resolved)
+            .value();
     return lRetval;
 }
 

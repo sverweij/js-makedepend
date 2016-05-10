@@ -114,7 +114,7 @@ function getDeps(pDirOrFile, pExclude, pFormat, pFlatDefine) {
 }
 
 exports.getDependencyStrings = function(pDirOrFile, pOptions) {
-    return pOptions.system.reduce(function(pSum, pSystem) {
+    return pOptions.moduleSystems.reduce(function(pSum, pSystem) {
         return pSum
                 .concat(["# " + pSystem + " dependencies\n"])
                 .concat(

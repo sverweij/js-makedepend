@@ -1,4 +1,4 @@
-const core  = require("./core");
+const core  = require("./transformer");
 const fs    = require("fs");
 const utl   = require("./utl");
 const _     = require("lodash");
@@ -7,7 +7,7 @@ const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend de
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
 const MODULE_SYSTEM_LIST_RE     = /^((cjs|amd|es6)(,|$))+$/gi;
 
-function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend) {
+function appendToOrReplaceInFile(pOutputTo, pDependencyString, pDelimiter, pAppend) {
     if (!pAppend) {
         try {
             const lOutputFile = fs.readFileSync(pOutputTo, {encoding: "utf8", flag: "r"});
@@ -28,7 +28,7 @@ function appendToOrReplaceInFile(pOutputTo, pArray, pDelimiter, pAppend) {
 
     fs.appendFileSync(
         pOutputTo,
-        pArray.join(""),
+        pDependencyString,
         {encoding: "utf8", flag: "a"}
     );
 }
@@ -58,7 +58,7 @@ function validateParameters(pDirOrFile, pOptions) {
     }
 }
 
-exports.main = function(pDirOrFile, pOptions) {
+exports.main = (pDirOrFile, pOptions) => {
     pOptions = _.defaults(pOptions, {
         exclude: "",
         outputTo: "Makefile",
@@ -70,11 +70,7 @@ exports.main = function(pDirOrFile, pOptions) {
         validateParameters(pDirOrFile, pOptions);
         pOptions.system = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
-            core.getDependencyStrings(pDirOrFile, pOptions).forEach(
-                function(pLine) {
-                    process.stdout.write(pLine);
-                }
-            );
+            process.stdout.write(core.getDependencyStrings(pDirOrFile, pOptions));
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,

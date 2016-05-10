@@ -59,7 +59,8 @@
         "title": "test on js-makedepend cjs fixture one",
         "input": {
             "fileName": "../js-makedepend/test/extractor-fixtures/cjs/root_one.js",
-            "baseDir": "../js-makedepend"
+            "baseDir": "../js-makedepend",
+            "moduleSystems": ["cjs"]
         },
         "expected": [
             {
