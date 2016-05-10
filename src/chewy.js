@@ -68,7 +68,7 @@ exports.main = (pDirOrFile, pOptions) => {
 
     try {
         validateParameters(pDirOrFile, pOptions);
-        pOptions.system = normalizeModuleSystems(pOptions.system);
+        pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
             process.stdout.write(core.getDependencyStrings(pDirOrFile, pOptions));
         } else {
