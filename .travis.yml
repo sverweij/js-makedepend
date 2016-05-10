@@ -12,7 +12,7 @@ install:
 
 script:
   - make lint stylecheck cover
-#  - npm run nsp
+  - npm run nsp
 #  - make install
 
 branches:
