@@ -35,11 +35,11 @@ function appendToOrReplaceInFile(pOutputTo, pDependencyString, pDelimiter, pAppe
 
 function normalizeModuleSystems(pSystemList) {
     if (_.isString(pSystemList)) {
-        return _(pSystemList.split(",")).sort().uniq();
+        return _(pSystemList.split(",")).sort().uniq().valueOf();
     }
     /* istanbul ignore else  */
     if (_.isArray(pSystemList)) {
-        return _(pSystemList).sort().uniq();
+        return _(pSystemList).sort().uniq().valueOf();
     }
     /* istanbul ignore next  */
     return DEFAULT_MODULE_SYSTEMS;

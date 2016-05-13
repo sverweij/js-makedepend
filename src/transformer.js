@@ -58,25 +58,10 @@ function transformRecursive(pFilename, pOptions){
 }
 
 function transformRecursiveFlattened(pFilename, pOptions){
-    if (gScanned.has(pFilename)) {return;}
     let lDependencies = extractor.extractRecursiveFlattened(pFilename, pOptions);
     return Object.keys(lDependencies)
-            .filter(notInCache)
             .filter(_.curry(hasNonCoreModuleDependencies)(lDependencies))
             .reduce(_.curry(reduceDependorFlat)(lDependencies), "");
-}
-
-function doMagic(pDirOrFile, pOptions) {
-    let lOptions = _.clone(pOptions);
-    let lRetval  = "";
-
-    pOptions.moduleSystems.forEach(pModuleSystem => {
-        lOptions.moduleSystems = [pModuleSystem];
-        lRetval +=
-            `# ${pModuleSystem} dependencies\n` +
-            transformRecursive(pDirOrFile, lOptions);
-    });
-    return lRetval;
 }
 
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {
@@ -91,15 +76,32 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
 
     if (fs.statSync(pDirOrFile).isDirectory()){
         if (pOptions.flatDefine){
-            return lRetval + `# directory scanning yet to be implemented for everything\n`;
+            // TODO: this'll get all .js, but not
+            //      - .json & .node
+            //      - stuff outside the current directory
+            let lFlattenedDependencies = getAllJSFilesFromDir(pDirOrFile);
+            if (lFlattenedDependencies.length > 0){
+                return lRetval + `${pOptions.flatDefine}=${
+                    lFlattenedDependencies.reduce(reduceDependencies, "")
+                }`;
+            }
+            return lRetval;
         } else {
-            return getAllJSFilesFromDir(pDirOrFile)
-                    .reduce((pSum, pDirOrFile) => {
-                        if(!gScanned.has(pDirOrFile)) {
-                            return pSum + doMagic(pDirOrFile, pOptions);
-                        }
-                        return pSum;
-                    }, lRetval);
+            pOptions.moduleSystems.forEach(pModuleSystem => {
+                gScanned.clear();
+
+                lOptions.moduleSystems = [pModuleSystem];
+                lRetval +=
+                    `# ${pModuleSystem} dependencies\n` +
+                    getAllJSFilesFromDir(pDirOrFile)
+                            .reduce((pSum, pDirOrFile) => {
+                                if(!gScanned.has(pDirOrFile)) {
+                                    return pSum + transformRecursive(pDirOrFile, lOptions);
+                                }
+                                return pSum;
+                            }, "");
+            });
+            return lRetval;
         }
     } else {
         if (pOptions.flatDefine){
@@ -107,13 +109,19 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                 lOptions.moduleSystems = [pModuleSystem];
                 let lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
                 lRetval += `# ${pModuleSystem} dependencies\n`;
-                if (lFlattenedDependencies.length > 0){
+                if (lFlattenedDependencies.length > 0) {
                     lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
                 }
             });
             return lRetval;
         } else {
-            return doMagic(pDirOrFile, pOptions);
+            pOptions.moduleSystems.forEach(pModuleSystem => {
+                gScanned.clear();
+                lOptions.moduleSystems = [pModuleSystem];
+                lRetval +=
+                    `# ${pModuleSystem} dependencies\n` + transformRecursive(pDirOrFile, lOptions);
+            });
+            return lRetval;
         }
     }
 };
