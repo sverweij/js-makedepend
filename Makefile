@@ -3,7 +3,7 @@ GIT=git
 GIT_CURRENT_BRANCH=$(shell utl/get_current_git_branch.sh)
 GIT_DEPLOY_FROM_BRANCH=master
 NPM=npm
-MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures" --system cjs
+MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures|extractor-fixtures" --system cjs
 
 .PHONY: help dev-build install deploy-gh-pages check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
 
@@ -76,7 +76,7 @@ outdated:
 
 update-dependencies: run-update-dependencies dev-build test
 	$(GIT) diff package.json
-	
+
 run-update-dependencies:
 	$(NPM) run npm-check-updates
 	$(NPM) install
@@ -91,9 +91,9 @@ consolecheck:
 
 check: noconsolestatements lint stylecheck test
 	./bin/js-makedepend --version # if that runs the cli script works
-	
+
 fullcheck: check outdated nsp
-	
+
 depend:
 	$(MAKEDEPEND) src/cli.js
 	$(MAKEDEPEND) --append --flat-define ALL_SRC src/cli.js
@@ -129,4 +129,3 @@ test/chewy.spec.js: \
 
 test/core.spec.js: \
 	src/core.js
-

@@ -1,13 +1,15 @@
+"use strict";
 const assert = require("assert");
 const chewy  = require("../src/chewy.js");
 const fs     = require("fs");
 const tst    = require("./utl/testutensils");
 const path   = require("path");
+const _      = require("lodash");
 
 const OUT_DIR = "./test/output";
 const FIX_DIR = "./test/fixtures";
 
-var testPairs = [
+let testPairs = [
     {
         description: "js-makedepend -f test/output/{{moduleType}}.dir.mk test/fixtures/{{moduleType}}",
         dirOrFile: "test/fixtures/{{moduleType}}",
@@ -133,10 +135,8 @@ var testPairs = [
 
 function resetOutputDir() {
     testPairs
-    .filter(function(pPair) {
-        return pPair.cleanup;
-    })
-    .forEach(function(pPair) {
+    .filter(pPair => pPair.cleanup)
+    .forEach(pPair => {
         try {
             fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "cjs"));
             fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "amd"));
@@ -156,34 +156,17 @@ function resetOutputDir() {
 }
 
 function setModuleType(pTestPairs, pModuleType) {
-    return pTestPairs.map(function(pTestPair) {
-        var lRetval = {
+    return pTestPairs.map(pTestPair => {
+        let lRetval = {
             description: pTestPair.description.replace(/{{moduleType}}/g, pModuleType),
             dirOrFile: pTestPair.dirOrFile.replace(/{{moduleType}}/g, pModuleType),
-            options: {
-                outputTo: pTestPair.options.outputTo.replace(/{{moduleType}}/g, pModuleType),
-            },
             expect: pTestPair.expect.replace(/{{moduleType}}/g, pModuleType),
             cleanup: pTestPair.cleanup,
         };
-        if (!!pTestPair.options.delimiter) {
-            lRetval.options.delimiter = pTestPair.options.delimiter;
-        }
-
-        if (!!pTestPair.options.exclude) {
-            lRetval.options.exclude = pTestPair.options.exclude;
-        }
-
-        if (!!pTestPair.options.flatDefine) {
-            lRetval.options.flatDefine = pTestPair.options.flatDefine;
-        }
-
+        lRetval.options = _.clone(pTestPair.options);
+        lRetval.options.outputTo = pTestPair.options.outputTo.replace(/{{moduleType}}/g, pModuleType);
         if (!!pTestPair.options.system) {
             lRetval.options.system = pTestPair.options.system.replace(/{{moduleType}}/g, pModuleType);
-        }
-
-        if (!!pTestPair.options.append) {
-            lRetval.options.append = pTestPair.options.append;
         }
 
         return lRetval;
@@ -191,8 +174,8 @@ function setModuleType(pTestPairs, pModuleType) {
 }
 
 function runFileBasedTests(pModuleType) {
-    setModuleType(testPairs, pModuleType).forEach(function(pPair) {
-        it(pPair.description, function() {
+    setModuleType(testPairs, pModuleType).forEach(pPair => {
+        it(pPair.description, () => {
             chewy.main(pPair.dirOrFile, pPair.options);
             tst.assertFileEqual(
                 pPair.options.outputTo,
@@ -202,31 +185,25 @@ function runFileBasedTests(pModuleType) {
     });
 }
 
-describe("#chewy", function() {
-    before("set up", function() {
+describe("#chewy", () => {
+    before("set up", () => {
         resetOutputDir();
     });
 
-    after("tear down", function() {
+    after("tear down", () => {
         resetOutputDir();
     });
 
-    describe("file based tests - commonJS", function() {
+    describe("file based tests - commonJS", () => {
         runFileBasedTests("cjs");
     });
 
-    describe("file based tests - AMD", function() {
-        runFileBasedTests("amd");
-    });
+    describe("specials", () => {
+        it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
+            let intercept = require("intercept-stdout");
 
-    describe("specials", function() {
-        it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", function() {
-            var intercept = require("intercept-stdout");
-
-            var lCapturedStdout = "";
-            var unhookIntercept = intercept(function(pText) {
-                lCapturedStdout += pText;
-            });
+            let lCapturedStdout = "";
+            let unhookIntercept = intercept(pText => lCapturedStdout += pText);
 
             chewy.main("test/fixtures/cjs", {outputTo: "-"});
             unhookIntercept();
@@ -242,17 +219,15 @@ describe("#chewy", function() {
             );
         });
 
-        it("js-makedepend -f cjs.dir.wontmarch.mk this-doesnot-exist - non-existing generates an error", function() {
-            var intercept = require("intercept-stdout");
+        it("js-makedepend -f cjs.dir.wontmarch.mk this-doesnot-exist - non-existing generates an error", () => {
+            let intercept = require("intercept-stdout");
 
-            var lCapturedStderr = "";
-            var unhookInterceptStdOut = intercept(function(pText) {
+            let lCapturedStderr = "";
+            let unhookInterceptStdOut = intercept(pText => {
                 // This space intentionally left empty
             });
 
-            var unhookInterceptStdErr = intercept(function(pText) {
-                lCapturedStderr += pText;
-            });
+            let unhookInterceptStdErr = intercept(pText => lCapturedStderr += pText);
 
             chewy.main("this-doesnot-exist", {outputTo: path.join(OUT_DIR, "cjs.dir.wontmarch.mk")});
             unhookInterceptStdOut();
@@ -264,17 +239,15 @@ describe("#chewy", function() {
             );
         });
 
-        it("js-makedepend -f /dev/null -M invalidmodulesystem - generates error", function() {
-            var intercept = require("intercept-stdout");
+        it("js-makedepend -f /dev/null -M invalidmodulesystem - generates error", () => {
+            let intercept = require("intercept-stdout");
 
-            var lCapturedStderr = "";
-            var unhookInterceptStdOut = intercept(function(pText) {
+            let lCapturedStderr = "";
+            let unhookInterceptStdOut = intercept(pText => {
                 // This space intentionally left empty
             });
 
-            var unhookInterceptStdErr = intercept(function(pText) {
-                lCapturedStderr += pText;
-            });
+            let unhookInterceptStdErr = intercept(pText => lCapturedStderr += pText);
 
             chewy.main(
                 "test/fixtures",
@@ -285,6 +258,7 @@ describe("#chewy", function() {
             );
             unhookInterceptStdOut();
             unhookInterceptStdErr();
+            intercept(pText => lCapturedStderr += pText)();
 
             return assert.equal(
                 lCapturedStderr,

@@ -2,24 +2,20 @@ const assert = require("assert");
 const fs     = require("fs");
 const crypto = require("crypto");
 
-module.exports = (function() {
+module.exports = (() => {
+    "use strict";
 
-    function getBestAvailableHash() {
-        return ["ripemd160", "md5", "sha1"].filter(function(h) {
-            return crypto.getHashes().indexOf(h) > -1;
-        })[0];
-    }
+    let getBestAvailableHash = h =>
+            ["ripemd160", "md5", "sha1"]
+            .filter(h => crypto.getHashes().indexOf(h) > -1)[0];
 
-    function hashString(pString) {
-        return crypto
-                .createHash(getBestAvailableHash())
-                .update(pString)
-                .digest("hex")
-        ;
-    }
+    let hashString = pString => crypto
+            .createHash(getBestAvailableHash())
+            .update(pString)
+            .digest("hex");
 
     return {
-        assertFileEqual: function(pActualFileName, pExpectedFileName) {
+        assertFileEqual (pActualFileName, pExpectedFileName) {
             assert.equal(
                 hashString(fs.readFileSync(pActualFileName, {encoding: "utf8"})),
                 hashString(fs.readFileSync(pExpectedFileName, {encoding: "utf8"}))

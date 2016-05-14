@@ -1,0 +1,214 @@
+[
+    {
+        "title": "test on extractor.spec.js",
+        "input": {
+            "fileName": "test/extractor.spec.js"
+        },
+        "expected": [
+            {
+                "module": "../src/extractor",
+                "resolved": "src/extractor.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/amd-recursive-flattened.json",
+                "resolved": "test/extractor-fixtures/amd-recursive-flattened.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/amd-recursive.json",
+                "resolved": "test/extractor-fixtures/amd-recursive.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/amd.json",
+                "resolved": "test/extractor-fixtures/amd.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/cjs-flat.json",
+                "resolved": "test/extractor-fixtures/cjs-flat.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/cjs-recursive.json",
+                "resolved": "test/extractor-fixtures/cjs-recursive.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/cjs.json",
+                "resolved": "test/extractor-fixtures/cjs.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./extractor-fixtures/es6.json",
+                "resolved": "test/extractor-fixtures/es6.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "chai",
+                "resolved": "node_modules/chai/index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "test on js-makedepend cjs fixture one",
+        "input": {
+            "fileName": "../js-makedepend/test/extractor-fixtures/cjs/root_one.js",
+            "baseDir": "../js-makedepend",
+            "moduleSystems": ["cjs"]
+        },
+        "expected": [
+            {
+                "module": "./one_only_one",
+                "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./one_only_two",
+                "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./shared",
+                "resolved": "test/extractor-fixtures/cjs/shared.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "./sub/dir",
+                "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "commander",
+                "resolved": "node_modules/commander/index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "fs",
+                "resolved": "fs",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "empty module",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/empty.js"
+        },
+        "expected": []
+    },
+    {
+        "title": "direct requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/direct-require.js"
+        },
+        "expected": [
+            {
+                "module": "./empty",
+                "resolved": "test/extractor-fixtures/cjs/empty.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
+                "module": "fs",
+                "resolved": "fs",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "declare-and-use requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/declare-and-use.js"
+        },
+        "expected": [
+            {
+                "module": "os",
+                "resolved": "os",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "uniq duplicate requires",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/duplicates.js"
+        },
+        "expected": [
+            {
+                "module": "os",
+                "resolved": "os",
+                "moduleSystem": "cjs",
+                "coreModule": true
+            }
+        ]
+    },
+    {
+        "title": "require('bladiebla.js') is apparently valid in CJS",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/dot-js-inclusion.js"
+        },
+        "expected": [
+            {
+                "module": "./direct-require.js",
+                "resolved": "test/extractor-fixtures/cjs/direct-require.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "Only match require when it's actually a function call of some sort",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/require-tester.js"
+        },
+        "expected": []
+    },
+    {
+        "title": "require('bladiebla.js') for relative paths apparently valid in CJS",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/directory-inclusion.js"
+        },
+        "expected": [
+            {
+                "module": "./sub",
+                "resolved": "test/extractor-fixtures/cjs/sub/not-the-index.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    },
+    {
+        "title": "require ",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/sub/depends-on-some-module.js"
+        },
+        "expected": [
+            {
+                "module": "some-module",
+                "resolved": "test/extractor-fixtures/cjs/sub/node_modules/some-module/main.js",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            }
+        ]
+    }
+]

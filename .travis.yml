@@ -3,7 +3,6 @@ sudo: false
 language: node_js
 
 node_js:
-  - "0.12"
   - "4"
   - "5"
   - stable
@@ -13,7 +12,7 @@ install:
 
 script:
   - make lint stylecheck cover
-#  - npm run nsp
+  - npm run nsp
 #  - make install
 
 branches:
