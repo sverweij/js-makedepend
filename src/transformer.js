@@ -7,8 +7,8 @@ const path      = require('path');
 
 let gScanned    = new Set();
 
-let isNonCoreModule = pDep => !pDep.coreModule;
-let hasNonCoreModuleDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isNonCoreModule);
+let isIncludable = pDep => pDep.followable||pDep.resolved.endsWith('.json');
+let hasIncludableDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isIncludable);
 let notInCache = pFileName => !gScanned.has(pFileName);
 let ignore = (pString, pExcludeREString) =>
     !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
@@ -28,7 +28,7 @@ let reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
     let lDependencies = pDeps[pNext]
-            .filter(isNonCoreModule)
+            .filter(isIncludable)
             .map(pDep=>pDep.resolved)
             .sort()
             .reduce(reduceDependencies);
@@ -38,7 +38,7 @@ function reduceDependor(pDeps, pPrev, pNext) {
 
 function reduceDependorFlat(pDeps, pPrev, pNext) {
     let lDependencies = pDeps[pNext]
-            .filter(isNonCoreModule)
+            .filter(isIncludable)
             .map(pDep=>pDep.resolved)
             .reduce(reduceDependencies);
 
@@ -49,7 +49,7 @@ function transformRecursive(pFilename, pOptions){
     let lDependencies = extractor.extractRecursive(pFilename, pOptions);
     let lRetval = Object.keys(lDependencies)
             .filter(notInCache)
-            .filter(_.curry(hasNonCoreModuleDependencies)(lDependencies))
+            .filter(_.curry(hasIncludableDependencies)(lDependencies))
             .reduce(_.curry(reduceDependor)(lDependencies), "");
     Object.keys(lDependencies).forEach(lDep => gScanned.add(lDep));
     return lRetval;
@@ -58,7 +58,7 @@ function transformRecursive(pFilename, pOptions){
 function transformRecursiveFlattened(pFilename, pOptions){
     let lDependencies = extractor.extractRecursiveFlattened(pFilename, pOptions);
     return Object.keys(lDependencies)
-            .filter(_.curry(hasNonCoreModuleDependencies)(lDependencies))
+            .filter(_.curry(hasIncludableDependencies)(lDependencies))
             .reduce(_.curry(reduceDependorFlat)(lDependencies), "");
 }
 
@@ -69,7 +69,7 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
             lDependencies = lDependencies.concat(pFilename);
             lDependencies = lDependencies.concat(
                 extractor.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
-                .filter(isNonCoreModule)
+                .filter(isIncludable)
                 .filter(pDependor => !!gScanned.add(pDependor.resolved))
                 .map(pDependor => pDependor.resolved)
             );
@@ -84,8 +84,6 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     let lRetval = "";
     let lOptions = _.clone(pOptions);
-
-    gScanned.clear();
 
     if (!pOptions.append){
         lRetval = `\n${pOptions.delimiter}\n\n`;
@@ -126,6 +124,7 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     } else {
         if (pOptions.flatDefine){
             pOptions.moduleSystems.forEach(pModuleSystem => {
+                gScanned.clear();
                 lOptions.moduleSystems = [pModuleSystem];
                 let lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
                 lRetval += `# ${pModuleSystem} dependencies\n`;
