@@ -131,7 +131,6 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                     `# ${pModuleSystem} dependencies\n` + transformRecursive(pDirOrFile, lOptions);
             }
         });
-
         return lRetval;
     }
 };
