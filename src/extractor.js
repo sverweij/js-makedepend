@@ -6,16 +6,15 @@ const fs       = require('fs');
 const _        = require('lodash');
 const path     = require('path');
 const resolver = require('./resolver');
-const utl      = require('./utl');
 
-function getAST(pFileName) {
-    return acorn.parse(
+let getAST = pFileName =>
+    acorn.parse(
         fs.readFileSync(pFileName, 'utf8'),
         {
-            sourceType: 'module',
+            sourceType: 'module'
         }
     );
-}
+
 
 function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
     // var/const lalala = require('./lalala');
@@ -167,74 +166,59 @@ function extractDependencies(pFileName, pOptions) {
                             module       : pDependency.moduleName,
                             resolved     : lResolved.resolved,
                             moduleSystem : pDependency.moduleSystem,
-                            coreModule   : lResolved.coreModule
+                            coreModule   : lResolved.coreModule,
+                            followable   : lResolved.followable
                         };
                     }
                 )
                 .filter(pDep => ignore(pDep.resolved, pOptions.exclude))
                 .value();
     } catch (e) {
-        throw new Error(`Extracting dependencies ran afoul of... ${e.message}`);
+        throw new Error(`Extracting dependencies ran afoul of... ${e.message} in ${pFileName}`);
     }
 }
-
-function doMagic(pFileName, pOptions, pCallback) {
-    pOptions = pOptions ? pOptions : {};
-    if (!utl.fileExists(pFileName)) {
-        // process.stderr.write(`couldn't find '${pFileName}' - not pursuing & continuing with the next one\n`);
-        return;
-    }
-
-    return pCallback(
-        extractDependencies(pFileName, pOptions)
-    );
-}
-
-let dependencyIsFollowable = pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json"));
 
 function extractRecursive (pFileName, pOptions, pVisited) {
+    pOptions = pOptions ? pOptions : {};
     pVisited = pVisited||new Set();
     pVisited.add(pFileName);
 
-    return doMagic(pFileName, pOptions, (pDependencies) => {
-        let lRetval = {};
+    let lRetval = {};
+    let lDependencies = extractDependencies(pFileName, pOptions);
 
-        lRetval[pFileName] = pDependencies;
-        pDependencies
-            .filter(dependencyIsFollowable)
-            .filter(pDep => !pVisited.has(pDep.resolved))
-            .forEach(
-                pDep =>
+    lRetval[pFileName] = lDependencies;
+    lDependencies
+        .filter(pDep => pDep.followable && !pVisited.has(pDep.resolved))
+        .forEach(
+            pDep =>
                 lRetval = _.merge(
                             lRetval,
                             extractRecursive(pDep.resolved, pOptions, pVisited)
                         )
-            );
-        return lRetval;
-    });
+        );
+    return lRetval;
 }
 
 function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
+    pOptions = pOptions ? pOptions : {};
     pVisited = pVisited||new Set();
     pVisited.add(pFileName);
 
-    return doMagic(pFileName, pOptions, (pDependencies) => {
-        let lRetval = _.clone(pDependencies);
+    let lDependencies = extractDependencies(pFileName, pOptions);
+    let lRetval = _.clone(lDependencies);
 
-        pDependencies
-            .filter(dependencyIsFollowable)
-            .filter(pDep => !pVisited.has(pDep.resolved))
-            .forEach(
-                pDep => {
-                    let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions, pVisited);
-                    if (lDep){
-                        lRetval = lRetval.concat(lDep);
-                    }
+    lDependencies
+        .filter(pDep => pDep.followable && !pVisited.has(pDep.resolved))
+        .forEach(
+            pDep => {
+                let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions, pVisited);
+                if (lDep){
+                    lRetval = lRetval.concat(lDep);
                 }
-            );
+            }
+        );
 
-        return lRetval;
-    });
+    return lRetval;
 }
 
 function extractRecursiveFlattened(pFileName, pOptions) {

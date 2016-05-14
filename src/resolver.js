@@ -10,20 +10,25 @@ function isRelativeModuleName(pString) {
 }
 
 function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
+    let lRetval = {
+        resolved: pModuleName,
+        coreModule: false,
+        followable: false
+    };
     if(resolve.isCore(pModuleName)){
-        return {
-            resolved: pModuleName,
-            coreModule: true
-        };
+        lRetval.coreModule = true;
     } else {
-        return {
-            resolved: path.relative(
+        try {
+            lRetval.resolved = path.relative(
                 pBaseDir,
                 resolve.sync(pModuleName, {basedir: pFileDir})
-            ),
-            coreModule: false
-        };
+            );
+            lRetval.followable = !(lRetval.resolved.endsWith(".json"));
+        } catch (e) {
+            // intentionally left blank
+        }
     }
+    return lRetval;
 }
 
 function resolveAMDModule(pModuleName, pBaseDir, pFileDir) {
@@ -39,19 +44,14 @@ function resolveAMDModule(pModuleName, pBaseDir, pFileDir) {
     );
     return {
         resolved: utl.fileExists(lProbablePath) ? lProbablePath: pModuleName,
-        coreModule: !!resolve.isCore(pModuleName)
+        coreModule: !!resolve.isCore(pModuleName),
+        followable: utl.fileExists(lProbablePath)
     };
 }
 
 exports.resolveModuleToPath = function (pDependency, pBaseDir, pFileDir) {
     if(isRelativeModuleName(pDependency.moduleName)){
-        return {
-            resolved: path.relative(
-                        pBaseDir,
-                        resolve.sync(pDependency.moduleName, {basedir: pFileDir})
-                    ),
-            coreModule: false
-        };
+        return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);
     } else {
         if(_.includes(["cjs", "es6"], pDependency.moduleSystem)){
             return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);

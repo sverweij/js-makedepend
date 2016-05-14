@@ -19,25 +19,29 @@
                     "module": "./shared",
                     "resolved": "test/extractor-fixtures/cjs/shared.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "./somedata.json",
                     "resolved": "test/extractor-fixtures/cjs/somedata.json",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": false
                 },
                 {
                     "module": "./two_only_one",
                     "resolved": "test/extractor-fixtures/cjs/two_only_one.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "http",
                     "resolved": "http",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/shared.js": [
@@ -45,7 +49,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/two_only_one.js": [
@@ -53,7 +58,8 @@
                     "module": "./sub/dir",
                     "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ],
             "test/extractor-fixtures/cjs/sub/dir.js": [
@@ -61,13 +67,15 @@
                     "module": "./depindir",
                     "resolved": "test/extractor-fixtures/cjs/sub/depindir.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/sub/depindir.js": [
@@ -75,7 +83,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ]
         }
@@ -94,31 +103,36 @@
                     "module": "./one_only_one",
                     "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "./one_only_two",
                     "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "./shared",
                     "resolved": "test/extractor-fixtures/cjs/shared.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "./sub/dir",
                     "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "fs",
                     "resolved": "fs",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/one_only_one.js": [
@@ -126,7 +140,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/one_only_two.js": [
@@ -134,7 +149,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/shared.js": [
@@ -142,7 +158,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/sub/dir.js": [
@@ -150,13 +167,15 @@
                     "module": "./depindir",
                     "resolved": "test/extractor-fixtures/cjs/sub/depindir.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 },
                 {
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ],
             "test/extractor-fixtures/cjs/sub/depindir.js": [
@@ -164,7 +183,8 @@
                     "module": "path",
                     "resolved": "path",
                     "moduleSystem": "cjs",
-                    "coreModule": true
+                    "coreModule": true,
+                    "followable": false
                 }
             ]
         }
@@ -180,7 +200,8 @@
                     "module": "./ralucric",
                     "resolved": "test/extractor-fixtures/cjs/ralucric.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ],
             "test/extractor-fixtures/cjs/ralucric.js": [
@@ -188,7 +209,8 @@
                     "module": "./circular",
                     "resolved": "test/extractor-fixtures/cjs/circular.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ]
         }
@@ -204,7 +226,8 @@
                     "module": "./circle-two",
                     "resolved": "test/extractor-fixtures/cjs/circle-two.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ],
             "test/extractor-fixtures/cjs/circle-two.js": [
@@ -212,7 +235,8 @@
                     "module": "./circle-three",
                     "resolved": "test/extractor-fixtures/cjs/circle-three.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ],
             "test/extractor-fixtures/cjs/circle-three.js": [
@@ -220,7 +244,8 @@
                     "module": "./circle-one",
                     "resolved": "test/extractor-fixtures/cjs/circle-one.js",
                     "moduleSystem": "cjs",
-                    "coreModule": false
+                    "coreModule": false,
+                    "followable": true
                 }
             ]
         }
