@@ -107,22 +107,49 @@ src/cli.js: \
 	src/chewy.js
 
 src/chewy.js: \
-	src/core.js \
+	src/transformer.js \
 	src/utl.js
 
-src/core.js: \
+src/transformer.js: \
+	src/extractor.js
+
+src/extractor.js: \
+	src/resolver.js \
+	src/utl.js
+
+src/resolver.js: \
 	src/utl.js
 
 # cjs dependencies
 ALL_SRC=src/cli.js \
 	package.json \
 	src/chewy.js \
-	src/core.js \
+	src/extractor.js \
+	src/resolver.js \
+	src/transformer.js \
 	src/utl.js
 # cjs dependencies
 test/chewy.spec.js: \
 	src/chewy.js \
 	test/utl/testutensils.js
 
-test/core.spec.js: \
-	src/core.js
+src/chewy.js: \
+	src/transformer.js \
+	src/utl.js
+
+src/transformer.js: \
+	src/extractor.js
+
+src/extractor.js: \
+	src/resolver.js \
+	src/utl.js
+
+src/resolver.js: \
+	src/utl.js
+
+test/extractor.spec.js: \
+	src/extractor.js
+
+test/transformer.spec.js: \
+	src/transformer.js
+
