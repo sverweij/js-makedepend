@@ -76,16 +76,16 @@ let testPairs = [
         expect: "{{moduleType}}.dir.delimiter.mk",
         cleanup: true,
     },
-    // {
-    //     description: "js-makedepend -f test/output/{{moduleType}}.dir.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
-    //     dirOrFile: "test/fixtures/{{moduleType}}",
-    //     options: {
-    //         outputTo: path.join(OUT_DIR, "{{moduleType}}.dir.flatdef.mk"),
-    //         flatDefine: "ALL_SRC",
-    //     },
-    //     expect: "{{moduleType}}.dir.flatdef.mk",
-    //     cleanup: true,
-    // },
+    {
+        description: "js-makedepend -f test/output/{{moduleType}}.dir.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
+        dirOrFile: "test/fixtures/{{moduleType}}",
+        options: {
+            outputTo: path.join(OUT_DIR, "{{moduleType}}.dir.flatdef.mk"),
+            flatDefine: "ALL_SRC",
+        },
+        expect: "{{moduleType}}.dir.flatdef.mk",
+        cleanup: true,
+    },
     {
         description: "js-makedepend -f test/output/{{moduleType}}.file.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
         dirOrFile: "test/fixtures/{{moduleType}}/root_one.js",

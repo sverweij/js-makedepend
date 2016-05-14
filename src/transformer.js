@@ -62,6 +62,25 @@ function transformRecursiveFlattened(pFilename, pOptions){
             .reduce(_.curry(reduceDependorFlat)(lDependencies), "");
 }
 
+function transformRecursiveFlattenedDir(pDirname, pOptions){
+    let lDependencies = [];
+    getAllJSFilesFromDir(pDirname).forEach(pFilename => {
+        if(notInCache(pFilename)){
+            lDependencies = lDependencies.concat(pFilename);
+            lDependencies = lDependencies.concat(
+                extractor.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
+                .filter(isNonCoreModule)
+                .filter(pDependor => !!gScanned.add(pDependor.resolved))
+                .map(pDependor => pDependor.resolved)
+            );
+        }
+    });
+    return _(lDependencies)
+            .uniq()
+            .sort()
+            .reduce((pPrev, pNext) => `${pPrev.length>0? pPrev + ' \\\n\t':''}${pNext}`, "").concat("\n");
+}
+
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     let lRetval = "";
     let lOptions = _.clone(pOptions);
@@ -74,15 +93,18 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
 
     if (fs.statSync(pDirOrFile).isDirectory()){
         if (pOptions.flatDefine){
-            // TODO: this'll get all .js, but not
-            //      - .json & .node
-            //      - stuff outside the current directory
-            let lFlattenedDependencies = getAllJSFilesFromDir(pDirOrFile);
-            if (lFlattenedDependencies.length > 0){
-                return lRetval + `${pOptions.flatDefine}=${
-                    lFlattenedDependencies.reduce(reduceDependencies, "")
-                }`;
-            }
+            pOptions.moduleSystems.forEach(pModuleSystem => {
+                gScanned.clear();
+
+                lOptions.moduleSystems = [pModuleSystem];
+
+                let lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
+                lRetval += `# ${pModuleSystem} dependencies\n`;
+
+                if (lFlattenedDependencies.length > 0) {
+                    lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
+                }
+            });
             return lRetval;
         } else {
             pOptions.moduleSystems.forEach(pModuleSystem => {
