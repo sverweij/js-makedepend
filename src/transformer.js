@@ -16,14 +16,14 @@ let getAllJSFilesFromDir = (pDirName, pOptions) =>
     fs.readdirSync(pDirName)
         .filter(pDirName => ignore(pDirName, pOptions.exclude))
         .reduce((pSum, pFileName) => {
-        if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
-            return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
-        }
-        if (pFileName.endsWith(".js")){
-            return pSum.concat(path.join(pDirName, pFileName));
-        }
-        return pSum;
-    }, []);
+            if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
+                return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
+            }
+            if (pFileName.endsWith(".js")){
+                return pSum.concat(path.join(pDirName, pFileName));
+            }
+            return pSum;
+        }, []);
 let reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
