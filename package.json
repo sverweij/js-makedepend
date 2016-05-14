@@ -12,7 +12,6 @@
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
     "jscs": "jscs src test/*.js test/utl",
-    "plato": "plato -r -d platoreports -x \"test\" src/",
     "test": "mocha -R dot test",
     "test-long": "mocha",
     "watch": "mocha --watch --watch-extensions=json --reporter=min "
@@ -49,8 +48,7 @@
     "jshint": "2.9.2",
     "mocha": "2.4.5",
     "npm-check-updates": "2.6.4",
-    "nsp": "2.3.3",
-    "plato": "1.5.0"
+    "nsp": "2.3.3"
   },
   "dependencies": {
     "acorn": "3.1.0",
