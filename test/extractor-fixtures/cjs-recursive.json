@@ -168,5 +168,61 @@
                 }
             ]
         }
+    },
+    {
+        "title": "circular dependency (one step)",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/circular.js"
+        },
+        "expected": {
+            "test/extractor-fixtures/cjs/circular.js": [
+                {
+                    "module": "./ralucric",
+                    "resolved": "test/extractor-fixtures/cjs/ralucric.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ],
+            "test/extractor-fixtures/cjs/ralucric.js": [
+                {
+                    "module": "./circular",
+                    "resolved": "test/extractor-fixtures/cjs/circular.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ]
+        }
+    },
+    {
+        "title": "circular dependency (more steps)",
+        "input": {
+            "fileName": "test/extractor-fixtures/cjs/circle-one.js"
+        },
+        "expected": {
+            "test/extractor-fixtures/cjs/circle-one.js": [
+                {
+                    "module": "./circle-two",
+                    "resolved": "test/extractor-fixtures/cjs/circle-two.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ],
+            "test/extractor-fixtures/cjs/circle-two.js": [
+                {
+                    "module": "./circle-three",
+                    "resolved": "test/extractor-fixtures/cjs/circle-three.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ],
+            "test/extractor-fixtures/cjs/circle-three.js": [
+                {
+                    "module": "./circle-one",
+                    "resolved": "test/extractor-fixtures/cjs/circle-one.js",
+                    "moduleSystem": "cjs",
+                    "coreModule": false
+                }
+            ]
+        }
     }
 ]

@@ -102,9 +102,8 @@ function extractAMDDependencies(pAST, pDependencies) {
     );
 }
 
-function ignore(pString, pExcludeREString) {
-    return !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
-}
+let ignore = (pString, pExcludeREString) =>
+    !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
 
 /**
  * Returns an array of dependencies present in the given file. Of
@@ -191,39 +190,43 @@ function doMagic(pFileName, pOptions, pCallback) {
     );
 }
 
-function dependencyIsFollowable(pDep) {
-    return !(pDep.coreModule) && !(pDep.resolved.endsWith(".json"));
-}
+let dependencyIsFollowable = pDep => !(pDep.coreModule) && !(pDep.resolved.endsWith(".json"));
 
-function extractRecursive (pFileName, pOptions) {
+function extractRecursive (pFileName, pOptions, pVisited) {
+    pVisited = pVisited||new Set();
+    pVisited.add(pFileName);
+
     return doMagic(pFileName, pOptions, (pDependencies) => {
         let lRetval = {};
 
         lRetval[pFileName] = pDependencies;
-
         pDependencies
             .filter(dependencyIsFollowable)
+            .filter(pDep => !pVisited.has(pDep.resolved))
             .forEach(
                 pDep =>
                 lRetval = _.merge(
                             lRetval,
-                            extractRecursive(pDep.resolved, pOptions)
+                            extractRecursive(pDep.resolved, pOptions, pVisited)
                         )
             );
-
         return lRetval;
     });
 }
 
-function _extractRecursiveFlattened(pFileName, pOptions) {
+function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
+    pVisited = pVisited||new Set();
+    pVisited.add(pFileName);
+
     return doMagic(pFileName, pOptions, (pDependencies) => {
         let lRetval = _.clone(pDependencies);
 
         pDependencies
             .filter(dependencyIsFollowable)
+            .filter(pDep => !pVisited.has(pDep.resolved))
             .forEach(
                 pDep => {
-                    let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions);
+                    let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions, pVisited);
                     if (lDep){
                         lRetval = lRetval.concat(lDep);
                     }
