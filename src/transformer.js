@@ -90,25 +90,18 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     }
 
     if (fs.statSync(pDirOrFile).isDirectory()){
-        if (pOptions.flatDefine){
-            pOptions.moduleSystems.forEach(pModuleSystem => {
-                gScanned.clear();
+        pOptions.moduleSystems.forEach(pModuleSystem => {
+            gScanned.clear();
+            lOptions.moduleSystems = [pModuleSystem];
 
-                lOptions.moduleSystems = [pModuleSystem];
-
+            if (pOptions.flatDefine){
                 let lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
                 lRetval += `# ${pModuleSystem} dependencies\n`;
 
                 if (lFlattenedDependencies.length > 0) {
                     lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
                 }
-            });
-            return lRetval;
-        } else {
-            pOptions.moduleSystems.forEach(pModuleSystem => {
-                gScanned.clear();
-
-                lOptions.moduleSystems = [pModuleSystem];
+            } else {
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n` +
                     getAllJSFilesFromDir(pDirOrFile, pOptions)
@@ -118,29 +111,27 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                                 }
                                 return pSum;
                             }, "");
-            });
-            return lRetval;
-        }
+            }
+        });
+        return lRetval;
     } else {
-        if (pOptions.flatDefine){
-            pOptions.moduleSystems.forEach(pModuleSystem => {
-                gScanned.clear();
-                lOptions.moduleSystems = [pModuleSystem];
+        pOptions.moduleSystems.forEach(pModuleSystem => {
+            gScanned.clear();
+            lOptions.moduleSystems = [pModuleSystem];
+
+            if (pOptions.flatDefine){
                 let lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
                 lRetval += `# ${pModuleSystem} dependencies\n`;
                 if (lFlattenedDependencies.length > 0) {
                     lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
                 }
-            });
-            return lRetval;
-        } else {
-            pOptions.moduleSystems.forEach(pModuleSystem => {
-                gScanned.clear();
-                lOptions.moduleSystems = [pModuleSystem];
+
+            } else {
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n` + transformRecursive(pDirOrFile, lOptions);
-            });
-            return lRetval;
-        }
+            }
+        });
+
+        return lRetval;
     }
 };
