@@ -10,21 +10,21 @@ let gScanned    = new Set();
 let isNonCoreModule = pDep => !pDep.coreModule;
 let hasNonCoreModuleDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isNonCoreModule);
 let notInCache = pFileName => !gScanned.has(pFileName);
-let getAllJSFilesFromDir = pDirName =>
-    fs.readdirSync(pDirName).reduce((pSum, pFileName) => {
+let ignore = (pString, pExcludeREString) =>
+    !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
+let getAllJSFilesFromDir = (pDirName, pOptions) =>
+    fs.readdirSync(pDirName)
+        .filter(pDirName => ignore(pDirName, pOptions.exclude))
+        .reduce((pSum, pFileName) => {
         if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
-            return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName)));
+            return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
         }
         if (pFileName.endsWith(".js")){
             return pSum.concat(path.join(pDirName, pFileName));
         }
         return pSum;
     }, []);
-
-
-function reduceDependencies(pPrev, pNext) {
-    return `${pPrev} \\\n\t${pNext}`;
-}
+let reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
     let lDependencies = pDeps[pNext]
@@ -64,7 +64,7 @@ function transformRecursiveFlattened(pFilename, pOptions){
 
 function transformRecursiveFlattenedDir(pDirname, pOptions){
     let lDependencies = [];
-    getAllJSFilesFromDir(pDirname).forEach(pFilename => {
+    getAllJSFilesFromDir(pDirname, pOptions).forEach(pFilename => {
         if(notInCache(pFilename)){
             lDependencies = lDependencies.concat(pFilename);
             lDependencies = lDependencies.concat(
@@ -113,7 +113,7 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                 lOptions.moduleSystems = [pModuleSystem];
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n` +
-                    getAllJSFilesFromDir(pDirOrFile)
+                    getAllJSFilesFromDir(pDirOrFile, pOptions)
                             .reduce((pSum, pDirOrFile) => {
                                 if(!gScanned.has(pDirOrFile)) {
                                     return pSum + transformRecursive(pDirOrFile, lOptions);
