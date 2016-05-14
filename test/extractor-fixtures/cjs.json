@@ -12,6 +12,12 @@
                 "coreModule": false
             },
             {
+                "module": "./extractor-fixtures/amd-recursive-flattened.json",
+                "resolved": "test/extractor-fixtures/amd-recursive-flattened.json",
+                "moduleSystem": "cjs",
+                "coreModule": false
+            },
+            {
                 "module": "./extractor-fixtures/amd-recursive.json",
                 "resolved": "test/extractor-fixtures/amd-recursive.json",
                 "moduleSystem": "cjs",

@@ -4,6 +4,7 @@ const chewy  = require("../src/chewy.js");
 const fs     = require("fs");
 const tst    = require("./utl/testutensils");
 const path   = require("path");
+const _      = require("lodash");
 
 const OUT_DIR = "./test/output";
 const FIX_DIR = "./test/fixtures";
@@ -75,16 +76,16 @@ let testPairs = [
         expect: "{{moduleType}}.dir.delimiter.mk",
         cleanup: true,
     },
-    {
-        description: "js-makedepend -f test/output/{{moduleType}}.dir.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
-        dirOrFile: "test/fixtures/{{moduleType}}",
-        options: {
-            outputTo: path.join(OUT_DIR, "{{moduleType}}.dir.flatdef.mk"),
-            flatDefine: "ALL_SRC",
-        },
-        expect: "{{moduleType}}.dir.flatdef.mk",
-        cleanup: true,
-    },
+    // {
+    //     description: "js-makedepend -f test/output/{{moduleType}}.dir.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
+    //     dirOrFile: "test/fixtures/{{moduleType}}",
+    //     options: {
+    //         outputTo: path.join(OUT_DIR, "{{moduleType}}.dir.flatdef.mk"),
+    //         flatDefine: "ALL_SRC",
+    //     },
+    //     expect: "{{moduleType}}.dir.flatdef.mk",
+    //     cleanup: true,
+    // },
     {
         description: "js-makedepend -f test/output/{{moduleType}}.file.flatdef.mk -d ALL_SRC test/fixtures/{{moduleType}}",
         dirOrFile: "test/fixtures/{{moduleType}}/root_one.js",
@@ -134,10 +135,8 @@ let testPairs = [
 
 function resetOutputDir() {
     testPairs
-    .filter(function(pPair) {
-        return pPair.cleanup;
-    })
-    .forEach(function(pPair) {
+    .filter(pPair => pPair.cleanup)
+    .forEach(pPair => {
         try {
             fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "cjs"));
             fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "amd"));
@@ -161,30 +160,13 @@ function setModuleType(pTestPairs, pModuleType) {
         let lRetval = {
             description: pTestPair.description.replace(/{{moduleType}}/g, pModuleType),
             dirOrFile: pTestPair.dirOrFile.replace(/{{moduleType}}/g, pModuleType),
-            options: {
-                outputTo: pTestPair.options.outputTo.replace(/{{moduleType}}/g, pModuleType),
-            },
             expect: pTestPair.expect.replace(/{{moduleType}}/g, pModuleType),
             cleanup: pTestPair.cleanup,
         };
-        if (!!pTestPair.options.delimiter) {
-            lRetval.options.delimiter = pTestPair.options.delimiter;
-        }
-
-        if (!!pTestPair.options.exclude) {
-            lRetval.options.exclude = pTestPair.options.exclude;
-        }
-
-        if (!!pTestPair.options.flatDefine) {
-            lRetval.options.flatDefine = pTestPair.options.flatDefine;
-        }
-
+        lRetval.options = _.clone(pTestPair.options);
+        lRetval.options.outputTo = pTestPair.options.outputTo.replace(/{{moduleType}}/g, pModuleType);
         if (!!pTestPair.options.system) {
             lRetval.options.system = pTestPair.options.system.replace(/{{moduleType}}/g, pModuleType);
-        }
-
-        if (!!pTestPair.options.append) {
-            lRetval.options.append = pTestPair.options.append;
         }
 
         return lRetval;
@@ -212,17 +194,12 @@ describe("#chewy", () => {
         resetOutputDir();
     });
 
-    xdescribe("file based tests - commonJS", () => {
+    describe("file based tests - commonJS", () => {
         runFileBasedTests("cjs");
     });
 
-    xdescribe("file based tests - AMD", () => {
-        runFileBasedTests("amd");
-    });
-
     describe("specials", () => {
-        // TODO xit because fixture is platform (npm) dependent
-        xit("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
+        it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
             let intercept = require("intercept-stdout");
 
             let lCapturedStdout = "";

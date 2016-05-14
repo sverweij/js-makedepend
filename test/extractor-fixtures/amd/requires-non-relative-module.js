@@ -1,3 +1,3 @@
-define(["lodash", "other-module-in-the-config"], function(_){
+define(["lodash", "other-module-in-the-config", "sub/local-module-in-drag"], function(_){
     // do stuff
 });

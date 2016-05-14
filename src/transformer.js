@@ -46,8 +46,6 @@ function reduceDependorFlat(pDeps, pPrev, pNext) {
 }
 
 function transformRecursive(pFilename, pOptions){
-    if (gScanned.has(pFilename)) {return;}
-
     let lDependencies = extractor.extractRecursive(pFilename, pOptions);
     let lRetval = Object.keys(lDependencies)
             .filter(notInCache)

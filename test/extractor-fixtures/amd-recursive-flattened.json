@@ -24,8 +24,7 @@
                     "moduleSystem": "amd",
                     "coreModule": false
                 }
-            ],
-            "test/extractor-fixtures/amd/sub/local-module-in-drag.js": []
+            ]
         }
     }
 ]

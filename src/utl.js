@@ -1,5 +1,4 @@
 const fs   = require("fs");
-const path = require("path");
 const _    = require("lodash");
 
 exports.fileExists = _.memoize(pFile => {
@@ -11,7 +10,3 @@ exports.fileExists = _.memoize(pFile => {
 
     return true;
 });
-
-exports.getDirectory = _.memoize(pDirOrFile =>
-    fs.statSync(pDirOrFile).isDirectory() ? pDirOrFile : path.dirname(pDirOrFile)
-);
