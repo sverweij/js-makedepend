@@ -47,12 +47,12 @@
     "jshint": "2.9.2",
     "mocha": "2.4.5",
     "npm-check-updates": "2.6.4",
-    "nsp": "2.4.0",
+    "nsp": "2.3.3",
     "plato": "1.5.0"
   },
   "dependencies": {
     "commander": "2.9.0",
-    "lodash": "4.11.2",
+    "lodash": "4.12.0",
     "madge": "0.5.3",
     "semver": "5.1.0"
   }
