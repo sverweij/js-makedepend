@@ -22,7 +22,7 @@ engines:
     config:
       languages:
       - javascript
-  nodescurity:
+  nodesecurity:
     enabled: true
   fixme:
     enabled: true
