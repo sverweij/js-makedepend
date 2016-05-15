@@ -11,7 +11,7 @@ install:
   - npm install
 
 script:
-  - make lint stylecheck cover
+  - make lint cover
   - npm run nsp
 #  - make install
 
