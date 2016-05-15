@@ -11,7 +11,6 @@
     "lint": "eslint src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
-    "jscs": "jscs src test/*.js test/utl",
     "test": "mocha -R dot test",
     "test-long": "mocha",
     "watch": "mocha --watch --watch-extensions=json --reporter=min "
