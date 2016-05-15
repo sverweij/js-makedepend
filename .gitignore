@@ -16,4 +16,5 @@ tracking.*
 siteverification.id
 tmp_*.md
 npm-debug.log
+isolate-*-v8.log
 build
