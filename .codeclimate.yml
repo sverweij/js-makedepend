@@ -17,11 +17,6 @@ engines:
 # to turn off an engine, set enabled to `false` or remove it
   eslint:
     enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - javascript
   fixme:
     enabled: true
 
