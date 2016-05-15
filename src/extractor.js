@@ -1,6 +1,6 @@
 "use strict";
 
-const acorn    = require('acorn');
+const acorn    = require('acorn/dist/acorn_loose');
 const walk     = require('acorn/dist/walk');
 const fs       = require('fs');
 const _        = require('lodash');
@@ -8,7 +8,7 @@ const path     = require('path');
 const resolver = require('./resolver');
 
 let getAST = pFileName =>
-    acorn.parse(
+    acorn.parse_dammit(
         fs.readFileSync(pFileName, 'utf8'),
         {
             sourceType: 'module'

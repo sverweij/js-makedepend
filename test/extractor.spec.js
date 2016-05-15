@@ -56,10 +56,10 @@ describe ('AMD recursive - ', () => amdRecursiveFixtures.forEach(runRecursiveFix
 describe ('AMD recursive flattened - ', () => amdRecursiveFlattenedFixtures.forEach(runRecursiveFlattenedFixture));
 
 describe('Error scenarios - ', () => {
-    it('Raises an exception on syntax errors', () => {
+    it('Does not raise an exception on syntax errors (because we\'re on the loose parser)', () => {
         expect(
             () => extractor.extractDependencies("test/extractor-fixtures/syntax-error.js")
-        ).to.throw("Extracting dependencies ran afoul of... Unexpected token (1:3)");
+        ).to.not.throw("Extracting dependencies ran afoul of... Unexpected token (1:3)");
     });
     it('Raises an exception on non-existing files', () => {
         expect(
