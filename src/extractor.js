@@ -7,12 +7,11 @@ const _        = require('lodash');
 const path     = require('path');
 const resolver = require('./resolver');
 
+let parse = _.memoize(acorn.parse_dammit);
 let getAST = pFileName =>
-    acorn.parse_dammit(
+    parse (
         fs.readFileSync(pFileName, 'utf8'),
-        {
-            sourceType: 'module'
-        }
+        { sourceType: 'module' }
     );
 
 
