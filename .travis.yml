@@ -13,7 +13,6 @@ install:
 script:
   - make lint cover
   - npm run nsp
-#  - make install
 
 branches:
   except:
@@ -29,6 +28,3 @@ addons:
 
 after_success:
   - npm run codeclimate-cover-submit
-#  - npm run codecov-submit
-
-# 4abd82b4-6e29-4046-ba2f-a9698d7028ef
