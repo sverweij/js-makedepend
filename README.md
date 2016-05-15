@@ -58,13 +58,14 @@ Let's say you have a cool project going with this source tree:
 ```
 
 #### On a directory
-Running `js-makedepend src` with no options will append all depencies present
+Running `js-makedepend src` with no options will append all dependencies present
 in source files in that directory to your Makefile:
 
 ```makefile
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
+# cjs dependencies
 src/root_one.js: \
 	../../node_modules/commander/index.js \
 	src/one_only_one.js \
@@ -82,7 +83,6 @@ src/sub/dir.js: \
 src/two_only_one.js: \
 	src/sub/dir.js
 
-# cjs dependencies
 # es6 dependencies
 ```
 
@@ -94,6 +94,7 @@ will only emit the (recursive) dependencies of `src/root_two.js`:
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
 # amd dependencies
+# cjs dependencies
 src/root_two.js: \
 	src/shared.js \
 	src/two_only_one.js
@@ -104,19 +105,18 @@ src/two_only_one.js: \
 src/sub/dir.js: \
 	src/sub/depindir.js
 
-# cjs dependencies
 # es6 dependencies
 ```
 
 ### Flattened in a DEFINE: `--flat-define`
 Sometimes all you need is just all sources in one define.
-`js-makedepend --flat-define ROOT_ONE_ALL_SRC src/root_one.js`
+`js-makedepend --system cjs --flat-define ROOT_ONE_ALL_SRC src/root_one.js`
 will do just that:
 
 ```makefile
 # DO NOT DELETE THIS LINE -- js-makedepend depends on it.
 
-# amd dependencies
+# cjs dependencies
 ROOT_ONE_ALL_SRC=src/root_one.js \
 	../../node_modules/commander/index.js \
 	src/one_only_one.js \
@@ -124,9 +124,10 @@ ROOT_ONE_ALL_SRC=src/root_one.js \
 	src/shared.js \
 	src/sub/depindir.js \
 	src/sub/dir.js
-# cjs dependencies
-# es6 dependencies
 ```
+
+(You might want to pick _one_ module system here - otherwise you'll
+end up with three very similar lookin defines).
 
 ### Replacing & appending: `--append`
 You might have noted the `# DO NOT DELETE THIS LINE -- js-makedepend depends on it.`
@@ -220,10 +221,7 @@ depend:
 [MIT](LICENSE)
 
 ## Thanks
-- [Patrik Henningsson](https://github.com/pahen) - who wrote
-  [MaDGe](https://github.com/pahen/madge), which does most of js-makedepend's
-  heavy lifting.
-- ... and the creators of [detective](https://github.com/substack/node-detective),
-  [amdetective](https://github.com/mixu/amdetective), and
-  [detective-es6](https://github.com/mrjoelkemp/node-detective-es6), which do
-  some of the heavy lifting for MaDGe.
+- [Marijn Haverbeke](http://marijnhaverbeke.nl) and other people who
+  colaborated on [acorn](https://github.com/ternjs/acorn) -
+  the excelent javascript parser js-makedepend uses to infer the
+  dependencies.
