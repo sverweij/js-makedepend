@@ -1,7 +1,0 @@
-{
-    "node":true,
-    "mocha":true,
-    "multistr":true,
-    "unused":false,
-    "esnext":true
-}
