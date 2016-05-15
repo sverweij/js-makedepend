@@ -1,19 +1,23 @@
 "use strict";
 
-const acorn    = require('acorn/dist/acorn_loose');
-const walk     = require('acorn/dist/walk');
-const fs       = require('fs');
-const _        = require('lodash');
-const path     = require('path');
-const resolver = require('./resolver');
+const acorn       = require('acorn');
+const acorn_loose = require('acorn/dist/acorn_loose');
+const walk        = require('acorn/dist/walk');
+const fs          = require('fs');
+const _           = require('lodash');
+const path        = require('path');
+const resolver    = require('./resolver');
 
-let parse = _.memoize(acorn.parse_dammit);
-let getAST = pFileName =>
-    parse (
-        fs.readFileSync(pFileName, 'utf8'),
-        { sourceType: 'module' }
-    );
+let getAST = _.memoize(getASTBare);
 
+function getASTBare(pFileName) {
+    let lFile = fs.readFileSync(pFileName, 'utf8');
+    try {
+        return acorn.parse(lFile, {sourceType: 'module'});
+    } catch(e){
+        return acorn_loose.parse_dammit(lFile, {sourceType: 'module'});
+    }
+}
 
 function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
     // var/const lalala = require('./lalala');
