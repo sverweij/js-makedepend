@@ -5,11 +5,11 @@ const crypto = require("crypto");
 module.exports = (() => {
     "use strict";
 
-    let getBestAvailableHash = h =>
+    const getBestAvailableHash = () =>
             ["ripemd160", "md5", "sha1"]
-            .filter(h => crypto.getHashes().indexOf(h) > -1)[0];
+            .filter(pHash => crypto.getHashes().indexOf(pHash) > -1)[0];
 
-    let hashString = pString => crypto
+    const hashString = pString => crypto
             .createHash(getBestAvailableHash())
             .update(pString)
             .digest("hex");
@@ -20,6 +20,6 @@ module.exports = (() => {
                 hashString(fs.readFileSync(pActualFileName, {encoding: "utf8"})),
                 hashString(fs.readFileSync(pExpectedFileName, {encoding: "utf8"}))
             );
-        },
+        }
     };
 })();

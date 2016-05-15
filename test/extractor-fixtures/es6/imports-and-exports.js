@@ -1,4 +1,3 @@
-/* jshint esnext: true */
 import {parse} from "acorn";
 import * as tea from "chai";
 export * from "mocha";

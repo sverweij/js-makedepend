@@ -7,14 +7,14 @@ const path      = require('path');
 
 let gScanned    = new Set();
 
-let isIncludable = pDep => pDep.followable||pDep.resolved.endsWith('.json');
-let hasIncludableDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isIncludable);
-let notInCache = pFileName => !gScanned.has(pFileName);
-let ignore = (pString, pExcludeREString) =>
-    !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
-let getAllJSFilesFromDir = (pDirName, pOptions) =>
+const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
+const hasIncludableDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isIncludable);
+const notInCache = pFileName => !gScanned.has(pFileName);
+const ignore = (pString, pExcludeREString) =>
+    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
+const getAllJSFilesFromDir = (pDirName, pOptions) =>
     fs.readdirSync(pDirName)
-        .filter(pDirName => ignore(pDirName, pOptions.exclude))
+        .filter(pFileInDir => ignore(pFileInDir, pOptions.exclude))
         .reduce((pSum, pFileName) => {
             if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
                 return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
@@ -24,12 +24,12 @@ let getAllJSFilesFromDir = (pDirName, pOptions) =>
             }
             return pSum;
         }, []);
-let reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
+const reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
-    let lDependencies = pDeps[pNext]
+    const lDependencies = pDeps[pNext]
             .filter(isIncludable)
-            .map(pDep=>pDep.resolved)
+            .map(pDep => pDep.resolved)
             .sort()
             .reduce(reduceDependencies);
 
@@ -37,26 +37,28 @@ function reduceDependor(pDeps, pPrev, pNext) {
 }
 
 function reduceDependorFlat(pDeps, pPrev, pNext) {
-    let lDependencies = pDeps[pNext]
+    const lDependencies = pDeps[pNext]
             .filter(isIncludable)
-            .map(pDep=>pDep.resolved)
+            .map(pDep => pDep.resolved)
             .reduce(reduceDependencies);
 
     return `${pPrev}${pNext} \\\n\t${lDependencies}\n`;
 }
 
 function transformRecursive(pFilename, pOptions){
-    let lDependencies = extractor.extractRecursive(pFilename, pOptions);
-    let lRetval = Object.keys(lDependencies)
+    const lDependencies = extractor.extractRecursive(pFilename, pOptions);
+    const lRetval = Object.keys(lDependencies)
             .filter(notInCache)
             .filter(_.curry(hasIncludableDependencies)(lDependencies))
             .reduce(_.curry(reduceDependor)(lDependencies), "");
+
     Object.keys(lDependencies).forEach(lDep => gScanned.add(lDep));
     return lRetval;
 }
 
 function transformRecursiveFlattened(pFilename, pOptions){
-    let lDependencies = extractor.extractRecursiveFlattened(pFilename, pOptions);
+    const lDependencies = extractor.extractRecursiveFlattened(pFilename, pOptions);
+
     return Object.keys(lDependencies)
             .filter(_.curry(hasIncludableDependencies)(lDependencies))
             .reduce(_.curry(reduceDependorFlat)(lDependencies), "");
@@ -64,13 +66,14 @@ function transformRecursiveFlattened(pFilename, pOptions){
 
 function transformRecursiveFlattenedDir(pDirname, pOptions){
     let lDependencies = [];
+
     getAllJSFilesFromDir(pDirname, pOptions).forEach(pFilename => {
-        if(notInCache(pFilename)){
+        if (notInCache(pFilename)){
             lDependencies = lDependencies.concat(pFilename);
             lDependencies = lDependencies.concat(
                 extractor.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
                 .filter(isIncludable)
-                .filter(pDependor => !!gScanned.add(pDependor.resolved))
+                .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
                 .map(pDependor => pDependor.resolved)
             );
         }
@@ -78,7 +81,7 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
     return _(lDependencies)
             .uniq()
             .sort()
-            .reduce((pPrev, pNext) => `${pPrev.length>0? pPrev + ' \\\n\t':''}${pNext}`, "").concat("\n");
+            .reduce((pPrev, pNext) => `${pPrev.length > 0 ? `${pPrev} \\\n\t` : ''}${pNext}`, "").concat("\n");
 }
 
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {
@@ -95,7 +98,8 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
-                let lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
+                const lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
+
                 lRetval += `# ${pModuleSystem} dependencies\n`;
 
                 if (lFlattenedDependencies.length > 0) {
@@ -103,14 +107,14 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                 }
             } else {
                 lRetval +=
-                    `# ${pModuleSystem} dependencies\n` +
-                    getAllJSFilesFromDir(pDirOrFile, pOptions)
-                            .reduce((pSum, pDirOrFile) => {
-                                if(!gScanned.has(pDirOrFile)) {
-                                    return pSum + transformRecursive(pDirOrFile, lOptions);
+                    `# ${pModuleSystem} dependencies\n${
+                        getAllJSFilesFromDir(pDirOrFile, pOptions)
+                            .reduce((pSum, pFileInDir) => {
+                                if (!gScanned.has(pFileInDir)) {
+                                    return pSum + transformRecursive(pFileInDir, lOptions);
                                 }
                                 return pSum;
-                            }, "");
+                            }, "")}`;
             }
         });
         return lRetval;
@@ -120,7 +124,8 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
-                let lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
+                const lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
+
                 lRetval += `# ${pModuleSystem} dependencies\n`;
                 if (lFlattenedDependencies.length > 0) {
                     lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
@@ -128,7 +133,7 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
 
             } else {
                 lRetval +=
-                    `# ${pModuleSystem} dependencies\n` + transformRecursive(pDirOrFile, lOptions);
+                    `# ${pModuleSystem} dependencies\n${transformRecursive(pDirOrFile, lOptions)}`;
             }
         });
         return lRetval;

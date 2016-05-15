@@ -6,7 +6,7 @@ NPM=npm
 NODE=node
 MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures|extractor-fixtures" --system cjs
 
-.PHONY: help dev-build install check stylecheck fullcheck mostlyclean clean noconsolestatements consolecheck lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install check fullcheck mostlyclean clean lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
 
 help:
 	@echo
@@ -25,9 +25,6 @@ dev-build: bin/js-makedepend $(ALL_SRC)
 
 lint:
 	$(NPM) run lint
-
-stylecheck:
-	$(NPM) run jscs
 
 cover: dev-build
 	$(NPM) run cover
@@ -85,15 +82,7 @@ run-update-dependencies:
 	$(NPM) run npm-check-updates
 	$(NPM) install
 
-noconsolestatements:
-	@echo "scanning for console statements (run 'make consolecheck' to see offending lines)"
-	grep -r console src/* | grep -c console | grep ^0$$
-	@echo ... ok
-
-consolecheck:
-	grep -r console src/*
-
-check: noconsolestatements lint stylecheck test
+check: lint test
 	./bin/js-makedepend --version # if that runs the cli script works
 
 fullcheck: check outdated nsp

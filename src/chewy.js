@@ -37,23 +37,24 @@ function normalizeModuleSystems(pSystemList) {
     if (_.isString(pSystemList)) {
         return _(pSystemList.split(",")).sort().uniq().valueOf();
     }
-    /* istanbul ignore else  */
+    // istanbul ignore else
     if (_.isArray(pSystemList)) {
         return _(pSystemList).sort().uniq().valueOf();
     }
-    /* istanbul ignore next  */
+    // istanbul ignore next
     return DEFAULT_MODULE_SYSTEMS;
 }
 
 function validateParameters(pDirOrFile, pOptions) {
     if (!utl.fileExists(pDirOrFile)) {
-        throw Error("Can't open '" + pDirOrFile + "' for reading. Does it exist?\n");
+        throw Error(`Can't open '${pDirOrFile}' for reading. Does it exist?\n`);
     }
 
-    if (!!pOptions.system && _.isString(pOptions.system)) {
+    if (Boolean(pOptions.system) && _.isString(pOptions.system)) {
         const lParamArray = pOptions.system.match(MODULE_SYSTEM_LIST_RE);
+
         if (!lParamArray || lParamArray.length !== 1) {
-            throw Error("Invalid module system list: '" + pOptions.system + "'\n");
+            throw Error(`Invalid module system list: '${pOptions.system}'\n`);
         }
     }
 }
@@ -63,7 +64,7 @@ exports.main = (pDirOrFile, pOptions) => {
         exclude: "",
         outputTo: "Makefile",
         delimiter: STARTING_STRING_DELIMITER,
-        system: DEFAULT_MODULE_SYSTEMS,
+        system: DEFAULT_MODULE_SYSTEMS
     });
 
     try {
@@ -80,6 +81,6 @@ exports.main = (pDirOrFile, pOptions) => {
             );
         }
     } catch (e) {
-        process.stderr.write("ERROR: " + e.message);
+        process.stderr.write(`ERROR: ${e.message}`);
     }
 };

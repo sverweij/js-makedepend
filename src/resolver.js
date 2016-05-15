@@ -5,7 +5,7 @@ const _       = require('lodash');
 const resolve = require('resolve');
 const utl     = require('./utl');
 
-let isRelativeModuleName = pString => pString.startsWith(".");
+const isRelativeModuleName = pString => pString.startsWith(".");
 
 function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
     let lRetval = {
@@ -13,7 +13,8 @@ function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
         coreModule: false,
         followable: false
     };
-    if(resolve.isCore(pModuleName)){
+
+    if (resolve.isCore(pModuleName)){
         lRetval.coreModule = true;
     } else {
         try {
@@ -35,25 +36,24 @@ function resolveAMDModule(pModuleName, pBaseDir, pFileDir) {
     // - could be relative in the end (implemented)
     // - require.config kerfuffle (command line, html, file, ...)
     // - maybe use mrjoelkemp/module-lookup-amd ?
-    let lProbablePath = path.relative(
+    const lProbablePath = path.relative(
         pBaseDir,
         path.join(pFileDir, `${pModuleName}.js`)
     );
+
     return {
-        resolved: utl.fileExists(lProbablePath) ? lProbablePath: pModuleName,
-        coreModule: !!resolve.isCore(pModuleName),
+        resolved: utl.fileExists(lProbablePath) ? lProbablePath : pModuleName,
+        coreModule: Boolean(resolve.isCore(pModuleName)),
         followable: utl.fileExists(lProbablePath)
     };
 }
 
-exports.resolveModuleToPath = function (pDependency, pBaseDir, pFileDir) {
-    if(isRelativeModuleName(pDependency.moduleName)){
+exports.resolveModuleToPath = (pDependency, pBaseDir, pFileDir) => {
+    if (isRelativeModuleName(pDependency.moduleName)){
+        return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);
+    } else if (_.includes(["cjs", "es6"], pDependency.moduleSystem)){
         return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);
     } else {
-        if(_.includes(["cjs", "es6"], pDependency.moduleSystem)){
-            return resolveCJSModule(pDependency.moduleName, pBaseDir, pFileDir);
-        } else {
-            return resolveAMDModule(pDependency.moduleName, pBaseDir, pFileDir);
-        }
+        return resolveAMDModule(pDependency.moduleName, pBaseDir, pFileDir);
     }
 };

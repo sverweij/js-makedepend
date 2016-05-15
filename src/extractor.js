@@ -8,16 +8,16 @@ const _           = require('lodash');
 const path        = require('path');
 const resolver    = require('./resolver');
 
-let getAST = _.memoize(getASTBare);
-
 function getASTBare(pFileName) {
-    let lFile = fs.readFileSync(pFileName, 'utf8');
+    const lFile = fs.readFileSync(pFileName, 'utf8');
+
     try {
         return acorn.parse(lFile, {sourceType: 'module'});
-    } catch(e){
+    } catch (e) {
         return acorn_loose.parse_dammit(lFile, {sourceType: 'module'});
     }
 }
+const getAST = _.memoize(getASTBare);
 
 function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
     // var/const lalala = require('./lalala');
@@ -28,8 +28,8 @@ function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
         pAST,
         {
             "CallExpression": pNode => {
-                if (pNode.callee.type==="Identifier" && pNode.callee.name==="require"){
-                    if(pNode.arguments && pNode.arguments[0] && pNode.arguments[0].value){
+                if (pNode.callee.type === "Identifier" && pNode.callee.name === "require"){
+                    if (pNode.arguments && pNode.arguments[0] && pNode.arguments[0].value){
                         pDependencies.push({
                             moduleName: pNode.arguments[0].value,
                             moduleSystem: pModuleSystem ? pModuleSystem : "cjs"
@@ -69,14 +69,14 @@ function extractAMDDependencies(pAST, pDependencies) {
                 // module as a function (define(Array, function))
                 // module with a name (define(string, Array, function))
                 // 'root' require module (require(Array, function)
-                if ( pNode.expression.type === "CallExpression" &&
+                if (pNode.expression.type === "CallExpression" &&
                      pNode.expression.callee.type === "Identifier" &&
-                     ( pNode.expression.callee.name === "define" ||
-                       pNode.expression.callee.name === "require") ){
+                     (pNode.expression.callee.name === "define" ||
+                       pNode.expression.callee.name === "require")){
                     pNode.expression.arguments
                         .filter(pArg => pArg.type === "ArrayExpression")
                         .forEach(arg =>
-                            arg.elements.forEach( el => pDependencies.push({
+                            arg.elements.forEach(el => pDependencies.push({
                                 moduleName: el.value,
                                 moduleSystem: "amd"
                             }))
@@ -88,13 +88,13 @@ function extractAMDDependencies(pAST, pDependencies) {
                 //      ... every 'require' call is a depencency
                 // Won't work if someone decides to name the first parameter of
                 // the function passed to the define something else from "require"
-                if ( pNode.expression.type === "CallExpression" &&
+                if (pNode.expression.type === "CallExpression" &&
                      pNode.expression.callee.type === "Identifier" &&
-                     pNode.expression.callee.name === "define" ) {
+                     pNode.expression.callee.name === "define") {
                     pNode.expression.arguments
                         .filter(pArg => pArg.type === "FunctionExpression")
                         .forEach(pFunction => {
-                            if(pFunction.params.filter(pParam => pParam.name ==="require")){
+                            if (pFunction.params.filter(pParam => pParam.name === "require")){
                                 extractCommonJSDependencies(pFunction.body, pDependencies, "amd");
                             }
                         });
@@ -104,8 +104,8 @@ function extractAMDDependencies(pAST, pDependencies) {
     );
 }
 
-let ignore = (pString, pExcludeREString) =>
-    !!pExcludeREString? !(RegExp(pExcludeREString, "g").test(pString)) : true;
+const ignore = (pString, pExcludeREString) =>
+    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
 
 /**
  * Returns an array of dependencies present in the given file. Of
@@ -133,8 +133,9 @@ let ignore = (pString, pExcludeREString) =>
  */
 function extractDependencies(pFileName, pOptions) {
     try {
-        let lAST = getAST(pFileName);
+        const lAST = getAST(pFileName);
         let lDependencies = [];
+
         pOptions = _.defaults(
             pOptions,
             {
@@ -160,11 +161,12 @@ function extractDependencies(pFileName, pOptions) {
                 .sortBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
                 .map(
                     pDependency => {
-                        let lResolved = resolver.resolveModuleToPath(
+                        const lResolved = resolver.resolveModuleToPath(
                             pDependency,
                             pOptions.baseDir,
                             path.dirname(pFileName)
                         );
+
                         return {
                             module       : pDependency.moduleName,
                             resolved     : lResolved.resolved,
@@ -183,38 +185,40 @@ function extractDependencies(pFileName, pOptions) {
 
 function extractRecursive (pFileName, pOptions, pVisited) {
     pOptions = pOptions ? pOptions : {};
-    pVisited = pVisited||new Set();
+    pVisited = pVisited || new Set();
     pVisited.add(pFileName);
 
     let lRetval = {};
-    let lDependencies = extractDependencies(pFileName, pOptions);
+    const lDependencies = extractDependencies(pFileName, pOptions);
 
     lRetval[pFileName] = lDependencies;
     lDependencies
         .filter(pDep => pDep.followable && !pVisited.has(pDep.resolved))
         .forEach(
-            pDep =>
+            pDep => {
                 lRetval = _.merge(
                             lRetval,
                             extractRecursive(pDep.resolved, pOptions, pVisited)
-                        )
+                        );
+            }
         );
     return lRetval;
 }
 
 function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
     pOptions = pOptions ? pOptions : {};
-    pVisited = pVisited||new Set();
+    pVisited = pVisited || new Set();
     pVisited.add(pFileName);
 
-    let lDependencies = extractDependencies(pFileName, pOptions);
+    const lDependencies = extractDependencies(pFileName, pOptions);
     let lRetval = _.clone(lDependencies);
 
     lDependencies
         .filter(pDep => pDep.followable && !pVisited.has(pDep.resolved))
         .forEach(
             pDep => {
-                let lDep = _extractRecursiveFlattened(pDep.resolved, pOptions, pVisited);
+                const lDep = _extractRecursiveFlattened(pDep.resolved, pOptions, pVisited);
+
                 if (lDep){
                     lRetval = lRetval.concat(lDep);
                 }
@@ -226,6 +230,7 @@ function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
 
 function extractRecursiveFlattened(pFileName, pOptions) {
     let lRetval = {};
+
     lRetval[pFileName] =
         _(_extractRecursiveFlattened(pFileName, pOptions))
             .uniqBy(pDep => pDep.resolved)

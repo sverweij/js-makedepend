@@ -1,1 +1,1 @@
-require('./ralucric')
+require('./ralucric');

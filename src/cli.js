@@ -5,8 +5,10 @@ const semver   = require("semver");
 
 /* istanbul ignore if  */
 if (!semver.satisfies(process.versions.node, $package.engines.node)) {
-    process.stderr.write("\nERROR: your node version (" + process.versions.node + ") is not recent enough.\n");
-    process.stderr.write("       js-makedepend needs a version of node " + $package.engines.node + "\n\n");
+    process.stderr.write(`\nERROR: your node version (" + process.versions.node + ") is not recent enough.\n`);
+    process.stderr.write(`       js-makedepend needs a version of node ${$package.engines.node}\n\n`);
+
+    /* eslint no-process-exit: 0 */
     process.exit(-1);
 }
 
@@ -21,7 +23,7 @@ program
     .arguments("<directory-or-file>")
     .parse(process.argv);
 
-if (!!program.args[0]) {
+if (Boolean(program.args[0])) {
     chewy.main(
         program.args[0],
         program
