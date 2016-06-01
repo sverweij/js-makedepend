@@ -1,6 +1,6 @@
 "use strict";
 const assert    = require("assert");
-const chewy     = require("../src/chewy.js");
+const main      = require("../src/main.js");
 const fs        = require("fs");
 const tst       = require("./utl/testutensils");
 const path      = require("path");
@@ -185,7 +185,7 @@ function setModuleType(pTestPairs, pModuleType) {
 function runFileBasedTests(pModuleType) {
     setModuleType(testPairs, pModuleType).forEach(pPair => {
         it(pPair.description, () => {
-            chewy.main(pPair.dirOrFile, pPair.options);
+            main.main(pPair.dirOrFile, pPair.options);
             tst.assertFileEqual(
                 pPair.options.outputTo,
                 path.join(FIX_DIR, pPair.expect)
@@ -194,7 +194,7 @@ function runFileBasedTests(pModuleType) {
     });
 }
 
-describe("#chewy", () => {
+describe("#main", () => {
     before("set up", () => {
         resetOutputDir();
     });
@@ -214,7 +214,7 @@ describe("#chewy", () => {
                 lCapturedStdout += pText;
             });
 
-            chewy.main("test/fixtures/cjs", {outputTo: "-"});
+            main.main("test/fixtures/cjs", {outputTo: "-"});
             unhookIntercept();
             fs.writeFileSync(
                 path.join(OUT_DIR, "cjs.dir.stdout.mk"),
@@ -238,7 +238,7 @@ describe("#chewy", () => {
                 lCapturedStderr += pText;
             });
 
-            chewy.main("this-doesnot-exist", {outputTo: path.join(OUT_DIR, "cjs.dir.wontmarch.mk")});
+            main.main("this-doesnot-exist", {outputTo: path.join(OUT_DIR, "cjs.dir.wontmarch.mk")});
             unhookInterceptStdOut();
             unhookInterceptStdErr();
 
@@ -258,7 +258,7 @@ describe("#chewy", () => {
                 lCapturedStderr += pText;
             });
 
-            chewy.main(
+            main.main(
                 "test/fixtures",
                 {
                     outputTo: path.join(OUT_DIR, "/dev/null"),

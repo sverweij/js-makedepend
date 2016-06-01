@@ -100,9 +100,9 @@ sinopia:
 # cjs dependencies
 src/cli.js: \
 	package.json \
-	src/chewy.js
+	src/main.js
 
-src/chewy.js: \
+src/main.js: \
 	src/transformer.js \
 	src/utl.js
 
@@ -110,8 +110,7 @@ src/transformer.js: \
 	src/extractor.js
 
 src/extractor.js: \
-	src/resolver.js \
-	src/utl.js
+	src/resolver.js
 
 src/resolver.js: \
 	src/utl.js
@@ -119,32 +118,32 @@ src/resolver.js: \
 # cjs dependencies
 ALL_SRC=src/cli.js \
 	package.json \
-	src/chewy.js \
 	src/extractor.js \
+	src/main.js \
 	src/resolver.js \
 	src/transformer.js \
 	src/utl.js
 # cjs dependencies
-test/chewy.spec.js: \
-	src/chewy.js \
+test/extractor.spec.js: \
+	src/extractor.js
+
+src/extractor.js: \
+	src/resolver.js
+
+src/resolver.js: \
+	src/utl.js
+
+test/main.spec.js: \
+	src/main.js \
 	test/utl/testutensils.js
 
-src/chewy.js: \
+src/main.js: \
 	src/transformer.js \
 	src/utl.js
 
 src/transformer.js: \
 	src/extractor.js
 
-src/extractor.js: \
-	src/resolver.js \
-	src/utl.js
-
-src/resolver.js: \
-	src/utl.js
-
-test/extractor.spec.js: \
-	src/extractor.js
-
 test/transformer.spec.js: \
 	src/transformer.js
+

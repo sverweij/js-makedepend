@@ -1,5 +1,5 @@
 const program  = require("commander");
-const chewy    = require("./chewy");
+const main     = require("./main");
 const $package = require("../package.json");
 const semver   = require("semver");
 
@@ -24,7 +24,7 @@ program
     .parse(process.argv);
 
 if (Boolean(program.args[0])) {
-    chewy.main(
+    main.main(
         program.args[0],
         program
     );
