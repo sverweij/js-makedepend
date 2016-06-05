@@ -20,10 +20,10 @@ function getASTBare(pFileName) {
 const getAST = _.memoize(getASTBare);
 
 function extractCommonJSDependencies(pAST, pDependencies, pModuleSystem) {
+
     // var/const lalala = require('./lalala');
     // require('./lalala');
     // require('./lalala').doFunkyStuff();
-
     walk.simple(
         pAST,
         {
@@ -157,8 +157,8 @@ function extractDependencies(pFileName, pOptions) {
         }
 
         return _(lDependencies)
-                .uniqBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
-                .sortBy(pDependency => `${pDependency.moduleName}, ${pDependency.moduleSystem}`)
+                .uniqBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
+                .sortBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
                 .map(
                     pDependency => {
                         const lResolved = resolver.resolveModuleToPath(
