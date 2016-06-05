@@ -135,6 +135,14 @@ const testPairs = [
     }
 ];
 
+function deleteDammit(pFileName) {
+    try {
+        fs.unlinkSync(pFileName);
+    } catch (e) {
+        // process.stderr.write(e.message || e);
+    }
+}
+
 function resetOutputDir() {
     testPairs
     .filter(pPair => pPair.cleanup)
@@ -155,21 +163,10 @@ function resetOutputDir() {
         path.join(OUT_DIR, "amd.dir.addedto.mk"),
         "Here is some content\nIt's not ended by a linebreak", "utf8"
     );
-    try {
-        fs.unlinkSync(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
-    } catch (e) {
-        process.stderr.write(e.message || e);
-    }
-    try {
-        fs.unlinkSync(path.join(OUT_DIR, "amd.dir.stdout.mk"));
-    } catch (e) {
-        process.stderr.write(e.message || e);
-    }
-    try {
-        fs.unlinkSync(path.join(OUT_DIR, "cjs.dir.dot"));
-    } catch (e) {
-        process.stderr.write(e.message || e);
-    }
+
+    deleteDammit(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
+    deleteDammit(path.join(OUT_DIR, "amd.dir.stdout.mk"));
+    deleteDammit(path.join(OUT_DIR, "cjs.dir.dot"));
 }
 
 function setModuleType(pTestPairs, pModuleType) {
