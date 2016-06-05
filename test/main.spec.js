@@ -157,9 +157,18 @@ function resetOutputDir() {
     );
     try {
         fs.unlinkSync(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
+    } catch (e) {
+        process.stderr.write(e.message || e);
+    }
+    try {
         fs.unlinkSync(path.join(OUT_DIR, "amd.dir.stdout.mk"));
     } catch (e) {
-        // process.stderr.write(typeof e);
+        process.stderr.write(e.message || e);
+    }
+    try {
+        fs.unlinkSync(path.join(OUT_DIR, "cjs.dir.dot"));
+    } catch (e) {
+        process.stderr.write(e.message || e);
     }
 }
 
@@ -208,6 +217,21 @@ describe("#main", () => {
     });
 
     describe("specials", () => {
+
+        it("js-makedepend -f cjs.dir.dot -G test/fixtures/cjs writes a dot file", () => {
+            main.main(
+                "test/fixtures/cjs",
+                {
+                    outputTo: path.join(OUT_DIR, "cjs.dir.dot"),
+                    dot: true
+                }
+            );
+            tst.assertFileEqual(
+                path.join(OUT_DIR, "cjs.dir.dot"),
+                path.join(FIX_DIR, "cjs.dir.dot")
+            );
+        });
+
         it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
             let lCapturedStdout = "";
             const unhookIntercept = intercept(pText => {

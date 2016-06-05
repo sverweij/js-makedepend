@@ -1,7 +1,9 @@
-const core  = require("./transformer");
-const fs    = require("fs");
-const utl   = require("./utl");
-const _     = require("lodash");
+const fs              = require("fs");
+const _               = require("lodash");
+
+const utl             = require("./utl");
+const transformToMake = require("./transformer-make");
+const transformToDot  = require("./transformer-dot");
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
@@ -59,6 +61,13 @@ function validateParameters(pDirOrFile, pOptions) {
     }
 }
 
+function determineTransformerToUse(pOptions) {
+    if (pOptions.dot){
+        return transformToDot;
+    }
+    return transformToMake;
+}
+
 exports.main = (pDirOrFile, pOptions) => {
     pOptions = _.defaults(pOptions, {
         exclude: "",
@@ -71,11 +80,11 @@ exports.main = (pDirOrFile, pOptions) => {
         validateParameters(pDirOrFile, pOptions);
         pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
-            process.stdout.write(core.getDependencyStrings(pDirOrFile, pOptions));
+            process.stdout.write(determineTransformerToUse(pOptions).getDependencyStrings(pDirOrFile, pOptions));
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,
-                core.getDependencyStrings(pDirOrFile, pOptions),
+                determineTransformerToUse(pOptions).getDependencyStrings(pDirOrFile, pOptions),
                 pOptions.delimiter,
                 pOptions.append
             );
