@@ -1,3 +1,4 @@
+"use strict";
 const fs        = require('fs');
 const extractor = require('./extractor-composite');
 
@@ -32,8 +33,7 @@ function toEdges(pDependencies) {
 }
 
 function toDiGraph(pDependencies) {
-    return `
-digraph {
+    return `digraph {
     ordering=out
     rankdir=LR
     splines=true
@@ -51,16 +51,21 @@ digraph {
 }
 
 function getDependencyStrings(pDirOrFile, pOptions) {
+    let lDelimiter = "";
+
     if (pOptions.flatDefine){
         throw new Error(
             "Flat define (-d) + rendering as a dot graph (-G) won't work. Did you mean to do one of those?\n"
         );
     }
+    if (!pOptions.append){
+        lDelimiter = `\n${pOptions.delimiter}\n\n`;
+    }
 
     if (fs.statSync(pDirOrFile).isDirectory()){
-        return toDiGraph(extractor.extractRecursiveDir(pDirOrFile, pOptions));
+        return lDelimiter + toDiGraph(extractor.extractRecursiveDir(pDirOrFile, pOptions));
     } else {
-        return toDiGraph(extractor.extractRecursive(pDirOrFile, pOptions));
+        return lDelimiter + toDiGraph(extractor.extractRecursive(pDirOrFile, pOptions));
     }
 }
 
