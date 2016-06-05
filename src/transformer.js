@@ -2,28 +2,11 @@
 
 const _                  = require('lodash');
 const fs                 = require('fs');
-const path               = require('path');
 const extractorComposite = require('./extractor-composite');
-
-let gScanned    = new Set();
 
 const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
 const hasIncludableDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isIncludable);
-const notInCache = pFileName => !gScanned.has(pFileName);
-const ignore = (pString, pExcludeREString) =>
-    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
-const getAllJSFilesFromDir = (pDirName, pOptions) =>
-    fs.readdirSync(pDirName)
-        .filter(pFileInDir => ignore(pFileInDir, pOptions.exclude))
-        .reduce((pSum, pFileName) => {
-            if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
-                return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
-            }
-            if (pFileName.endsWith(".js")){
-                return pSum.concat(path.join(pDirName, pFileName));
-            }
-            return pSum;
-        }, []);
+
 const reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
@@ -47,13 +30,19 @@ function reduceDependorFlat(pDeps, pPrev, pNext) {
 
 function transformRecursive(pFilename, pOptions){
     const lDependencies = extractorComposite.extractRecursive(pFilename, pOptions);
-    const lRetval = Object.keys(lDependencies)
-            .filter(notInCache)
+
+    return Object.keys(lDependencies)
             .filter(_.curry(hasIncludableDependencies)(lDependencies))
             .reduce(_.curry(reduceDependor)(lDependencies), "");
 
-    Object.keys(lDependencies).forEach(lDep => gScanned.add(lDep));
-    return lRetval;
+}
+
+function transformRecursiveDir(pDirname, pOptions) {
+    const lDependencies = extractorComposite.extractRecursiveDir(pDirname, pOptions);
+
+    return Object.keys(lDependencies)
+            .filter(_.curry(hasIncludableDependencies)(lDependencies))
+            .reduce(_.curry(reduceDependor)(lDependencies), "");
 }
 
 function transformRecursiveFlattened(pFilename, pOptions){
@@ -65,23 +54,14 @@ function transformRecursiveFlattened(pFilename, pOptions){
 }
 
 function transformRecursiveFlattenedDir(pDirname, pOptions){
-    let lDependencies = [];
-
-    getAllJSFilesFromDir(pDirname, pOptions).forEach(pFilename => {
-        if (notInCache(pFilename)){
-            lDependencies = lDependencies.concat(pFilename);
-            lDependencies = lDependencies.concat(
-                extractorComposite.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
-                .filter(isIncludable)
-                .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
-                .map(pDependor => pDependor.resolved)
-            );
-        }
-    });
-    return _(lDependencies)
+    return _(extractorComposite.extractRecursiveFlattenedDir(pDirname, pOptions))
             .uniq()
             .sort()
-            .reduce((pPrev, pNext) => `${pPrev.length > 0 ? `${pPrev} \\\n\t` : ''}${pNext}`, "").concat("\n");
+            .reduce(
+                (pPrev, pNext) =>
+                    `${pPrev.length > 0 ? `${pPrev} \\\n\t` : ''}${pNext}`, ""
+            )
+            .concat("\n");
 }
 
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {
@@ -94,7 +74,6 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
 
     if (fs.statSync(pDirOrFile).isDirectory()){
         pOptions.moduleSystems.forEach(pModuleSystem => {
-            gScanned.clear();
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
@@ -108,19 +87,13 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             } else {
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n${
-                        getAllJSFilesFromDir(pDirOrFile, pOptions)
-                            .reduce((pSum, pFileInDir) => {
-                                if (!gScanned.has(pFileInDir)) {
-                                    return pSum + transformRecursive(pFileInDir, lOptions);
-                                }
-                                return pSum;
-                            }, "")}`;
+                        transformRecursiveDir(pDirOrFile, lOptions)
+                    }`;
             }
         });
         return lRetval;
     } else {
         pOptions.moduleSystems.forEach(pModuleSystem => {
-            gScanned.clear();
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
@@ -130,10 +103,11 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
                 if (lFlattenedDependencies.length > 0) {
                     lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
                 }
-
             } else {
                 lRetval +=
-                    `# ${pModuleSystem} dependencies\n${transformRecursive(pDirOrFile, lOptions)}`;
+                    `# ${pModuleSystem} dependencies\n${
+                        transformRecursive(pDirOrFile, lOptions)
+                    }`;
             }
         });
         return lRetval;

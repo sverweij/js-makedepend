@@ -1,7 +1,32 @@
 "use strict";
 
-const extractor = require('./extractor');
+const fs        = require('fs');
+const path      = require('path');
 const _         = require('lodash');
+
+const extractor = require('./extractor');
+
+let gScanned    = new Set();
+
+const notInCache = pFileName => !gScanned.has(pFileName);
+const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
+const ignore = (pString, pExcludeREString) =>
+    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
+
+function getAllJSFilesFromDir (pDirName, pOptions) {
+    return fs.readdirSync(pDirName)
+        .filter(pFileInDir => ignore(pFileInDir, pOptions.exclude))
+        .reduce((pSum, pFileName) => {
+            if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
+                return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
+            }
+            if (pFileName.endsWith(".js")){
+                return pSum.concat(path.join(pDirName, pFileName));
+            }
+            return pSum;
+        }, []);
+}
+
 
 function extractRecursive (pFileName, pOptions, pVisited) {
     pOptions = pOptions || {};
@@ -23,6 +48,23 @@ function extractRecursive (pFileName, pOptions, pVisited) {
             }
         );
     return lRetval;
+}
+
+function extractRecursiveDir(pDirName, pOptions) {
+    let lVisited = new Set();
+
+    return _.spread(_.merge)(
+        getAllJSFilesFromDir(pDirName, pOptions)
+        .reduce((pDependencies, pFilename) => {
+            if (!lVisited.has(pFilename)){
+                lVisited.add(pFilename);
+                return pDependencies.concat(
+                    extractRecursive(pFilename, pOptions, lVisited)
+                );
+            }
+            return pDependencies;
+        }, [])
+    );
 }
 
 function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
@@ -59,5 +101,25 @@ function extractRecursiveFlattened(pFileName, pOptions) {
     return lRetval;
 }
 
-exports.extractRecursive          = extractRecursive;
-exports.extractRecursiveFlattened = extractRecursiveFlattened;
+function extractRecursiveFlattenedDir(pDirname, pOptions){
+    let lDependencies = [];
+
+    gScanned.clear();
+
+    getAllJSFilesFromDir(pDirname, pOptions)
+        .filter(notInCache)
+        .forEach(pFilename => {
+            lDependencies = lDependencies.concat(pFilename).concat(
+                extractRecursiveFlattened(pFilename, pOptions)[pFilename]
+                .filter(isIncludable)
+                .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
+                .map(pDependor => pDependor.resolved)
+            );
+        });
+    return lDependencies;
+}
+
+exports.extractRecursive             = extractRecursive;
+exports.extractRecursiveDir          = extractRecursiveDir;
+exports.extractRecursiveFlattened    = extractRecursiveFlattened;
+exports.extractRecursiveFlattenedDir = extractRecursiveFlattenedDir;
