@@ -42,6 +42,7 @@ Usage: js-makedepend [options] <directory-or-file>
     -d, --flat-define <string>  outputs a define with flat dependencies
     -a, --append                append dependencies instead of replacing them
     -M, --system <items>        list of module systems (default: amd,cjs,es6)
+	-G , --dot                  visualizes dependencies in a graphiz dot
 ```
 ## Features by example
 ### The default: recursive
@@ -171,9 +172,8 @@ the depend target for the first time.
 If you pick `-` as a filename, js-makedepend will emit to stdout.
 
 ### Selecting module systems: `--system`
-By `js-makedepend` runs through your sources thrice, once for every module
-system it knows. If you don't want that, specify the systems your interested in
-in a comma-separated list:
+By default `js-makedepend` runs through your sources thrice, once for every
+module system it knows. If you don't want that, specify the systems your interested in, in a comma-separated list:
 
 ```makefile
 	js-makedepend --system amd,es6 src/
@@ -217,6 +217,21 @@ depend:
 	$(MAKEDEPEND) --append --flat-define ROOT_ONE_SRC src/root_one.js
 	$(MAKEDEPEND) --append --flat-define ROOT_TWO_SRC src/root_wo.js
 ```
+## Visualizing the dependency graph
+Use `--dot` (or `-G`) to save the dependencies as a
+graphviz dot file:
+
+```shell
+js-makedepend --dot --exclude "(node_modules)" --output-to dot-output-sample.dot src
+```
+
+You can use graphviz dot to transform it into something graphical:
+
+```shell
+dot -Tpng dot-output-sample.dot > dot-output-sample.png
+```
+![Build Status](./dot-output-sample.png)
+
 ## License
 [MIT](LICENSE)
 
