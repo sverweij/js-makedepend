@@ -128,7 +128,10 @@ ALL_SRC=src/cli.js \
 	src/transformer.js \
 	src/utl.js
 # cjs dependencies
-test/extractor.spec.js: \
+test/extractor-composite.spec.js: \
+	src/extractor-composite.js
+
+src/extractor-composite.js: \
 	src/extractor.js
 
 src/extractor.js: \
@@ -136,6 +139,9 @@ src/extractor.js: \
 
 src/resolver.js: \
 	src/utl.js
+
+test/extractor.spec.js: \
+	src/extractor.js
 
 test/main.spec.js: \
 	src/main.js \
@@ -147,9 +153,6 @@ src/main.js: \
 
 src/transformer.js: \
 	src/extractor-composite.js
-
-src/extractor-composite.js: \
-	src/extractor.js
 
 test/transformer.spec.js: \
 	src/transformer.js
