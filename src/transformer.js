@@ -28,29 +28,16 @@ function reduceDependorFlat(pDeps, pPrev, pNext) {
     return `${pPrev}${pNext} \\\n\t${lDependencies}\n`;
 }
 
-function transformRecursive(pFilename, pOptions){
-    const lDependencies = extractorComposite.extractRecursive(pFilename, pOptions);
-
-    return Object.keys(lDependencies)
-            .filter(_.curry(hasIncludableDependencies)(lDependencies))
-            .reduce(_.curry(reduceDependor)(lDependencies), "");
-
+function transformDependencies(pDependencies) {
+    return Object.keys(pDependencies)
+            .filter(_.curry(hasIncludableDependencies)(pDependencies))
+            .reduce(_.curry(reduceDependor)(pDependencies), "");
 }
 
-function transformRecursiveDir(pDirname, pOptions) {
-    const lDependencies = extractorComposite.extractRecursiveDir(pDirname, pOptions);
-
-    return Object.keys(lDependencies)
-            .filter(_.curry(hasIncludableDependencies)(lDependencies))
-            .reduce(_.curry(reduceDependor)(lDependencies), "");
-}
-
-function transformRecursiveFlattened(pFilename, pOptions){
-    const lDependencies = extractorComposite.extractRecursiveFlattened(pFilename, pOptions);
-
-    return Object.keys(lDependencies)
-            .filter(_.curry(hasIncludableDependencies)(lDependencies))
-            .reduce(_.curry(reduceDependorFlat)(lDependencies), "");
+function transformDependenciesFlat(pDependencies) {
+    return Object.keys(pDependencies)
+            .filter(_.curry(hasIncludableDependencies)(pDependencies))
+            .reduce(_.curry(reduceDependorFlat)(pDependencies), "");
 }
 
 function transformRecursiveFlattenedDir(pDirname, pOptions){
@@ -77,7 +64,8 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
-                const lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
+                const lFlattenedDependencies =
+                    transformRecursiveFlattenedDir(pDirOrFile, lOptions);
 
                 lRetval += `# ${pModuleSystem} dependencies\n`;
 
@@ -87,7 +75,9 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             } else {
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n${
-                        transformRecursiveDir(pDirOrFile, lOptions)
+                        transformDependencies(
+                            extractorComposite.extractRecursiveDir(pDirOrFile, lOptions)
+                        )
                     }`;
             }
         });
@@ -97,7 +87,9 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             lOptions.moduleSystems = [pModuleSystem];
 
             if (pOptions.flatDefine){
-                const lFlattenedDependencies = transformRecursiveFlattened(pDirOrFile, lOptions);
+                const lFlattenedDependencies = transformDependenciesFlat(
+                    extractorComposite.extractRecursiveFlattened(pDirOrFile, lOptions)
+                );
 
                 lRetval += `# ${pModuleSystem} dependencies\n`;
                 if (lFlattenedDependencies.length > 0) {
@@ -106,7 +98,9 @@ exports.getDependencyStrings = (pDirOrFile, pOptions) => {
             } else {
                 lRetval +=
                     `# ${pModuleSystem} dependencies\n${
-                        transformRecursive(pDirOrFile, lOptions)
+                        transformDependencies(
+                            extractorComposite.extractRecursive(pDirOrFile, lOptions)
+                        )
                     }`;
             }
         });
