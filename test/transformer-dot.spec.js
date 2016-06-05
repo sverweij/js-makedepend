@@ -14,6 +14,8 @@ describe("#transformer - main", () => {
             }
         );
         const lExpectedDepLines = `
+# DO NOT DELETE THIS LINE
+
 digraph {
     ordering=out
     rankdir=LR
@@ -72,6 +74,8 @@ digraph {
             }
         );
         const lExpectedDepLines = `
+# DO NOT DELETE THIS LINE
+
 digraph {
     ordering=out
     rankdir=LR

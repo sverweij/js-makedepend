@@ -1,4 +1,6 @@
 
+# DO NOT DELETE THIS LINE -- js-makedepend depends on it.
+
 digraph {
     ordering=out
     rankdir=LR
