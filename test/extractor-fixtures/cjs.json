@@ -13,36 +13,8 @@
                 "followable": true
             },
             {
-                "module": "./extractor-fixtures/amd-recursive-flattened.json",
-                "resolved": "test/extractor-fixtures/amd-recursive-flattened.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "./extractor-fixtures/amd-recursive.json",
-                "resolved": "test/extractor-fixtures/amd-recursive.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
                 "module": "./extractor-fixtures/amd.json",
                 "resolved": "test/extractor-fixtures/amd.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "./extractor-fixtures/cjs-flat.json",
-                "resolved": "test/extractor-fixtures/cjs-flat.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "./extractor-fixtures/cjs-recursive.json",
-                "resolved": "test/extractor-fixtures/cjs-recursive.json",
                 "moduleSystem": "cjs",
                 "coreModule": false,
                 "followable": false

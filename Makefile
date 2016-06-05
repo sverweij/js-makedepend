@@ -107,6 +107,9 @@ src/main.js: \
 	src/utl.js
 
 src/transformer.js: \
+	src/extractor-composite.js
+
+src/extractor-composite.js: \
 	src/extractor.js
 
 src/extractor.js: \
@@ -118,6 +121,7 @@ src/resolver.js: \
 # cjs dependencies
 ALL_SRC=src/cli.js \
 	package.json \
+	src/extractor-composite.js \
 	src/extractor.js \
 	src/main.js \
 	src/resolver.js \
@@ -142,6 +146,9 @@ src/main.js: \
 	src/utl.js
 
 src/transformer.js: \
+	src/extractor-composite.js
+
+src/extractor-composite.js: \
 	src/extractor.js
 
 test/transformer.spec.js: \

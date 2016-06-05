@@ -1,9 +1,9 @@
 "use strict";
 
-const extractor = require('./extractor');
-const _         = require('lodash');
-const fs        = require('fs');
-const path      = require('path');
+const _                  = require('lodash');
+const fs                 = require('fs');
+const path               = require('path');
+const extractorComposite = require('./extractor-composite');
 
 let gScanned    = new Set();
 
@@ -46,7 +46,7 @@ function reduceDependorFlat(pDeps, pPrev, pNext) {
 }
 
 function transformRecursive(pFilename, pOptions){
-    const lDependencies = extractor.extractRecursive(pFilename, pOptions);
+    const lDependencies = extractorComposite.extractRecursive(pFilename, pOptions);
     const lRetval = Object.keys(lDependencies)
             .filter(notInCache)
             .filter(_.curry(hasIncludableDependencies)(lDependencies))
@@ -57,7 +57,7 @@ function transformRecursive(pFilename, pOptions){
 }
 
 function transformRecursiveFlattened(pFilename, pOptions){
-    const lDependencies = extractor.extractRecursiveFlattened(pFilename, pOptions);
+    const lDependencies = extractorComposite.extractRecursiveFlattened(pFilename, pOptions);
 
     return Object.keys(lDependencies)
             .filter(_.curry(hasIncludableDependencies)(lDependencies))
@@ -71,7 +71,7 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
         if (notInCache(pFilename)){
             lDependencies = lDependencies.concat(pFilename);
             lDependencies = lDependencies.concat(
-                extractor.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
+                extractorComposite.extractRecursiveFlattened(pFilename, pOptions)[pFilename]
                 .filter(isIncludable)
                 .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
                 .map(pDependor => pDependor.resolved)

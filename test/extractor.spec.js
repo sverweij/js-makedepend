@@ -1,12 +1,8 @@
 const expect               = require('chai').expect;
 const extractor            = require('../src/extractor');
 const cjsFixtures          = require('./extractor-fixtures/cjs.json');
-const cjsRecursiveFixtures = require('./extractor-fixtures/cjs-recursive.json');
-const cjsFlatFixtures      = require('./extractor-fixtures/cjs-flat.json');
 const es6Fixtures          = require('./extractor-fixtures/es6.json');
 const amdFixtures          = require('./extractor-fixtures/amd.json');
-const amdRecursiveFixtures = require('./extractor-fixtures/amd-recursive.json');
-const amdRecursiveFlattenedFixtures = require('./extractor-fixtures/amd-recursive-flattened.json');
 
 function runFixture(pFixture) {
     it(pFixture.title, () => {
@@ -24,34 +20,9 @@ function runFixture(pFixture) {
     });
 }
 
-function runRecursiveFixture(pFixture) {
-    it(pFixture.title, () => {
-        expect(
-            extractor.extractRecursive(
-                pFixture.input.fileName,
-                pFixture.input.options
-            )
-        ).to.deep.equal(pFixture.expected);
-    });
-}
-function runRecursiveFlattenedFixture(pFixture) {
-    it(pFixture.title, () => {
-        expect(
-            extractor.extractRecursiveFlattened(
-                pFixture.input.fileName,
-                pFixture.input.options
-            )
-        ).to.deep.equal(pFixture.expected);
-    });
-}
-
 describe('CommonJS - ', () => cjsFixtures.forEach(runFixture));
-describe('CommonJS recursive - ', () => cjsRecursiveFixtures.forEach(runRecursiveFixture));
-describe('CommonJS recursive flattened - ', () => cjsFlatFixtures.forEach(runRecursiveFlattenedFixture));
 describe('ES6 - ', () => es6Fixtures.forEach(runFixture));
 describe('AMD - ', () => amdFixtures.forEach(runFixture));
-describe('AMD recursive - ', () => amdRecursiveFixtures.forEach(runRecursiveFixture));
-describe('AMD recursive flattened - ', () => amdRecursiveFlattenedFixtures.forEach(runRecursiveFlattenedFixture));
 
 describe('Error scenarios - ', () => {
     it('Does not raise an exception on syntax errors (because we\'re on the loose parser)', () => {
