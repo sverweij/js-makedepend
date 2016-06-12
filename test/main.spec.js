@@ -135,6 +135,14 @@ const testPairs = [
     }
 ];
 
+function deleteDammit(pFileName) {
+    try {
+        fs.unlinkSync(pFileName);
+    } catch (e) {
+        // process.stderr.write(e.message || e);
+    }
+}
+
 function resetOutputDir() {
     testPairs
     .filter(pPair => pPair.cleanup)
@@ -155,12 +163,10 @@ function resetOutputDir() {
         path.join(OUT_DIR, "amd.dir.addedto.mk"),
         "Here is some content\nIt's not ended by a linebreak", "utf8"
     );
-    try {
-        fs.unlinkSync(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
-        fs.unlinkSync(path.join(OUT_DIR, "amd.dir.stdout.mk"));
-    } catch (e) {
-        // process.stderr.write(typeof e);
-    }
+
+    deleteDammit(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
+    deleteDammit(path.join(OUT_DIR, "amd.dir.stdout.mk"));
+    deleteDammit(path.join(OUT_DIR, "cjs.dir.dot"));
 }
 
 function setModuleType(pTestPairs, pModuleType) {
@@ -208,6 +214,21 @@ describe("#main", () => {
     });
 
     describe("specials", () => {
+
+        it("js-makedepend -f cjs.dir.dot -G test/fixtures/cjs writes a dot file", () => {
+            main.main(
+                "test/fixtures/cjs",
+                {
+                    outputTo: path.join(OUT_DIR, "cjs.dir.dot"),
+                    dot: true
+                }
+            );
+            tst.assertFileEqual(
+                path.join(OUT_DIR, "cjs.dir.dot"),
+                path.join(FIX_DIR, "cjs.dir.dot")
+            );
+        });
+
         it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
             let lCapturedStdout = "";
             const unhookIntercept = intercept(pText => {

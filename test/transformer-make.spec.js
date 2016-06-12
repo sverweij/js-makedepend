@@ -1,6 +1,6 @@
 "use strict";
 const assert      = require("assert");
-const transformer = require("../src/transformer.js");
+const transformer = require("../src/transformer-make");
 
 describe("#transformer - main", () => {
     it("basic operation on test/fixtures/cjs", () => {
