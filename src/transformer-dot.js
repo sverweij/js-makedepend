@@ -3,11 +3,7 @@ const fs        = require('fs');
 const extractor = require('./extractor-composite');
 
 function dep2linecolor(pDep) {
-    if (pDep.coreModule){
-        return "\"#999999\"";
-    }
-
-    return "black";
+    return pDep.coreModule ? "\"#999999\"" : "black";
 }
 
 function toEntities(pDependencies) {

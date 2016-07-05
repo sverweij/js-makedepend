@@ -7,6 +7,9 @@ const utl     = require('./utl');
 
 const isRelativeModuleName = pString => pString.startsWith(".");
 
+/*
+ * resolves both CommonJS and ES6
+ */
 function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
     let lRetval = {
         resolved: pModuleName,

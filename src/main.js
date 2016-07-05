@@ -62,10 +62,7 @@ function validateParameters(pDirOrFile, pOptions) {
 }
 
 function determineTransformerToUse(pOptions) {
-    if (pOptions.dot){
-        return transformToDot;
-    }
-    return transformToMake;
+    return pOptions.dot ? transformToDot : transformToMake;
 }
 
 exports.main = (pDirOrFile, pOptions) => {
@@ -80,11 +77,15 @@ exports.main = (pDirOrFile, pOptions) => {
         validateParameters(pDirOrFile, pOptions);
         pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
         if ("-" === pOptions.outputTo) {
-            process.stdout.write(determineTransformerToUse(pOptions).getDependencyStrings(pDirOrFile, pOptions));
+            process.stdout.write(
+                determineTransformerToUse(pOptions)
+                .getDependencyStrings(pDirOrFile, pOptions)
+            );
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,
-                determineTransformerToUse(pOptions).getDependencyStrings(pDirOrFile, pOptions),
+                determineTransformerToUse(pOptions)
+                .getDependencyStrings(pDirOrFile, pOptions),
                 pOptions.delimiter,
                 pOptions.append
             );
