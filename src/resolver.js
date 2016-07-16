@@ -25,7 +25,7 @@ function resolveCJSModule(pModuleName, pBaseDir, pFileDir) {
                 pBaseDir,
                 resolve.sync(pModuleName, {basedir: pFileDir})
             );
-            lRetval.followable = !(lRetval.resolved.endsWith(".json"));
+            lRetval.followable = (path.extname(lRetval.resolved) !== ".json");
         } catch (e) {
             // intentionally left blank
         }

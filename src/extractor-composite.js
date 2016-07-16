@@ -9,7 +9,7 @@ const extractor = require('./extractor');
 let gScanned    = new Set();
 
 const notInCache = pFileName => !gScanned.has(pFileName);
-const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
+const isIncludable = pDep => pDep.followable || path.extname(pDep.resolved) === '.json';
 const ignore = (pString, pExcludeREString) =>
     Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
 
@@ -20,7 +20,7 @@ function getAllJSFilesFromDir (pDirName, pOptions) {
             if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
                 return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
             }
-            if (pFileName.endsWith(".js")){
+            if (path.extname(pFileName) === ".js"){
                 return pSum.concat(path.join(pDirName, pFileName));
             }
             return pSum;
