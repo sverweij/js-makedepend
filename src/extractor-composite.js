@@ -55,15 +55,15 @@ function extractRecursiveDir(pDirName, pOptions) {
 
     return _.spread(_.merge)(
         getAllJSFilesFromDir(pDirName, pOptions)
-        .reduce((pDependencies, pFilename) => {
-            if (!lVisited.has(pFilename)){
-                lVisited.add(pFilename);
-                return pDependencies.concat(
-                    extractRecursive(pFilename, pOptions, lVisited)
-                );
-            }
-            return pDependencies;
-        }, [])
+            .reduce((pDependencies, pFilename) => {
+                if (!lVisited.has(pFilename)){
+                    lVisited.add(pFilename);
+                    return pDependencies.concat(
+                        extractRecursive(pFilename, pOptions, lVisited)
+                    );
+                }
+                return pDependencies;
+            }, [])
     );
 }
 
@@ -111,9 +111,9 @@ function extractRecursiveFlattenedDir(pDirname, pOptions){
         .forEach(pFilename => {
             lDependencies = lDependencies.concat(pFilename).concat(
                 extractRecursiveFlattened(pFilename, pOptions)[pFilename]
-                .filter(isIncludable)
-                .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
-                .map(pDependor => pDependor.resolved)
+                    .filter(isIncludable)
+                    .filter(pDependor => Boolean(gScanned.add(pDependor.resolved)))
+                    .map(pDependor => pDependor.resolved)
             );
         });
     return lDependencies;

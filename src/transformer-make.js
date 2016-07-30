@@ -11,44 +11,44 @@ const reduceDependencies = (pPrev, pNext) => `${pPrev} \\\n\t${pNext}`;
 
 function reduceDependor(pDeps, pPrev, pNext) {
     const lDependencies = pDeps[pNext]
-            .filter(isIncludable)
-            .map(pDep => pDep.resolved)
-            .sort()
-            .reduce(reduceDependencies);
+        .filter(isIncludable)
+        .map(pDep => pDep.resolved)
+        .sort()
+        .reduce(reduceDependencies);
 
     return `${pPrev}${pNext}: \\\n\t${lDependencies}\n\n`;
 }
 
 function reduceDependorFlat(pDeps, pPrev, pNext) {
     const lDependencies = pDeps[pNext]
-            .filter(isIncludable)
-            .map(pDep => pDep.resolved)
-            .reduce(reduceDependencies);
+        .filter(isIncludable)
+        .map(pDep => pDep.resolved)
+        .reduce(reduceDependencies);
 
     return `${pPrev}${pNext} \\\n\t${lDependencies}\n`;
 }
 
 function transformDependencies(pDependencies) {
     return Object.keys(pDependencies)
-            .filter(_.curry(hasIncludableDependencies)(pDependencies))
-            .reduce(_.curry(reduceDependor)(pDependencies), "");
+        .filter(_.curry(hasIncludableDependencies)(pDependencies))
+        .reduce(_.curry(reduceDependor)(pDependencies), "");
 }
 
 function transformDependenciesFlat(pDependencies) {
     return Object.keys(pDependencies)
-            .filter(_.curry(hasIncludableDependencies)(pDependencies))
-            .reduce(_.curry(reduceDependorFlat)(pDependencies), "");
+        .filter(_.curry(hasIncludableDependencies)(pDependencies))
+        .reduce(_.curry(reduceDependorFlat)(pDependencies), "");
 }
 
 function transformRecursiveFlattenedDir(pDirname, pOptions){
     return _(extractorComposite.extractRecursiveFlattenedDir(pDirname, pOptions))
-            .uniq()
-            .sort()
-            .reduce(
-                (pPrev, pNext) =>
-                    `${pPrev.length > 0 ? `${pPrev} \\\n\t` : ''}${pNext}`, ""
-            )
-            .concat("\n");
+        .uniq()
+        .sort()
+        .reduce(
+            (pPrev, pNext) =>
+                `${pPrev.length > 0 ? `${pPrev} \\\n\t` : ''}${pNext}`, ""
+        )
+        .concat("\n");
 }
 
 exports.getDependencyStrings = (pDirOrFile, pOptions) => {

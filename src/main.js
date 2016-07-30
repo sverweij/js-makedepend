@@ -79,13 +79,13 @@ exports.main = (pDirOrFile, pOptions) => {
         if ("-" === pOptions.outputTo) {
             process.stdout.write(
                 determineTransformerToUse(pOptions)
-                .getDependencyStrings(pDirOrFile, pOptions)
+                    .getDependencyStrings(pDirOrFile, pOptions)
             );
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,
                 determineTransformerToUse(pOptions)
-                .getDependencyStrings(pDirOrFile, pOptions),
+                    .getDependencyStrings(pDirOrFile, pOptions),
                 pOptions.delimiter,
                 pOptions.append
             );

@@ -157,27 +157,27 @@ function extractDependencies(pFileName, pOptions) {
         }
 
         return _(lDependencies)
-                .uniqBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
-                .sortBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
-                .map(
-                    pDependency => {
-                        const lResolved = resolver.resolveModuleToPath(
-                            pDependency,
-                            pOptions.baseDir,
-                            path.dirname(pFileName)
-                        );
+            .uniqBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
+            .sortBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
+            .map(
+                pDependency => {
+                    const lResolved = resolver.resolveModuleToPath(
+                        pDependency,
+                        pOptions.baseDir,
+                        path.dirname(pFileName)
+                    );
 
-                        return {
-                            module       : pDependency.moduleName,
-                            resolved     : lResolved.resolved,
-                            moduleSystem : pDependency.moduleSystem,
-                            coreModule   : lResolved.coreModule,
-                            followable   : lResolved.followable
-                        };
-                    }
-                )
-                .filter(pDep => ignore(pDep.resolved, pOptions.exclude))
-                .value();
+                    return {
+                        module       : pDependency.moduleName,
+                        resolved     : lResolved.resolved,
+                        moduleSystem : pDependency.moduleSystem,
+                        coreModule   : lResolved.coreModule,
+                        followable   : lResolved.followable
+                    };
+                }
+            )
+            .filter(pDep => ignore(pDep.resolved, pOptions.exclude))
+            .value();
     } catch (e) {
         throw new Error(`Extracting dependencies ran afoul of... ${e.message} in ${pFileName}`);
     }

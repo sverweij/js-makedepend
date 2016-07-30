@@ -145,15 +145,15 @@ function deleteDammit(pFileName) {
 
 function resetOutputDir() {
     testPairs
-    .filter(pPair => pPair.cleanup)
-    .forEach(pPair => {
-        try {
-            fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "cjs"));
-            fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "amd"));
-        } catch (e) {
-            // process.stderr.write(typeof e);
-        }
-    });
+        .filter(pPair => pPair.cleanup)
+        .forEach(pPair => {
+            try {
+                fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "cjs"));
+                fs.unlinkSync(pPair.options.outputTo.replace("{{moduleType}}", "amd"));
+            } catch (e) {
+                // process.stderr.write(typeof e);
+            }
+        });
 
     fs.writeFileSync(
         path.join(OUT_DIR, "cjs.dir.addedto.mk"),
