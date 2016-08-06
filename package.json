@@ -44,7 +44,7 @@
     "eslint": "3.2.2",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.4",
-    "mocha": "3.0.0",
+    "mocha": "3.0.1",
     "npm-check-updates": "2.8.0",
     "nsp": "2.6.1"
   },
