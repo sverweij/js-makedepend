@@ -5,7 +5,7 @@ const semver   = require("semver");
 
 /* istanbul ignore if  */
 if (!semver.satisfies(process.versions.node, $package.engines.node)) {
-    process.stderr.write(`\nERROR: your node version (" + process.versions.node + ") is not recent enough.\n`);
+    process.stderr.write(`\nERROR: your node version (${process.versions.node}) is not recent enough.\n`);
     process.stderr.write(`       js-makedepend needs a version of node ${$package.engines.node}\n\n`);
 
     /* eslint no-process-exit: 0 */
