@@ -7,6 +7,7 @@ const fs          = require('fs');
 const _           = require('lodash');
 const path        = require('path');
 const resolver    = require('./resolver');
+const utl         = require('./utl');
 
 function getASTBare(pFileName) {
     const lFile = fs.readFileSync(pFileName, 'utf8');
@@ -104,9 +105,6 @@ function extractAMDDependencies(pAST, pDependencies) {
     );
 }
 
-const ignore = (pString, pExcludeREString) =>
-    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
-
 /**
  * Returns an array of dependencies present in the given file. Of
  * each dependency it returns
@@ -176,7 +174,7 @@ function extractDependencies(pFileName, pOptions) {
                     };
                 }
             )
-            .filter(pDep => ignore(pDep.resolved, pOptions.exclude))
+            .filter(pDep => utl.ignore(pDep.resolved, pOptions.exclude))
             .value();
     } catch (e) {
         throw new Error(`Extracting dependencies ran afoul of... ${e.message} in ${pFileName}`);

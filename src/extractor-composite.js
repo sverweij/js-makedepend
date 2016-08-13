@@ -5,17 +5,16 @@ const path      = require('path');
 const _         = require('lodash');
 
 const extractor = require('./extractor');
+const utl       = require('./utl');
 
 let gScanned    = new Set();
 
 const notInCache = pFileName => !gScanned.has(pFileName);
 const isIncludable = pDep => pDep.followable || path.extname(pDep.resolved) === '.json';
-const ignore = (pString, pExcludeREString) =>
-    Boolean(pExcludeREString) ? !(RegExp(pExcludeREString, "g").test(pString)) : true;
 
 function getAllJSFilesFromDir (pDirName, pOptions) {
     return fs.readdirSync(pDirName)
-        .filter(pFileInDir => ignore(pFileInDir, pOptions.exclude))
+        .filter(pFileInDir => utl.ignore(pFileInDir, pOptions.exclude))
         .reduce((pSum, pFileName) => {
             if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
                 return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
@@ -26,7 +25,6 @@ function getAllJSFilesFromDir (pDirName, pOptions) {
             return pSum;
         }, []);
 }
-
 
 function extractRecursive (pFileName, pOptions, pVisited) {
     pOptions = pOptions || {};

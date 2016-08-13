@@ -1,9 +1,11 @@
 const fs              = require("fs");
 const _               = require("lodash");
+const safeRegex       = require('safe-regex');
 
 const utl             = require("./utl");
 const transformToMake = require("./transformer-make");
 const transformToDot  = require("./transformer-dot");
+
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
@@ -58,6 +60,12 @@ function validateParameters(pDirOrFile, pOptions) {
         if (!lParamArray || lParamArray.length !== 1) {
             throw Error(`Invalid module system list: '${pOptions.system}'\n`);
         }
+    }
+
+    if (Boolean(pOptions.exclude) && !safeRegex(pOptions.exclude)) {
+        throw Error(
+            `The exclude pattern '${pOptions.exclude}' will probably run very slowly - cowardly refusing to run.\n`
+        );
     }
 }
 

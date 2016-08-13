@@ -111,10 +111,12 @@ src/transformer-dot.js: \
 	src/extractor-composite.js
 
 src/extractor-composite.js: \
-	src/extractor.js
+	src/extractor.js \
+	src/utl.js
 
 src/extractor.js: \
-	src/resolver.js
+	src/resolver.js \
+	src/utl.js
 
 src/resolver.js: \
 	src/utl.js
@@ -137,10 +139,12 @@ test/extractor-composite.spec.js: \
 	src/extractor-composite.js
 
 src/extractor-composite.js: \
-	src/extractor.js
+	src/extractor.js \
+	src/utl.js
 
 src/extractor.js: \
-	src/resolver.js
+	src/resolver.js \
+	src/utl.js
 
 src/resolver.js: \
 	src/utl.js

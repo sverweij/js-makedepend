@@ -297,5 +297,31 @@ describe("#main", () => {
                 "ERROR: Invalid module system list: 'invalidmodulesystem'\n"
             );
         });
+
+        it("js-makedepend -f /dev/null -x '([a-zA-z]+)*'  - unsafe exclusion patterns don't run", () => {
+            let lCapturedStderr = "";
+            const unhookInterceptStdOut = intercept(() => {
+                // This space intentionally left empty
+            });
+
+            const unhookInterceptStdErr = intercept(pText => {
+                lCapturedStderr += pText;
+            });
+
+            main.main(
+                "test/fixtures",
+                {
+                    outputTo: path.join(OUT_DIR, "/dev/null"),
+                    exclude: "([A-Za-z]+)*"
+                }
+            );
+            unhookInterceptStdOut();
+            unhookInterceptStdErr();
+
+            return assert.equal(
+                lCapturedStderr,
+                "ERROR: The exclude pattern '([A-Za-z]+)*' will probably run very slowly - cowardly refusing to run.\n"
+            );
+        });
     });
 });
