@@ -248,11 +248,11 @@
         "security/detect-disable-mustache-escape": 2,
         "security/detect-eval-with-expression": 2,
         "security/detect-no-csrf-before-method-override": 2,
-        "security/detect-non-literal-fs-filename": 0, // disabled because the main goal of this package is to write to files
+        "security/detect-non-literal-fs-filename": 0, // disabled because the main goal of this package is to write to files anyway
         "security/detect-non-literal-regexp": 2,
         "security/detect-non-literal-require": 2,
         "security/detect-object-injection": 0,
-        "security/detect-possible-timing-attacks": 2,
+        "security/detect-possible-timing-attacks": 0, // not doing anything which would need this kind of secrecy
         "security/detect-pseudoRandomBytes": 2
     },
     "env": {
