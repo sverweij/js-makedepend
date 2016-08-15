@@ -49,24 +49,37 @@ function normalizeModuleSystems(pSystemList) {
     return DEFAULT_MODULE_SYSTEMS;
 }
 
-function validateParameters(pDirOrFile, pOptions) {
+function validateFileExistence(pDirOrFile) {
     if (!utl.fileExists(pDirOrFile)) {
         throw Error(`Can't open '${pDirOrFile}' for reading. Does it exist?\n`);
     }
+}
 
-    if (Boolean(pOptions.system) && _.isString(pOptions.system)) {
-        const lParamArray = pOptions.system.match(MODULE_SYSTEM_LIST_RE);
+function validateSystems(pSystem) {
+    if (Boolean(pSystem) && _.isString(pSystem)) {
+        const lParamArray = pSystem.match(MODULE_SYSTEM_LIST_RE);
 
         if (!lParamArray || lParamArray.length !== 1) {
-            throw Error(`Invalid module system list: '${pOptions.system}'\n`);
+            throw Error(`Invalid module system list: '${pSystem}'\n`);
         }
     }
+}
 
-    if (Boolean(pOptions.exclude) && !safeRegex(pOptions.exclude)) {
+function validateExcludePattern(pExclude) {
+    if (Boolean(pExclude) && !safeRegex(pExclude)) {
         throw Error(
-            `The exclude pattern '${pOptions.exclude}' will probably run very slowly - cowardly refusing to run.\n`
+            `The exclude pattern '${pExclude}' will probably run very slowly - cowardly refusing to run.\n`
         );
     }
+}
+
+function validateParameters(pDirOrFile, pOptions) {
+    validateFileExistence(pDirOrFile);
+    if (Boolean(pOptions)) {
+        validateSystems(pOptions.system);
+        validateExcludePattern(pOptions.exclude);
+    }
+
 }
 
 function determineTransformerToUse(pOptions) {
