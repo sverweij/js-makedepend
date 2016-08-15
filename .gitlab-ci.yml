@@ -1,3 +1,4 @@
+# we might want to add latest - 1 && latest - 2 to this
 image: node:latest
 
 cache:
