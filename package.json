@@ -41,18 +41,18 @@
   "devDependencies": {
     "chai": "3.5.0",
     "codeclimate-test-reporter": "0.3.3",
-    "eslint": "3.2.2",
+    "eslint": "3.3.1",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.4",
-    "mocha": "3.0.1",
+    "mocha": "3.0.2",
     "npm-check-updates": "2.8.0",
     "nsp": "2.6.1"
   },
   "dependencies": {
     "acorn": "3.3.0",
     "commander": "2.9.0",
-    "lodash": "4.14.1",
+    "lodash": "4.15.0",
     "resolve": "1.1.7",
     "safe-regex": "1.1.0",
     "semver": "5.3.0"
