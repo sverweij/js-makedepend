@@ -41,10 +41,10 @@
   "devDependencies": {
     "chai": "3.5.0",
     "codeclimate-test-reporter": "0.3.3",
-    "eslint": "3.3.1",
+    "eslint": "3.4.0",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",
-    "istanbul": "0.4.4",
+    "istanbul": "0.4.5",
     "mocha": "3.0.2",
     "npm-check-updates": "2.8.0",
     "nsp": "2.6.1"
