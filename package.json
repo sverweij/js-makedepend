@@ -6,7 +6,6 @@
     "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
-    "codeclimate-cover-submit": "codeclimate-test-reporter < coverage/lcov.info",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
     "lint": "eslint src test",
     "nsp": "nsp check",
@@ -40,7 +39,6 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "codeclimate-test-reporter": "0.3.3",
     "eslint": "3.4.0",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",

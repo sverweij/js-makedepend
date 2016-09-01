@@ -25,6 +25,3 @@ cache:
 addons:
     code_climate:
         repo_token: 9a7b8236757774b2d7b458a798bee1d3e72aaa3044a029bfa1428948941cf854
-
-after_success:
-  - npm run codeclimate-cover-submit
