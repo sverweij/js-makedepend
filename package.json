@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "eslint": "3.4.0",
+    "eslint": "3.5.0",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.5",
@@ -48,7 +48,7 @@
     "nsp": "2.6.1"
   },
   "dependencies": {
-    "acorn": "3.3.0",
+    "acorn": "4.0.1",
     "commander": "2.9.0",
     "lodash": "4.15.0",
     "resolve": "1.1.7",
