@@ -39,18 +39,18 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "eslint": "3.7.0",
+    "eslint": "3.7.1",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.5",
     "mocha": "3.1.0",
-    "npm-check-updates": "2.8.0",
-    "nsp": "2.6.1"
+    "npm-check-updates": "2.8.4",
+    "nsp": "2.6.2"
   },
   "dependencies": {
     "acorn": "4.0.3",
     "commander": "2.9.0",
-    "lodash": "4.16.2",
+    "lodash": "4.16.4",
     "resolve": "1.1.7",
     "safe-regex": "1.1.0",
     "semver": "5.3.0"
