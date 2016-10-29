@@ -8,7 +8,7 @@ function dep2linecolor(pDep) {
 
 function toEntities(pDependencies) {
     return Object.keys(pDependencies).reduce(
-        (pEntities, pDependency) => pEntities.concat(`\"${pDependency}\" [color=black, fontcolor=black]\n    `),
+        (pEntities, pDependency) => pEntities.concat(`"${pDependency}" [color=black, fontcolor=black]\n    `),
     "");
 }
 
@@ -16,7 +16,7 @@ function renderEdgesForDependant(pDep, pDependencies) {
     return pDependencies[pDep].reduce(
         (pAll, pThing) =>
             pAll.concat(
-                `\"${pDep}\" -> \"${pThing.resolved}\" [color=${dep2linecolor(pThing)}]\n    `
+                `"${pDep}" -> "${pThing.resolved}" [color=${dep2linecolor(pThing)}]\n    `
             ),
     "");
 }
