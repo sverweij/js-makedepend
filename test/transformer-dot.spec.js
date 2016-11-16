@@ -4,7 +4,7 @@ const assert      = require("assert");
 const expect      = require("chai").expect;
 const transformer = require("../src/transformer-dot");
 
-describe("#transformer - main", () => {
+describe("#dot transformer - main", () => {
     it("basic operation on test/fixtures/cjs", () => {
         const lActualDepLines = transformer.getDependencyStrings(
             "test/fixtures/cjs",

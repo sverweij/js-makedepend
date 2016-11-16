@@ -43,6 +43,7 @@ Usage: js-makedepend [options] <directory-or-file>
     -a, --append                append dependencies instead of replacing them
     -M, --system <items>        list of module systems (default: amd,cjs,es6)
 	-G , --dot                  visualizes dependencies in a graphiz dot
+	-J, --json                  print the dependencies as json to stdout
 ```
 ## Features by example
 ### The default: recursive
@@ -230,7 +231,15 @@ You can use graphviz dot to transform it into something graphical:
 ```shell
 dot -Tpng dot-output-sample.dot > dot-output-sample.png
 ```
-![Build Status](./dot-output-sample.png)
+![sample dependency graph](./dot-output-sample.png)
+
+## Send the dependency graph as JSON to stdout
+For performing diagnostics & inspection. Or to do custom transformations
+from the command line - if you're into that kind of thing.
+
+```shell
+js-makedepend --json src
+```
 
 ## License
 [MIT](LICENSE)

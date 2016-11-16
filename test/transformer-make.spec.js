@@ -2,7 +2,7 @@
 const assert      = require("assert");
 const transformer = require("../src/transformer-make");
 
-describe("#transformer - main", () => {
+describe("#make transformer - main", () => {
     it("basic operation on test/fixtures/cjs", () => {
         const lActualDepLines = transformer.getDependencyStrings(
             "test/fixtures/cjs",
