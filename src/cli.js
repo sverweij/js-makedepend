@@ -20,8 +20,6 @@ program
     .option("-d, --flat-define <string>", "outputs a define with flat dependencies")
     .option("-a, --append", "append dependencies instead of replacing them")
     .option("-M, --system <items>", "list of module systems (default: amd,cjs,es6)")
-    .option("-G , --dot", "visualizes dependencies in a graphiz dot")
-    .option("-J, --json", "print the dependencies as json to stdout")
     .arguments("<directory-or-file>")
     .parse(process.argv);
 

@@ -103,12 +103,10 @@ src/cli.js: \
 	src/main.js
 
 src/main.js: \
-	src/transformer-dot.js \
-	src/transformer-json.js \
 	src/transformer-make.js \
 	src/utl.js
 
-src/transformer-dot.js: \
+src/transformer-make.js: \
 	src/extractor-composite.js
 
 src/extractor-composite.js: \
@@ -122,12 +120,6 @@ src/extractor.js: \
 src/resolver.js: \
 	src/utl.js
 
-src/transformer-json.js: \
-	src/extractor-composite.js
-
-src/transformer-make.js: \
-	src/extractor-composite.js
-
 # cjs dependencies
 ALL_SRC=src/cli.js \
 	package.json \
@@ -135,8 +127,6 @@ ALL_SRC=src/cli.js \
 	src/extractor.js \
 	src/main.js \
 	src/resolver.js \
-	src/transformer-dot.js \
-	src/transformer-json.js \
 	src/transformer-make.js \
 	src/utl.js
 # cjs dependencies
@@ -162,27 +152,11 @@ test/main.spec.js: \
 	test/utl/testutensils.js
 
 src/main.js: \
-	src/transformer-dot.js \
-	src/transformer-json.js \
 	src/transformer-make.js \
 	src/utl.js
 
-src/transformer-dot.js: \
-	src/extractor-composite.js
-
-src/transformer-json.js: \
-	src/extractor-composite.js
-
 src/transformer-make.js: \
 	src/extractor-composite.js
-
-test/transformer-dot.spec.js: \
-	src/transformer-dot.js
-
-test/transformer-json.spec.js: \
-	src/transformer-json.js \
-	test/expected-json-on-dir.json \
-	test/expected-json-on-file.json
 
 test/transformer-make.spec.js: \
 	src/transformer-make.js
