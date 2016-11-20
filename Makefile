@@ -82,7 +82,10 @@ run-update-dependencies:
 	$(NPM) run npm-check-updates
 	$(NPM) install
 
-check: lint test
+depcruise:
+	$(NPM) run depcruise
+
+check: lint depcruise test
 	./bin/js-makedepend --version # if that runs the cli script works
 
 fullcheck: check outdated nsp
@@ -160,4 +163,3 @@ src/transformer-make.js: \
 
 test/transformer-make.spec.js: \
 	src/transformer-make.js
-
