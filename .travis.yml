@@ -11,7 +11,7 @@ install:
   - npm install
 
 script:
-  - make lint cover
+  - make lint depcruise cover
   - npm run nsp
 
 branches:

@@ -1,12 +1,13 @@
 {
   "name": "js-makedepend",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Determines dependencies of javascript modules and saves them in a Makefile. A bit like makedepend does for C.",
   "bin": {
     "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
+    "depcruise": "dependency-cruise -T err -v src && dependency-cruise -T err -v test",
     "lint": "eslint src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
@@ -22,7 +23,7 @@
     "makedepend",
     "Makefile",
     "javascript",
-    "depenencies",
+    "dependencies",
     "ES6",
     "AMD",
     "CommonJS",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
+    "dependency-cruiser": "1.0.5",
     "eslint": "3.10.2",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",

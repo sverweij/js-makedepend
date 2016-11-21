@@ -164,10 +164,8 @@ function resetOutputDir() {
         "Here is some content\nIt's not ended by a linebreak", "utf8"
     );
 
-    deleteDammit(path.join(OUT_DIR, "cjs.dir.stdout.json"));
     deleteDammit(path.join(OUT_DIR, "cjs.dir.stdout.mk"));
     deleteDammit(path.join(OUT_DIR, "amd.dir.stdout.mk"));
-    deleteDammit(path.join(OUT_DIR, "cjs.dir.dot"));
 }
 
 function setModuleType(pTestPairs, pModuleType) {
@@ -216,20 +214,6 @@ describe("#main", () => {
 
     describe("specials", () => {
 
-        it("js-makedepend -f cjs.dir.dot -G test/fixtures/cjs writes a dot file", () => {
-            main.main(
-                "test/fixtures/cjs",
-                {
-                    outputTo: path.join(OUT_DIR, "cjs.dir.dot"),
-                    dot: true
-                }
-            );
-            tst.assertFileEqual(
-                path.join(OUT_DIR, "cjs.dir.dot"),
-                path.join(FIX_DIR, "cjs.dir.dot")
-            );
-        });
-
         it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
             let lCapturedStdout = "";
             const unhookIntercept = intercept(pText => {
@@ -247,26 +231,6 @@ describe("#main", () => {
             tst.assertFileEqual(
                 path.join(OUT_DIR, "cjs.dir.stdout.mk"),
                 path.join(FIX_DIR, "cjs.dir.stdout.mk")
-            );
-        });
-
-        it("js-makedepend --json test/fixtures/cjs - outputs a slew of json to stdout", () => {
-            let lCapturedStdout = "";
-            const unhookIntercept = intercept(pText => {
-                lCapturedStdout += pText;
-            });
-
-            main.main("test/fixtures/cjs", {json: true});
-            unhookIntercept();
-            fs.writeFileSync(
-                path.join(OUT_DIR, "cjs.dir.stdout.json"),
-                lCapturedStdout,
-                "utf8"
-            );
-
-            tst.assertFileEqual(
-                path.join(OUT_DIR, "cjs.dir.stdout.json"),
-                path.join(FIX_DIR, "cjs.dir.stdout.json")
             );
         });
 

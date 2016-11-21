@@ -42,8 +42,6 @@ Usage: js-makedepend [options] <directory-or-file>
     -d, --flat-define <string>  outputs a define with flat dependencies
     -a, --append                append dependencies instead of replacing them
     -M, --system <items>        list of module systems (default: amd,cjs,es6)
-	-G , --dot                  visualizes dependencies in a graphiz dot
-	-J, --json                  print the dependencies as json to stdout
 ```
 ## Features by example
 ### The default: recursive
@@ -219,27 +217,17 @@ depend:
 	$(MAKEDEPEND) --append --flat-define ROOT_TWO_SRC src/root_wo.js
 ```
 ## Visualizing the dependency graph
-Use `--dot` (or `-G`) to save the dependencies as a
-graphviz dot file:
+This was part of js-makedepend until version 1.1.0. It's fun functionality,
+but not core to why I wrote js-makedepend.
 
-```shell
-js-makedepend --dot --exclude "(node_modules)" --output-to dot-output-sample.dot src
-```
-
-You can use graphviz dot to transform it into something graphical:
-
-```shell
-dot -Tpng dot-output-sample.dot > dot-output-sample.png
-```
-![sample dependency graph](./dot-output-sample.png)
+If you're interested in visualizing a dependency graph nonetheless -
+[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) does that
+quite well.
 
 ## Send the dependency graph as JSON to stdout
-For performing diagnostics & inspection. Or to do custom transformations
-from the command line - if you're into that kind of thing.
-
-```shell
-js-makedepend --json src
-```
+Also removed from js-makedepend with the 2.0.0 release. For this also
+[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
+probably do a better job for this anyway.
 
 ## License
 [MIT](LICENSE)

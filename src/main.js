@@ -4,8 +4,6 @@ const safeRegex       = require('safe-regex');
 
 const utl             = require("./utl");
 const transformToMake = require("./transformer-make");
-const transformToDot  = require("./transformer-dot");
-const transformToJSON = require("./transformer-json");
 
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
@@ -83,16 +81,6 @@ function validateParameters(pDirOrFile, pOptions) {
 
 }
 
-function determineTransformerToUse(pOptions) {
-    if (pOptions.dot){
-        return transformToDot;
-    }
-    if (pOptions.json) {
-        return transformToJSON;
-    }
-    return transformToMake;
-}
-
 exports.main = (pDirOrFile, pOptions) => {
     pOptions = _.defaults(pOptions, {
         exclude: "",
@@ -104,15 +92,15 @@ exports.main = (pDirOrFile, pOptions) => {
     try {
         validateParameters(pDirOrFile, pOptions);
         pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
-        if ("-" === pOptions.outputTo || Boolean(pOptions.json)) {
+        if ("-" === pOptions.outputTo) {
             process.stdout.write(
-                determineTransformerToUse(pOptions)
+                transformToMake
                     .getDependencyStrings(pDirOrFile, pOptions)
             );
         } else {
             appendToOrReplaceInFile(
                 pOptions.outputTo,
-                determineTransformerToUse(pOptions)
+                transformToMake
                     .getDependencyStrings(pDirOrFile, pOptions),
                 pOptions.delimiter,
                 pOptions.append
