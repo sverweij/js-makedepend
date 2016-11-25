@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "dependency-cruiser": "1.2.1",
+    "dependency-cruiser": "1.2.3",
     "eslint": "3.10.2",
     "eslint-plugin-security": "1.2.0",
     "intercept-stdout": "0.1.2",
