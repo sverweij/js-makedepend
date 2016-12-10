@@ -1,23 +1,49 @@
 {
-    "forbidden": [{
-        "comment": "src shall never depend on anything in test",
-        "from" : "^src",
-        "to" : "^test"
-    }, {
-        "comment": "node_modules depending on stuff in the src tree is positively weird",
-        "from" : "^node_modules",
-        "to" : "^(src|test)"
-    }, {
-        "comment": "utl can be used by prod sources - but not the other way 'round",
-        "from" : "^src/utl",
-        "to" : "^src"
-    }, {
-        "comment": "test/utl can be used by test sources - but not the other way 'round",
-        "from" : "^test/utl",
-        "to" : "^(src|test)"
-    }, {
-        "comment": "don't let fixtures touch test or src code",
-        "from" : "^(test/fixtures|test/extractor-fixtures)",
-        "to" : "^(src|test/[^/]+\\.js)"
-    }]
+    "forbidden": [
+        {
+            "comment": "src shall never depend on anything in test",
+            "from": {
+                "path": "^src"
+            },
+            "to": {
+                "path": "^test"
+            }
+        },
+        {
+            "comment": "node_modules depending on stuff in the src tree is positively weird",
+            "from": {
+                "path": "^node_modules"
+            },
+            "to": {
+                "path": "^(src|test)"
+            }
+        },
+        {
+            "comment": "utl can be used by prod sources - but not the other way 'round",
+            "from": {
+                "path": "^src/utl"
+            },
+            "to": {
+                "path": "^src"
+            }
+        },
+        {
+            "comment": "test/utl can be used by test sources - but not the other way 'round",
+            "from": {
+                "path": "^test/utl"
+            },
+            "to": {
+                "path": "^(src|test)"
+            }
+        },
+        {
+            "comment": "don't let fixtures touch test or src code",
+            "from": {
+                "path": "^(test/fixtures|test/extractor-fixtures)"
+            },
+            "to": {
+                "path": "^(src|test/[^/]+\\.js)"
+            }
+        }
+    ]
 }
