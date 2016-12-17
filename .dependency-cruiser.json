@@ -1,49 +1,52 @@
 {
     "forbidden": [
         {
+			"name": "not-to-test",
+			"severity": "error",
             "comment": "src shall never depend on anything in test",
-            "from": {
-                "path": "^src"
-            },
-            "to": {
-                "path": "^test"
-            }
+            "from": { "path": "^src" },
+            "to": { "path": "^test" }
         },
         {
+			"name": "not-from-node_modules",
+			"severity": "error",
             "comment": "node_modules depending on stuff in the src tree is positively weird",
-            "from": {
-                "path": "^node_modules"
-            },
-            "to": {
-                "path": "^(src|test)"
-            }
+            "from": { "path": "^node_modules" },
+            "to": { "path": "^(src|test)" }
         },
         {
+			"name": "not-from-utl",
+			"severity": "error",
             "comment": "utl can be used by prod sources - but not the other way 'round",
-            "from": {
-                "path": "^src/utl"
-            },
-            "to": {
-                "path": "^src"
-            }
+            "from": { "path": "^src/utl" },
+            "to": { "path": "^src" }
         },
         {
+			"name": "not-from-test-utl",
+			"severity": "error",
             "comment": "test/utl can be used by test sources - but not the other way 'round",
-            "from": {
-                "path": "^test/utl"
-            },
-            "to": {
-                "path": "^(src|test)"
-            }
+            "from": { "path": "^test/utl" },
+            "to": { "path": "^(src|test)" }
         },
         {
+			"name": "not-from-fixtures",
+			"severity": "error",
             "comment": "don't let fixtures touch test or src code",
-            "from": {
-                "path": "^(test/fixtures|test/extractor-fixtures)"
-            },
-            "to": {
-                "path": "^(src|test/[^/]+\\.js)"
-            }
+            "from": { "path": "^(test/fixtures|test/extractor-fixtures)" },
+            "to": { "path": "^(src|test/[^/]+\\.js)" }
+        },
+		{
+            "name": "not-to-unresolvable",
+            "severity": "warn",
+            "from": { },
+            "to": { "couldNotResolve": true }
+        },
+		{
+            "name": "not-to-punycode",
+            "severity": "error",
+			"comment": "don't depend on core module punycode - use the userland one instead",
+            "from": { },
+            "to": { "coreModule": true, "path": "^punycode$" }
         }
     ]
 }

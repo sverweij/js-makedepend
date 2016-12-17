@@ -7,7 +7,7 @@
   },
   "scripts": {
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
-    "depcruise": "dependency-cruise -v -T err src test",
+    "depcruise": "dependency-cruise -v -T err -x \"(fixtures)\" src test",
     "lint": "eslint src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
