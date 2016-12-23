@@ -17,6 +17,18 @@ help:
 
 # production rules
 
+.npmignore: .gitignore
+	cp $< $@
+	echo "test/**" >> $@
+	echo "utl/**" >> $@
+	echo ".codeclimate.yml" >> $@
+	echo ".dependency-cruiser.json" >> $@
+	echo ".eslintignore" >> $@
+	echo ".eslintrc.json" >> $@
+	echo ".gitlab-ci.yml" >> $@
+	echo ".travis.yml" >> $@
+	echo "Makefile" >> $@
+
 # "phony" targets
 prerequisites:
 	$(NPM) install
@@ -188,4 +200,3 @@ src/transformer-make.js: \
 
 test/transformer-make.spec.js: \
 	src/transformer-make.js
-
