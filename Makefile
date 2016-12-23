@@ -110,45 +110,70 @@ src/main.js: \
 	src/utl.js
 
 src/transformer-make.js: \
-	src/extractor-composite.js
+	src/extractor/index.js
 
-src/extractor-composite.js: \
-	src/extractor.js \
+src/extractor/index.js: \
+	src/extractor/extract/index.js \
 	src/utl.js
 
-src/extractor.js: \
-	src/resolver.js \
+src/extractor/extract/index.js: \
+	src/extractor/extract/extract-AMD.js \
+	src/extractor/extract/extract-ES6.js \
+	src/extractor/extract/extract-commonJS.js \
+	src/extractor/resolve/index.js \
 	src/utl.js
 
-src/resolver.js: \
+src/extractor/resolve/index.js: \
+	src/extractor/resolve/resolve-AMD.js \
+	src/extractor/resolve/resolve-commonJS.js
+
+src/extractor/resolve/resolve-AMD.js: \
 	src/utl.js
+
+src/extractor/extract/extract-AMD.js: \
+	src/extractor/extract/extract-commonJS.js
 
 # cjs dependencies
 ALL_SRC=src/cli.js \
 	package.json \
-	src/extractor-composite.js \
-	src/extractor.js \
+	src/extractor/extract/extract-AMD.js \
+	src/extractor/extract/extract-ES6.js \
+	src/extractor/extract/extract-commonJS.js \
+	src/extractor/extract/index.js \
+	src/extractor/index.js \
+	src/extractor/resolve/index.js \
+	src/extractor/resolve/resolve-AMD.js \
+	src/extractor/resolve/resolve-commonJS.js \
 	src/main.js \
-	src/resolver.js \
 	src/transformer-make.js \
 	src/utl.js
 # cjs dependencies
 test/extractor-composite.spec.js: \
-	src/extractor-composite.js
+	src/extractor/index.js
 
-src/extractor-composite.js: \
-	src/extractor.js \
+src/extractor/index.js: \
+	src/extractor/extract/index.js \
 	src/utl.js
 
-src/extractor.js: \
-	src/resolver.js \
+src/extractor/extract/index.js: \
+	src/extractor/extract/extract-AMD.js \
+	src/extractor/extract/extract-ES6.js \
+	src/extractor/extract/extract-commonJS.js \
+	src/extractor/resolve/index.js \
 	src/utl.js
 
-src/resolver.js: \
+src/extractor/resolve/index.js: \
+	src/extractor/resolve/resolve-AMD.js \
+	src/extractor/resolve/resolve-commonJS.js
+
+src/extractor/resolve/resolve-AMD.js: \
 	src/utl.js
+
+src/extractor/extract/extract-AMD.js: \
+	src/extractor/extract/extract-commonJS.js
 
 test/extractor.spec.js: \
-	src/extractor.js
+	src/extractor/extract/index.js
 
 test/main.spec.js: \
 	src/main.js \
@@ -159,7 +184,8 @@ src/main.js: \
 	src/utl.js
 
 src/transformer-make.js: \
-	src/extractor-composite.js
+	src/extractor/index.js
 
 test/transformer-make.spec.js: \
 	src/transformer-make.js
+

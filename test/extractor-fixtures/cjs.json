@@ -1,48 +1,5 @@
 [
     {
-        "title": "test on extractor.spec.js",
-        "input": {
-            "fileName": "test/extractor.spec.js"
-        },
-        "expected": [
-            {
-                "module": "../src/extractor",
-                "resolved": "src/extractor.js",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": true
-            },
-            {
-                "module": "./extractor-fixtures/amd.json",
-                "resolved": "test/extractor-fixtures/amd.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "./extractor-fixtures/cjs.json",
-                "resolved": "test/extractor-fixtures/cjs.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "./extractor-fixtures/es6.json",
-                "resolved": "test/extractor-fixtures/es6.json",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": false
-            },
-            {
-                "module": "chai",
-                "resolved": "node_modules/chai/index.js",
-                "moduleSystem": "cjs",
-                "coreModule": false,
-                "followable": true
-            }
-        ]
-    },
-    {
         "title": "test on js-makedepend cjs fixture one",
         "input": {
             "fileName": "../js-makedepend/test/extractor-fixtures/cjs/root_one.js",

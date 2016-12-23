@@ -2,7 +2,7 @@
 
 const _                  = require('lodash');
 const fs                 = require('fs');
-const extractorComposite = require('./extractor-composite');
+const extractorComposite = require('./extractor');
 
 const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
 const hasIncludableDependencies = (pDeps, pDependor) => pDeps[pDependor].some(isIncludable);

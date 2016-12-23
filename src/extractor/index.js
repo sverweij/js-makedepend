@@ -1,11 +1,11 @@
 "use strict";
 
-const fs        = require('fs');
-const path      = require('path');
-const _         = require('lodash');
+const fs      = require('fs');
+const path    = require('path');
+const _       = require('lodash');
 
-const extractor = require('./extractor');
-const utl       = require('./utl');
+const extract = require('./extract');
+const utl     = require('../utl');
 
 let gScanned    = new Set();
 
@@ -32,7 +32,7 @@ function extractRecursive (pFileName, pOptions, pVisited) {
     pVisited.add(pFileName);
 
     let lRetval = {};
-    const lDependencies = extractor.extractDependencies(pFileName, pOptions);
+    const lDependencies = extract(pFileName, pOptions);
 
     lRetval[pFileName] = lDependencies;
     lDependencies
@@ -70,7 +70,7 @@ function _extractRecursiveFlattened(pFileName, pOptions, pVisited) {
     pVisited = pVisited || new Set();
     pVisited.add(pFileName);
 
-    const lDependencies = extractor.extractDependencies(pFileName, pOptions);
+    const lDependencies = extract(pFileName, pOptions);
     let lRetval = _.clone(lDependencies);
 
     lDependencies
