@@ -1,11 +1,12 @@
 "use strict";
 
-const fs      = require('fs');
-const path    = require('path');
-const _       = require('lodash');
+const fs                   = require('fs');
+const path                 = require('path');
+const _                    = require('lodash');
 
-const extract = require('./extract');
-const utl     = require('../utl');
+const extract              = require('./extract');
+const utl                  = require('../utl');
+const SUPPORTED_EXTENSIONS = require('./transpile/meta').scannableExtensions;
 
 let gScanned    = new Set();
 
@@ -19,7 +20,7 @@ function getAllJSFilesFromDir (pDirName, pOptions) {
             if (fs.statSync(path.join(pDirName, pFileName)).isDirectory()){
                 return pSum.concat(getAllJSFilesFromDir(path.join(pDirName, pFileName), pOptions));
             }
-            if (path.extname(pFileName) === ".js"){
+            if (SUPPORTED_EXTENSIONS.some(pExtension => pFileName.endsWith(pExtension))){
                 return pSum.concat(path.join(pDirName, pFileName));
             }
             return pSum;

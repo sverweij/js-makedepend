@@ -3,9 +3,7 @@
 const path    = require('path');
 const resolve = require('resolve');
 
-const SUPPORTED_EXTENSIONS = [
-    ".js"
-];
+const SUPPORTED_EXTENSIONS = require("../transpile/meta").scannableExtensions;
 
 /*
  * resolves both CommonJS and ES6

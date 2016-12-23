@@ -6,14 +6,14 @@
     "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test test/*/*.spec.js",
     "depcruise": "dependency-cruise -v -T err -x \"(fixtures)\" src test",
     "lint": "eslint src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
-    "test": "mocha -R dot test",
-    "test-long": "mocha",
-    "watch": "mocha --watch --watch-extensions=json --reporter=min "
+    "test": "mocha -R dot test test/*/*.spec.js",
+    "test-long": "mocha test/ */*.spec.js",
+    "watch": "mocha --watch --watch-extensions=json --reporter=min test/ */*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,9 @@
     "makedepend",
     "Makefile",
     "javascript",
+    "typescript",
+    "coffeescript",
+    "livescript",
     "dependencies",
     "ES6",
     "AMD",

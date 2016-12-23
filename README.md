@@ -1,7 +1,7 @@
 # js-makedepend
 A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 
-For all two of you using `Makefiles` to build JavaScript based projects.
+For all two of you using `Makefiles` to build JavaScript (TypeScript/ CoffeeScript/ ...) based projects.
 
 [![Build Status](https://travis-ci.org/sverweij/js-makedepend.svg?branch=master)](https://travis-ci.org/sverweij/js-makedepend)
 [![bitHound Overall Score](https://www.bithound.io/github/sverweij/js-makedepend/badges/score.svg)](https://www.bithound.io/github/sverweij/js-makedepend)
@@ -228,6 +228,28 @@ quite well.
 Also removed from js-makedepend with the 2.0.0 release. For this also
 [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
 probably do a better job for this anyway.
+
+
+## Support for TypeScript, CoffeeScript and LiveScript
+As of version 2.1.0 js-makedepend supports TypeScript, CoffeeScript and
+LiveScript. If any of these transpilers (or 'compilers' as they like to be
+called) are installed in your project folder's node_modules, js-makedepend
+will them. It _does not_ ship with the transpilers for these languages
+themselves to keep install size reasonable (e.g. typescript is ~22Mb) -
+and your project folder probably already contains them anyway.
+
+js-makedepend does not need any switches to work with any of these languages,
+it just works when the transpilers are in node_modules - so everything said
+above about JavaScript holds for TypeScript, CoffeeScript and LiveScript
+as well.
+
+## Support for other alt-js languages
+Providing support for other alt-js languages should prove straightforward -
+have a peek in the [transpile](./src/extractor/transpile) folder for samples
+on how to write a wrapper.
+
+Pull requests welcome.
+
 
 ## License
 [MIT](LICENSE)

@@ -1,0 +1,17 @@
+[
+    {
+        "title": "Literate coffeescript 8-/",
+        "input": {
+            "fileName": "test/extractor-fixtures/coffee/litcoffee.coffee.md"
+        },
+        "expected": [
+            {
+                "module": "path",
+                "resolved": "path",
+                "moduleSystem": "es6",
+                "coreModule": true,
+                "followable": false
+            }
+        ]
+    }
+]
