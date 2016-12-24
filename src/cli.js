@@ -20,10 +20,11 @@ program
     .option("-d, --flat-define <string>", "outputs a define with flat dependencies")
     .option("-a, --append", "append dependencies instead of replacing them")
     .option("-M, --system <items>", "list of module systems (default: amd,cjs,es6)")
+    .option("-i, --info", "show what is supported in your project folder")
     .arguments("<directory-or-file>")
     .parse(process.argv);
 
-if (Boolean(program.args[0])) {
+if (Boolean(program.args[0]) || program.info) {
     main.main(
         program.args[0],
         program

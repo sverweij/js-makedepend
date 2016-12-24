@@ -16,6 +16,14 @@ const extension2wrapper = {
 };
 
 module.exports.getWrapper = pExtension => extension2wrapper[pExtension] || jsWrap;
+module.exports.allExtensions =
+    Object.keys(extension2wrapper)
+        .map(
+            pKey => ({
+                extension: pKey,
+                available: extension2wrapper[pKey].isAvailable()
+            })
+        );
 module.exports.scannableExtensions =
     Object.keys(extension2wrapper)
         .filter(

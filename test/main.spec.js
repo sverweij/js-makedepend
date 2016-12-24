@@ -1,5 +1,6 @@
 "use strict";
 const assert    = require("assert");
+const expect    = require("chai").expect;
 const main      = require("../src/main.js");
 const fs        = require("fs");
 const tst       = require("./utl/testutensils");
@@ -213,6 +214,22 @@ describe("#main", () => {
     });
 
     describe("specials", () => {
+
+        it("js-makedepend -i shows meta info about the current environment", () => {
+            let lCapturedStdout = "";
+            const unhookIntercept = intercept(pText => {
+                lCapturedStdout += pText;
+            });
+
+            main.main(null, ({info: true}));
+            unhookIntercept();
+
+            expect(
+                lCapturedStdout
+            ).to.contain(
+                "If you need a currently-not-enabled transpiler (those with a '"
+            );
+        });
 
         it("js-makedepend -f - test/fixtures/cjs - outputs to stdout", () => {
             let lCapturedStdout = "";

@@ -42,6 +42,7 @@ Usage: js-makedepend [options] <directory-or-file>
     -d, --flat-define <string>  outputs a define with flat dependencies
     -a, --append                append dependencies instead of replacing them
     -M, --system <items>        list of module systems (default: amd,cjs,es6)
+	-i, --info                  show what is supported in your project folder
 ```
 ## Features by example
 ### The default: recursive
@@ -216,32 +217,21 @@ depend:
 	$(MAKEDEPEND) --append --flat-define ROOT_ONE_SRC src/root_one.js
 	$(MAKEDEPEND) --append --flat-define ROOT_TWO_SRC src/root_wo.js
 ```
-## Visualizing the dependency graph
-This was part of js-makedepend until version 1.1.0. It's fun functionality,
-but not core to why I wrote js-makedepend.
-
-If you're interested in visualizing a dependency graph nonetheless -
-[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) does that
-quite well.
-
-## Send the dependency graph as JSON to stdout
-Also removed from js-makedepend with the 2.0.0 release. For this also
-[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
-probably do a better job for this anyway.
-
 
 ## Support for TypeScript, CoffeeScript and LiveScript
 As of version 2.1.0 js-makedepend supports TypeScript, CoffeeScript and
 LiveScript. If any of these transpilers (or 'compilers' as they like to be
 called) are installed in your project folder's node_modules, js-makedepend
-will them. It _does not_ ship with the transpilers for these languages
-themselves to keep install size reasonable (e.g. typescript is ~22Mb) -
-and your project folder probably already contains them anyway.
+will use them.
 
-js-makedepend does not need any switches to work with any of these languages,
-it just works when the transpilers are in node_modules - so everything said
-above about JavaScript holds for TypeScript, CoffeeScript and LiveScript
-as well.
+js-makedepend does not need any switches to work with any of these languages.
+It just works when the transpilers are in node_modules. This means everything
+works for TypeScript, CoffeeScript and LiveScript like it does for JavaScript.
+
+> js-makedepend _does not_ ship with the transpilers for these languages
+> themselves to keep install size reasonable (e.g. typescript is ~22Mb).
+> Moreover, when you're developing in any of these alt-JS languages, your
+> project folder probably already contains the transpiler anyway.
 
 ## Support for other alt-js languages
 Providing support for other alt-js languages should prove straightforward -
@@ -249,6 +239,21 @@ have a peek in the [transpile](./src/extractor/transpile) folder for samples
 on how to write a wrapper.
 
 Pull requests welcome.
+
+## De-supported stuff + alternatives for them
+
+### Visualizing the dependency graph
+This was part of js-makedepend until version 1.1.0. It's fun functionality,
+but not core to why I wrote js-makedepend.
+
+If you're interested in visualizing a dependency graph nonetheless -
+[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) does that
+quite well.
+
+### Send the dependency graph as JSON to stdout
+Also removed from js-makedepend with the 2.0.0 release. For this also
+[dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
+probably do a better job for this anyway.
 
 
 ## License

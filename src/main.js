@@ -4,7 +4,7 @@ const safeRegex       = require('safe-regex');
 
 const utl             = require("./utl");
 const transformToMake = require("./transformer-make");
-
+const formatMetaInfo  = require("./extractor/transpile/formatMetaInfo");
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
@@ -83,30 +83,33 @@ function validateParameters(pDirOrFile, pOptions) {
 
 exports.main = (pDirOrFile, pOptions) => {
     pOptions = _.defaults(pOptions, {
-        exclude: "",
-        outputTo: "Makefile",
-        delimiter: STARTING_STRING_DELIMITER,
-        system: DEFAULT_MODULE_SYSTEMS
+        exclude   : "",
+        outputTo  : "Makefile",
+        delimiter : STARTING_STRING_DELIMITER,
+        system    : DEFAULT_MODULE_SYSTEMS
     });
-
-    try {
-        validateParameters(pDirOrFile, pOptions);
-        pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
-        if ("-" === pOptions.outputTo) {
-            process.stdout.write(
-                transformToMake
-                    .getDependencyStrings(pDirOrFile, pOptions)
-            );
-        } else {
-            appendToOrReplaceInFile(
-                pOptions.outputTo,
-                transformToMake
-                    .getDependencyStrings(pDirOrFile, pOptions),
-                pOptions.delimiter,
-                pOptions.append
-            );
+    if (pOptions.info) {
+        process.stdout.write(formatMetaInfo());
+    } else {
+        try {
+            validateParameters(pDirOrFile, pOptions);
+            pOptions.moduleSystems = normalizeModuleSystems(pOptions.system);
+            if ("-" === pOptions.outputTo) {
+                process.stdout.write(
+                    transformToMake
+                        .getDependencyStrings(pDirOrFile, pOptions)
+                );
+            } else {
+                appendToOrReplaceInFile(
+                    pOptions.outputTo,
+                    transformToMake
+                        .getDependencyStrings(pDirOrFile, pOptions),
+                    pOptions.delimiter,
+                    pOptions.append
+                );
+            }
+        } catch (e) {
+            process.stderr.write(`ERROR: ${e.message}`);
         }
-    } catch (e) {
-        process.stderr.write(`ERROR: ${e.message}`);
     }
 };
