@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
+    "coffee-script": "1.12.2",
     "dependency-cruiser": "1.10.1",
     "eslint": "3.12.2",
     "eslint-plugin-security": "1.2.0",
@@ -50,7 +51,8 @@
     "istanbul": "0.4.5",
     "mocha": "3.2.0",
     "npm-check-updates": "2.8.9",
-    "nsp": "2.6.2"
+    "nsp": "2.6.2",
+    "typescript": "2.1.4"
   },
   "dependencies": {
     "acorn": "4.0.4",
