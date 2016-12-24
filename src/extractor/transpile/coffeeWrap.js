@@ -1,6 +1,9 @@
 "use strict";
-const tryRequire = require("./tryRequire");
-const coffeeScript = tryRequire("coffee-script");
+const tryRequire   = require("./tryRequire");
+const coffeeScript = tryRequire(
+    "coffee-script",
+    require("../../../package.json").supportedTranspilers["coffee-script"]
+);
 
 module.exports = (pLiterate) => ({
     isAvailable : () => coffeeScript !== false,

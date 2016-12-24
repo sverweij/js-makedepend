@@ -59,5 +59,10 @@
     "resolve": "1.2.0",
     "safe-regex": "1.1.0",
     "semver": "5.3.0"
+  },
+  "supportedTranspilers": {
+    "coffee-script": ">=1.0.0 <2.0.0",
+    "livescript": ">=1.0.0 <2.0.0",
+    "typescript": ">=2.0.0 <3.0.0"
   }
 }

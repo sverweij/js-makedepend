@@ -1,13 +1,25 @@
 "use strict";
+const path   = require('path');
+const semver = require('semver');
 
-module.exports = (pModuleName) => {
+module.exports = (pModuleName, pSemVer) => {
+    let lRetval = false;
+
     try {
-        return require(pModuleName);
+        lRetval = require(pModuleName);
+        if (
+            Boolean(pSemVer) &&
+            !semver.satisfies(
+                require(`${pModuleName}${path.sep}package.json`).version,
+                pSemVer
+            )
+        ) {
+            lRetval = false;
+        }
     } catch (e) {
-        // left blank on purpose. We could check for e.code,
-        // which would be === "MODULE_NOT_FOUND" when the module is not found.
+        lRetval = false;
     }
-    return false;
+    return lRetval;
 };
 
 /*

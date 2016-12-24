@@ -154,12 +154,15 @@ src/extractor/transpile/meta.js: \
 	src/extractor/transpile/typeScriptWrap.js
 
 src/extractor/transpile/coffeeWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/liveScriptWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/typeScriptWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/index.js: \
@@ -223,12 +226,15 @@ src/extractor/transpile/meta.js: \
 	src/extractor/transpile/typeScriptWrap.js
 
 src/extractor/transpile/coffeeWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/liveScriptWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/typeScriptWrap.js: \
+	package.json \
 	src/extractor/transpile/tryRequire.js
 
 src/extractor/transpile/index.js: \
@@ -267,6 +273,9 @@ test/transpile/meta.spec.js: \
 	src/extractor/transpile/javaScriptWrap.js \
 	src/extractor/transpile/liveScriptWrap.js \
 	src/extractor/transpile/meta.js
+
+test/transpile/tryRequire.spec.js: \
+	src/extractor/transpile/tryRequire.js
 
 test/transpile/typeScriptWrap.spec.js: \
 	src/extractor/transpile/typeScriptWrap.js

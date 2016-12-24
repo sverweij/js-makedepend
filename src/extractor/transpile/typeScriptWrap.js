@@ -1,6 +1,9 @@
 "use strict";
 const tryRequire = require("./tryRequire");
-const typescript = tryRequire("typescript");
+const typescript = tryRequire(
+    "typescript",
+    require("../../../package.json").supportedTranspilers.typescript
+);
 
 exports.isAvailable = () => typescript !== false;
 
