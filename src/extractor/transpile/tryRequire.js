@@ -10,7 +10,7 @@ module.exports = (pModuleName, pSemVer) => {
         if (
             Boolean(pSemVer) &&
             !semver.satisfies(
-                require(`${pModuleName}${path.sep}package.json`).version,
+                require(path.join(pModuleName, 'package.json')).version,
                 pSemVer
             )
         ) {
