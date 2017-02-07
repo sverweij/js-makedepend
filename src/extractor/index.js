@@ -5,7 +5,7 @@ const path                 = require('path');
 const _                    = require('lodash');
 
 const extract              = require('./extract');
-const utl                  = require('../utl');
+const utl                  = require('./utl');
 const SUPPORTED_EXTENSIONS = require('./transpile/meta').scannableExtensions;
 
 let gScanned    = new Set();
