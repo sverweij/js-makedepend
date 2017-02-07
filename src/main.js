@@ -2,7 +2,6 @@ const fs              = require("fs");
 const _               = require("lodash");
 const safeRegex       = require('safe-regex');
 
-const utl             = require("./utl");
 const transformToMake = require("./transformer-make");
 const formatMetaInfo  = require("./extractor/transpile/formatMetaInfo");
 
@@ -49,7 +48,9 @@ function normalizeModuleSystems(pSystemList) {
 }
 
 function validateFileExistence(pDirOrFile) {
-    if (!utl.fileExists(pDirOrFile)) {
+    try {
+        fs.accessSync(pDirOrFile, fs.R_OK);
+    } catch (e) {
         throw Error(`Can't open '${pDirOrFile}' for reading. Does it exist?\n`);
     }
 }
