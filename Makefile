@@ -79,7 +79,7 @@ push-mirrors: mirrors
 	$(GIT) push gitlab-mirror
 
 test: dev-build
-	$(NPM) run test
+	$(NPM) test
 
 nsp:
 	$(NPM) run nsp
