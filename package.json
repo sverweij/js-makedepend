@@ -8,6 +8,7 @@
   "scripts": {
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test test/*/*.spec.js",
     "depcruise": "dependency-cruise -v -T err -x \"(fixtures)\" src test",
+    "depcruise:graph": "dependency-cruise -v -T dot -x \"(^node_modules|fixtures)\" src | dot -T svg > tmp_deps.svg",
     "lint": "eslint src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
