@@ -253,7 +253,7 @@ quite well.
 ### Send the dependency graph as JSON to stdout
 Also removed from js-makedepend with the 2.0.0 release. For this also
 [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
-probably do a better job for this anyway.
+probably do a better job.
 
 
 ## License
