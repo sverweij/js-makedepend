@@ -18,6 +18,7 @@ tmp_*.md
 npm-debug.log
 isolate-*-v8.log
 build
+package-lock.json
 test/**
 utl/**
 .codeclimate.yml
