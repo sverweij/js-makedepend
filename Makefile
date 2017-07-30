@@ -27,7 +27,7 @@ lint:
 	$(NPM) run lint
 
 cover: dev-build
-	$(NPM) run cover
+	$(NPM) run test:cover
 
 bump-patch:
 	$(NPM) version patch

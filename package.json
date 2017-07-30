@@ -6,15 +6,15 @@
     "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
     "depcruise": "dependency-cruise -v -T err src test",
     "lint": "eslint src test",
     "lint:fix": "eslint --fix src test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
     "test": "mocha -R dot test",
-    "test-long": "mocha",
-    "watch": "mocha --watch --watch-extensions=json --reporter=min "
+    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
+    "test:long": "mocha",
+    "test:watch": "mocha --watch --watch-extensions=json --reporter=min "
   },
   "repository": {
     "type": "git",
