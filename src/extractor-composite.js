@@ -40,9 +40,9 @@ function extractRecursive (pFileName, pOptions, pVisited) {
         .forEach(
             pDep => {
                 lRetval = _.merge(
-                            lRetval,
-                            extractRecursive(pDep.resolved, pOptions, pVisited)
-                        );
+                    lRetval,
+                    extractRecursive(pDep.resolved, pOptions, pVisited)
+                );
             }
         );
     return lRetval;
