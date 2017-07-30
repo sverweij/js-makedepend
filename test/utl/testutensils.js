@@ -6,13 +6,13 @@ module.exports = (() => {
     "use strict";
 
     const getBestAvailableHash = () =>
-            ["ripemd160", "md5", "sha1"]
+        ["ripemd160", "md5", "sha1"]
             .filter(pHash => crypto.getHashes().indexOf(pHash) > -1)[0];
 
     const hashString = pString => crypto
-            .createHash(getBestAvailableHash())
-            .update(pString)
-            .digest("hex");
+        .createHash(getBestAvailableHash())
+        .update(pString)
+        .digest("hex");
 
     return {
         assertFileEqual (pActualFileName, pExpectedFileName) {
