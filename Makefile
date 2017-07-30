@@ -38,6 +38,9 @@ dev-build: bin/js-makedepend $(ALL_SRC)
 lint:
 	$(NPM) run lint
 
+lint-fix:
+	$(NPM) run lint:fix
+
 cover: dev-build
 	$(NPM) run test:cover
 
@@ -87,7 +90,7 @@ nsp:
 outdated:
 	$(NPM) outdated
 
-update-dependencies: run-update-dependencies dev-build test
+update-dependencies: run-update-dependencies dev-build test lint-fix
 	$(GIT) diff package.json
 
 run-update-dependencies:
