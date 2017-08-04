@@ -14,6 +14,24 @@ help:
 	@echo "| More information and other targets: see README.md      |"
 	@echo " -------------------------------------------------------- "
 	@echo
+	@echo "Useful targets:"
+	@echo
+	@echo "dev-build"
+	@echo "  - makes a development build"
+	@echo
+	@echo "fullcheck"
+	@echo "  - runs all possible static checks (lint, depcruise, npm outdated, nsp)"
+	@echo
+	@echo "update-dependencies"
+	@echo "  - updates node dependencies and devDependencies to latest"
+	@echo "  - autofixes any lint regressions and runs all tests"
+	@echo "  - shows the diff of package.json"
+	@echo
+	@echo "publish-patch, publish-minor, publish-major"
+	@echo "  - ups the version semver compliantly"
+	@echo "  - commits & tags it"
+	@echo "  - publishes to npm"
+	@echo
 
 # production rules
 
@@ -33,7 +51,7 @@ help:
 prerequisites:
 	$(NPM) install
 
-dev-build: bin/js-makedepend $(ALL_SRC)
+dev-build: bin/js-makedepend $(ALL_SRC) .npmignore
 
 lint:
 	$(NPM) run lint
@@ -44,23 +62,14 @@ lint-fix:
 cover: dev-build
 	$(NPM) run test:cover
 
-bump-patch:
+pulbish-patch:
 	$(NPM) version patch
 
-bump-minor:
+pulbish-minor:
 	$(NPM) version minor
 
-bump-major:
+pulbish-major:
 	$(NPM) version major
-
-tag:
-	$(GIT) tag -a v`utl/getver` -m "v`utl/getver`"
-	$(GIT) push --tags
-
-publish:
-	$(GIT) push
-	$(GIT) push --tags
-	$(NPM) publish
 
 profile:
 	$(NODE) --prof src/cli.js -f - test
