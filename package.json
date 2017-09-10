@@ -46,21 +46,21 @@
     "node": ">=4"
   },
   "devDependencies": {
-    "chai": "4.1.0",
+    "chai": "4.1.2",
     "coffee-script": "1.12.7",
-    "dependency-cruiser": "2.3.1",
-    "eslint": "4.3.0",
+    "dependency-cruiser": "2.3.2",
+    "eslint": "4.6.1",
     "eslint-plugin-security": "1.4.0",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.5",
-    "mocha": "3.5.0",
+    "mocha": "3.5.2",
     "npm-check-updates": "2.12.1",
-    "nsp": "2.7.0",
-    "typescript": "2.4.2"
+    "nsp": "2.8.0",
+    "typescript": "2.5.2"
   },
   "dependencies": {
-    "acorn": "5.1.1",
-    "chalk": "2.0.1",
+    "acorn": "5.1.2",
+    "chalk": "2.1.0",
     "commander": "2.11.0",
     "figures": "2.0.0",
     "lodash": "4.17.4",
