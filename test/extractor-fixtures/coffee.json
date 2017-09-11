@@ -10,6 +10,7 @@
                 "resolved": "path",
                 "moduleSystem": "es6",
                 "coreModule": true,
+                "exists": false,
                 "followable": false
             }
         ]

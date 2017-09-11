@@ -2,6 +2,7 @@
 
 const path    = require('path');
 const resolve = require('resolve');
+const utl     = require('../utl');
 
 const SUPPORTED_EXTENSIONS = require("../transpile/meta").scannableExtensions;
 
@@ -10,9 +11,10 @@ const SUPPORTED_EXTENSIONS = require("../transpile/meta").scannableExtensions;
  */
 module.exports = (pModuleName, pBaseDir, pFileDir) => {
     let lRetval = {
-        resolved        : pModuleName,
-        coreModule      : false,
-        followable      : false
+        resolved   : pModuleName,
+        coreModule : false,
+        followable : false,
+        exists     : false
     };
 
     if (resolve.isCore(pModuleName)){
@@ -30,6 +32,7 @@ module.exports = (pModuleName, pBaseDir, pFileDir) => {
                 )
             );
             lRetval.followable = (path.extname(lRetval.resolved) !== ".json");
+            lRetval.exists = utl.fileExists(lRetval.resolved);
         } catch (e) {
             // lRetval.couldNotResolve = true;
         }

@@ -12,6 +12,7 @@
                 "resolved": "test/extractor-fixtures/cjs/one_only_one.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -19,6 +20,7 @@
                 "resolved": "test/extractor-fixtures/cjs/one_only_two.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -26,6 +28,7 @@
                 "resolved": "test/extractor-fixtures/cjs/shared.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -33,6 +36,7 @@
                 "resolved": "test/extractor-fixtures/cjs/sub/dir.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -40,6 +44,7 @@
                 "resolved": "node_modules/commander/index.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -47,6 +52,7 @@
                 "resolved": "fs",
                 "moduleSystem": "cjs",
                 "coreModule": true,
+                "exists": false,
                 "followable": false
             }
         ]
@@ -69,6 +75,7 @@
                 "resolved": "test/extractor-fixtures/cjs/empty.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             },
             {
@@ -76,6 +83,7 @@
                 "resolved": "fs",
                 "moduleSystem": "cjs",
                 "coreModule": true,
+                "exists": false,
                 "followable": false
             }
         ]
@@ -91,6 +99,7 @@
                 "resolved": "os",
                 "moduleSystem": "cjs",
                 "coreModule": true,
+                "exists": false,
                 "followable": false
             }
         ]
@@ -106,6 +115,7 @@
                 "resolved": "os",
                 "moduleSystem": "cjs",
                 "coreModule": true,
+                "exists": false,
                 "followable": false
             }
         ]
@@ -121,6 +131,7 @@
                 "resolved": "test/extractor-fixtures/cjs/direct-require.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             }
         ]
@@ -143,6 +154,7 @@
                 "resolved": "test/extractor-fixtures/cjs/sub/not-the-index.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             }
         ]
@@ -158,6 +170,7 @@
                 "resolved": "test/extractor-fixtures/cjs/sub/node_modules/some-module/main.js",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": true,
                 "followable": true
             }
         ]
@@ -173,6 +186,7 @@
                 "resolved": "./does-not-exist-either",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": false,
                 "followable": false
             },
             {
@@ -180,6 +194,7 @@
                 "resolved": "really-does-not-exist",
                 "moduleSystem": "cjs",
                 "coreModule": false,
+                "exists": false,
                 "followable": false
             }
         ]

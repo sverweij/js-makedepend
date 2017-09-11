@@ -11,6 +11,7 @@
                     "resolved": "lodash",
                     "moduleSystem": "amd",
                     "coreModule": false,
+                    "exists": false,
                     "followable": false
                 },
                 {
@@ -18,6 +19,7 @@
                     "resolved": "other-module-in-the-config",
                     "moduleSystem": "amd",
                     "coreModule": false,
+                    "exists": false,
                     "followable": false
                 },
                 {
@@ -25,6 +27,7 @@
                     "resolved": "test/extractor-fixtures/amd/sub/local-module-in-drag.js",
                     "moduleSystem": "amd",
                     "coreModule": false,
+                    "exists": true,
                     "followable": true
                 }
             ],

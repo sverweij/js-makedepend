@@ -176,7 +176,8 @@ src/extractor/resolve/resolve-AMD.js: \
 	src/extractor/utl.js
 
 src/extractor/resolve/resolve-commonJS.js: \
-	src/extractor/transpile/meta.js
+	src/extractor/transpile/meta.js \
+	src/extractor/utl.js
 
 src/extractor/transpile/index.js: \
 	src/extractor/transpile/meta.js
@@ -230,7 +231,8 @@ src/extractor/resolve/resolve-AMD.js: \
 	src/extractor/utl.js
 
 src/extractor/resolve/resolve-commonJS.js: \
-	src/extractor/transpile/meta.js
+	src/extractor/transpile/meta.js \
+	src/extractor/utl.js
 
 src/extractor/transpile/meta.js: \
 	src/extractor/transpile/coffeeWrap.js \

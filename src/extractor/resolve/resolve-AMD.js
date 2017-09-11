@@ -19,6 +19,7 @@ module.exports = (pModuleName, pBaseDir, pFileDir) => {
     return {
         resolved: utl.fileExists(lProbablePath) ? lProbablePath : pModuleName,
         coreModule: Boolean(resolve.isCore(pModuleName)),
-        followable: utl.fileExists(lProbablePath)
+        followable: utl.fileExists(lProbablePath),
+        exists: utl.fileExists(lProbablePath)
     };
 };
