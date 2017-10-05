@@ -219,10 +219,10 @@ depend:
 ```
 
 ## Support for TypeScript, CoffeeScript and LiveScript
-As of version 2.1.0 js-makedepend supports TypeScript, CoffeeScript and
-LiveScript. If any of these transpilers (or 'compilers' as they like to be
-called) are installed in your project folder's node_modules, js-makedepend
-will use them.
+As of version 2.1.0 js-makedepend supports TypeScript (including tsx),
+CoffeeScript and LiveScript. If any of these transpilers (or 'compilers'
+depending on your religious denomination) are installed in your project
+folder's node_modules, js-makedepend will use them.
 
 js-makedepend does not need any switches to work with any of these languages.
 It just works when the transpilers are in node_modules. This means everything
