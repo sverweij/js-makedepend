@@ -9,6 +9,7 @@ const litCoffeeWrap = require("./coffeeWrap")(true);
 const extension2wrapper = {
     ".js"        : jsWrap,
     ".ts"        : tsWrap,
+    ".tsx"       : tsWrap,
     ".ls"        : lsWrap,
     ".coffee"    : coffeeWrap,
     ".litcoffee" : litCoffeeWrap,

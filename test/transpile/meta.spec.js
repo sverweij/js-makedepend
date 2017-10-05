@@ -9,13 +9,7 @@ describe("transpiler meta", () => {
     it("tells which extensions can be scanned", () => {
         expect(
             meta.scannableExtensions
-        ).to.deep.equal([".js", ".ts", ".coffee", ".litcoffee", ".coffee.md"]);
-    });
-
-    it("tells which extensions can be scanned", () => {
-        expect(
-            meta.scannableExtensions
-        ).to.deep.equal([".js", ".ts", ".coffee", ".litcoffee", ".coffee.md"]);
+        ).to.deep.equal([".js", ".ts", ".tsx", ".coffee", ".litcoffee", ".coffee.md"]);
     });
 
     it("returns the 'js' wrapper for unknown extensions", () => {
