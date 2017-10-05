@@ -20,4 +20,21 @@ describe("typescript transpiler", () => {
             fs.readFileSync("./test/transpile/fixtures/typescriptscript.js", 'utf8')
         );
     });
+
+    it("transpiles tsx", () => {
+        fs.writeFileSync(
+            "./wap.js",
+            wrap.transpile(
+                fs.readFileSync("./test/transpile/fixtures/tsx.tsx", 'utf8')
+            ),
+            'utf8'
+        );
+        expect(
+            wrap.transpile(
+                fs.readFileSync("./test/transpile/fixtures/tsx.tsx", 'utf8')
+            )
+        ).to.equal(
+            fs.readFileSync("./test/transpile/fixtures/tsx.js", 'utf8')
+        );
+    });
 });
