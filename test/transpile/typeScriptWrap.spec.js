@@ -22,13 +22,6 @@ describe("typescript transpiler", () => {
     });
 
     it("transpiles tsx", () => {
-        fs.writeFileSync(
-            "./wap.js",
-            wrap.transpile(
-                fs.readFileSync("./test/transpile/fixtures/tsx.tsx", 'utf8')
-            ),
-            'utf8'
-        );
         expect(
             wrap.transpile(
                 fs.readFileSync("./test/transpile/fixtures/tsx.tsx", 'utf8')
