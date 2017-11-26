@@ -48,8 +48,8 @@
   "devDependencies": {
     "chai": "4.1.2",
     "coffee-script": "1.12.7",
-    "dependency-cruiser": "2.7.2",
-    "eslint": "4.11.0",
+    "dependency-cruiser": "2.8.0",
+    "eslint": "4.12.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-mocha": "4.11.0",
     "eslint-plugin-node": "5.2.1",
