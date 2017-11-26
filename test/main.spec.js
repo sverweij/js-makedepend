@@ -1,12 +1,12 @@
 "use strict";
-const assert    = require("assert");
-const expect    = require("chai").expect;
-const main      = require("../src/main.js");
 const fs        = require("fs");
-const tst       = require("./utl/testutensils");
 const path      = require("path");
+const assert    = require("assert");
 const _         = require("lodash");
 const intercept = require("intercept-stdout");
+const expect    = require("chai").expect;
+const main      = require("../src/main.js");
+const tst       = require("./utl/testutensils");
 
 const OUT_DIR = "./test/output";
 const FIX_DIR = "./test/fixtures";

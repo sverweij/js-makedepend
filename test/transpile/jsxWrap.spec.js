@@ -1,7 +1,7 @@
 "use strict";
 
-const expect = require("chai").expect;
 const fs     = require('fs');
+const expect = require("chai").expect;
 const wrap   = require("../../src/extractor/transpile/javaScriptWrap");
 
 describe("jsx transpiler (the plain old javascript one)", () => {

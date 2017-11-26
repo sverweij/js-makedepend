@@ -1,10 +1,10 @@
 "use strict";
 
+const chalk                = require('chalk');
+const figures              = require('figures');
 const supportedTranspilers = require("../../../package.json").supportedTranspilers;
 const allExtensions        = require("./meta").allExtensions;
 const tryRequire           = require("./tryRequire");
-const chalk                = require('chalk');
-const figures              = require('figures');
 
 function bool2Symbol(pBool) {
     return pBool ? chalk.green(figures.tick) : chalk.red(figures.cross);

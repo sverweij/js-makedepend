@@ -82,7 +82,7 @@ function validateParameters(pDirOrFile, pOptions) {
 
 }
 
-exports.main = (pDirOrFile, pOptions) => {
+module.exports.main = (pDirOrFile, pOptions) => {
     pOptions = _.defaults(pOptions, {
         exclude   : "",
         outputTo  : "Makefile",

@@ -118,7 +118,10 @@ function extractRecursiveFlattenedDir(pDirname, pOptions){
     return lDependencies;
 }
 
-exports.extractRecursive             = extractRecursive;
-exports.extractRecursiveDir          = extractRecursiveDir;
-exports.extractRecursiveFlattened    = extractRecursiveFlattened;
-exports.extractRecursiveFlattenedDir = extractRecursiveFlattenedDir;
+module.exports = {
+    extractRecursive,
+    extractRecursiveDir,
+    extractRecursiveFlattened,
+    extractRecursiveFlattenedDir
+};
+

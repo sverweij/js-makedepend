@@ -1,8 +1,9 @@
 "use strict";
 
 const expect     = require("chai").expect;
-const tryRequire = require("../../src/extractor/transpile/tryRequire");
 const semver     = require('semver');
+const tryRequire = require("../../src/extractor/transpile/tryRequire");
+
 
 describe("transpiler tryRequire", () => {
     it("returns false for unresolvable modules", () => {

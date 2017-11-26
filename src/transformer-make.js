@@ -1,7 +1,7 @@
 "use strict";
 
-const _                  = require('lodash');
 const fs                 = require('fs');
+const _                  = require('lodash');
 const extractorComposite = require('./extractor');
 
 const isIncludable = pDep => pDep.followable || pDep.resolved.endsWith('.json');
@@ -51,7 +51,7 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
         .concat("\n");
 }
 
-exports.getDependencyStrings = (pDirOrFile, pOptions) => {
+module.exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     let lRetval = "";
     let lOptions = _.clone(pOptions);
 

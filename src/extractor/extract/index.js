@@ -1,10 +1,9 @@
 "use strict";
-
+const fs                          = require('fs');
+const path                        = require('path');
 const acorn                       = require('acorn');
 const acorn_loose                 = require('acorn/dist/acorn_loose');
-const fs                          = require('fs');
 const _                           = require('lodash');
-const path                        = require('path');
 const transpile                   = require('../transpile');
 const resolve                     = require('../resolve');
 const utl                         = require('../utl');
