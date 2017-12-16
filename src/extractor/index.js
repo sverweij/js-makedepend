@@ -3,10 +3,10 @@
 const fs                   = require('fs');
 const path                 = require('path');
 const _                    = require('lodash');
+const SUPPORTED_EXTENSIONS = require('dependency-cruiser/src/extract/transpile/meta').scannableExtensions;
 
 const extract              = require('./extract');
 const utl                  = require('./utl');
-const SUPPORTED_EXTENSIONS = require('./transpile/meta').scannableExtensions;
 
 let gScanned    = new Set();
 
