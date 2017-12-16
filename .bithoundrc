@@ -1,5 +1,7 @@
-"dependencies": {
-    "unused-ignores": [
-      "semver"
-    ]
-  }
+{
+    "dependencies": {
+        "unused-ignores": [
+            "semver"
+        ]
+    }
+}
