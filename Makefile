@@ -126,38 +126,13 @@ sinopia:
 
 # cjs dependencies
 src/main.js: \
-	src/extractor/transpile/formatMetaInfo.js \
 	src/transformer-make.js
-
-src/extractor/transpile/formatMetaInfo.js: \
-	package.json \
-	src/extractor/transpile/meta.js \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/meta.js: \
-	src/extractor/transpile/coffeeWrap.js \
-	src/extractor/transpile/javaScriptWrap.js \
-	src/extractor/transpile/liveScriptWrap.js \
-	src/extractor/transpile/typeScriptWrap.js
-
-src/extractor/transpile/coffeeWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/liveScriptWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/typeScriptWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
 
 src/transformer-make.js: \
 	src/extractor/index.js
 
 src/extractor/index.js: \
 	src/extractor/extract/index.js \
-	src/extractor/transpile/meta.js \
 	src/extractor/utl.js
 
 src/extractor/extract/index.js: \
@@ -165,7 +140,6 @@ src/extractor/extract/index.js: \
 	src/extractor/extract/extract-ES6.js \
 	src/extractor/extract/extract-commonJS.js \
 	src/extractor/resolve/index.js \
-	src/extractor/transpile/index.js \
 	src/extractor/utl.js
 
 src/extractor/resolve/index.js: \
@@ -176,18 +150,13 @@ src/extractor/resolve/resolve-AMD.js: \
 	src/extractor/utl.js
 
 src/extractor/resolve/resolve-commonJS.js: \
-	src/extractor/transpile/meta.js \
 	src/extractor/utl.js
-
-src/extractor/transpile/index.js: \
-	src/extractor/transpile/meta.js
 
 src/extractor/extract/extract-AMD.js: \
 	src/extractor/extract/extract-commonJS.js
 
 # cjs dependencies
 ALL_SRC=src/main.js \
-	package.json \
 	src/extractor/extract/extract-AMD.js \
 	src/extractor/extract/extract-ES6.js \
 	src/extractor/extract/extract-commonJS.js \
@@ -196,14 +165,6 @@ ALL_SRC=src/main.js \
 	src/extractor/resolve/index.js \
 	src/extractor/resolve/resolve-AMD.js \
 	src/extractor/resolve/resolve-commonJS.js \
-	src/extractor/transpile/coffeeWrap.js \
-	src/extractor/transpile/formatMetaInfo.js \
-	src/extractor/transpile/index.js \
-	src/extractor/transpile/javaScriptWrap.js \
-	src/extractor/transpile/liveScriptWrap.js \
-	src/extractor/transpile/meta.js \
-	src/extractor/transpile/tryRequire.js \
-	src/extractor/transpile/typeScriptWrap.js \
 	src/extractor/utl.js \
 	src/transformer-make.js
 # cjs dependencies
@@ -212,7 +173,6 @@ test/extractor-composite.spec.js: \
 
 src/extractor/index.js: \
 	src/extractor/extract/index.js \
-	src/extractor/transpile/meta.js \
 	src/extractor/utl.js
 
 src/extractor/extract/index.js: \
@@ -220,7 +180,6 @@ src/extractor/extract/index.js: \
 	src/extractor/extract/extract-ES6.js \
 	src/extractor/extract/extract-commonJS.js \
 	src/extractor/resolve/index.js \
-	src/extractor/transpile/index.js \
 	src/extractor/utl.js
 
 src/extractor/resolve/index.js: \
@@ -231,29 +190,7 @@ src/extractor/resolve/resolve-AMD.js: \
 	src/extractor/utl.js
 
 src/extractor/resolve/resolve-commonJS.js: \
-	src/extractor/transpile/meta.js \
 	src/extractor/utl.js
-
-src/extractor/transpile/meta.js: \
-	src/extractor/transpile/coffeeWrap.js \
-	src/extractor/transpile/javaScriptWrap.js \
-	src/extractor/transpile/liveScriptWrap.js \
-	src/extractor/transpile/typeScriptWrap.js
-
-src/extractor/transpile/coffeeWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/liveScriptWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/typeScriptWrap.js: \
-	package.json \
-	src/extractor/transpile/tryRequire.js
-
-src/extractor/transpile/index.js: \
-	src/extractor/transpile/meta.js
 
 src/extractor/extract/extract-AMD.js: \
 	src/extractor/extract/extract-commonJS.js
@@ -266,40 +203,11 @@ test/main.spec.js: \
 	test/utl/testutensils.js
 
 src/main.js: \
-	src/extractor/transpile/formatMetaInfo.js \
 	src/transformer-make.js
-
-src/extractor/transpile/formatMetaInfo.js: \
-	package.json \
-	src/extractor/transpile/meta.js \
-	src/extractor/transpile/tryRequire.js
 
 src/transformer-make.js: \
 	src/extractor/index.js
 
 test/transformer-make.spec.js: \
 	src/transformer-make.js
-
-test/transpile/coffeeWrap.spec.js: \
-	src/extractor/transpile/coffeeWrap.js
-
-test/transpile/formatMetaInfo.spec.js: \
-	src/extractor/transpile/formatMetaInfo.js
-
-test/transpile/index.spec.js: \
-	src/extractor/transpile/index.js
-
-test/transpile/liveScriptWrap.spec.js: \
-	src/extractor/transpile/liveScriptWrap.js
-
-test/transpile/meta.spec.js: \
-	src/extractor/transpile/javaScriptWrap.js \
-	src/extractor/transpile/liveScriptWrap.js \
-	src/extractor/transpile/meta.js
-
-test/transpile/tryRequire.spec.js: \
-	src/extractor/transpile/tryRequire.js
-
-test/transpile/typeScriptWrap.spec.js: \
-	src/extractor/transpile/typeScriptWrap.js
 
