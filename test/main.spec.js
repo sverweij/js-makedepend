@@ -227,7 +227,7 @@ describe("#main", () => {
             expect(
                 lCapturedStdout
             ).to.contain(
-                "If you need a currently-not-enabled transpiler (those with a '"
+                "If you need a supported, but not enabled transpiler ('"
             );
         });
 

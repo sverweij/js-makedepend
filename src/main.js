@@ -1,9 +1,10 @@
 const fs              = require("fs");
 const _               = require("lodash");
 const safeRegex       = require('safe-regex');
+const formatMetaInfo  = require("dependency-cruiser/src/cli/formatMetaInfo");
 
 const transformToMake = require("./transformer-make");
-const formatMetaInfo  = require("./extractor/transpile/formatMetaInfo");
+
 
 const STARTING_STRING_DELIMITER = "# DO NOT DELETE THIS LINE -- js-makedepend depends on it.";
 const DEFAULT_MODULE_SYSTEMS    = ["cjs", "amd", "es6"];
