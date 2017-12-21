@@ -5,12 +5,11 @@ const acorn                       = require('acorn');
 const acorn_loose                 = require('acorn/dist/acorn_loose');
 const _                           = require('lodash');
 const transpile                   = require('dependency-cruiser/src/extract/transpile');
-const resolve                     = require('../resolve');
-const utl                         = require('../utl');
-const extractES6Dependencies      = require('./extract-ES6');
-const extractCommonJSDependencies = require('./extract-commonJS');
-const extractAMDDependencies      = require('./extract-AMD');
-
+const extractES6Dependencies      = require('dependency-cruiser/src/extract/extract-ES6');
+const extractCommonJSDependencies = require('dependency-cruiser/src/extract/extract-commonJS');
+const extractAMDDependencies      = require('dependency-cruiser/src/extract/extract-AMD');
+const resolve                     = require('./resolve');
+const utl                         = require('./utl');
 
 function getExtension(pFileName) {
     let lRetval = path.extname(pFileName);
