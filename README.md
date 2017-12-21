@@ -233,13 +233,6 @@ works for TypeScript, CoffeeScript and LiveScript like it does for JavaScript.
 > Moreover, when you're developing in any of these alt-JS languages, your
 > project folder probably already contains the transpiler anyway.
 
-## Support for other alt-js languages
-Providing support for other alt-js languages should prove straightforward -
-have a peek in the [transpile](./src/extractor/transpile) folder for samples
-on how to write a wrapper.
-
-Pull requests welcome.
-
 ## De-supported stuff + alternatives for them
 
 ### Visualizing the dependency graph
@@ -255,12 +248,11 @@ Also removed from js-makedepend with the 2.0.0 release. For this also
 [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) will
 probably do a better job.
 
-
 ## License
 [MIT](LICENSE)
 
 ## Thanks
 - [Marijn Haverbeke](http://marijnhaverbeke.nl) and other people who
   colaborated on [acorn](https://github.com/ternjs/acorn) -
-  the excelent javascript parser js-makedepend uses to infer the
+  the excellent javascript parser js-makedepend uses to infer the
   dependencies.
