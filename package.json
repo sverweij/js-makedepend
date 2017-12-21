@@ -1,6 +1,6 @@
 {
   "name": "js-makedepend",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "Determines dependencies of javascript modules and saves them in a Makefile. A bit like makedepend does for C.",
   "bin": {
     "js-makedepend": "bin/js-makedepend"
