@@ -6,15 +6,15 @@
     "js-makedepend": "bin/js-makedepend"
   },
   "scripts": {
-    "depcruise": "dependency-cruise -v -T err -x \"(fixtures)\" src test",
-    "depcruise:graph": "dependency-cruise -v -T dot -x \"(^node_modules|fixtures)\" src | dot -T svg > tmp_deps.svg",
+    "depcruise": "dependency-cruise --validate -- bin/js-makedepend src test",
+    "depcruise:graph": "dependency-cruise --validate --output-type dot bin/js-makedepend | dot -T svg > tmp_deps.svg && echo Done. dependency graph is in \"tmp_deps.svg\"",
     "lint": "eslint src bin/js-makedepend test",
     "lint:fix": "eslint --fix src bin/js-makedepend test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
     "postversion": "git push && git push --tags && npm publish",
     "preversion": "test `git branch | grep \"^* [a-zA-Z]\" | cut -c 3-` = 'master'",
-    "test": "mocha -R dot test",
+    "test": "mocha --reporter dot test",
     "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
     "test:long": "mocha test",
     "test:watch": "mocha --watch --watch-extensions=json --reporter=min test"
