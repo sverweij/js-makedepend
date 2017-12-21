@@ -132,13 +132,10 @@ src/transformer-make.js: \
 	src/extractor/index.js
 
 src/extractor/index.js: \
-	src/extractor/extract/index.js \
+	src/extractor/extract.js \
 	src/extractor/utl.js
 
-src/extractor/extract/index.js: \
-	src/extractor/extract/extract-AMD.js \
-	src/extractor/extract/extract-ES6.js \
-	src/extractor/extract/extract-commonJS.js \
+src/extractor/extract.js: \
 	src/extractor/resolve/index.js \
 	src/extractor/utl.js
 
@@ -152,15 +149,9 @@ src/extractor/resolve/resolve-AMD.js: \
 src/extractor/resolve/resolve-commonJS.js: \
 	src/extractor/utl.js
 
-src/extractor/extract/extract-AMD.js: \
-	src/extractor/extract/extract-commonJS.js
-
 # cjs dependencies
 ALL_SRC=src/main.js \
-	src/extractor/extract/extract-AMD.js \
-	src/extractor/extract/extract-ES6.js \
-	src/extractor/extract/extract-commonJS.js \
-	src/extractor/extract/index.js \
+	src/extractor/extract.js \
 	src/extractor/index.js \
 	src/extractor/resolve/index.js \
 	src/extractor/resolve/resolve-AMD.js \
@@ -172,13 +163,10 @@ test/extractor-composite.spec.js: \
 	src/extractor/index.js
 
 src/extractor/index.js: \
-	src/extractor/extract/index.js \
+	src/extractor/extract.js \
 	src/extractor/utl.js
 
-src/extractor/extract/index.js: \
-	src/extractor/extract/extract-AMD.js \
-	src/extractor/extract/extract-ES6.js \
-	src/extractor/extract/extract-commonJS.js \
+src/extractor/extract.js: \
 	src/extractor/resolve/index.js \
 	src/extractor/utl.js
 
@@ -192,11 +180,8 @@ src/extractor/resolve/resolve-AMD.js: \
 src/extractor/resolve/resolve-commonJS.js: \
 	src/extractor/utl.js
 
-src/extractor/extract/extract-AMD.js: \
-	src/extractor/extract/extract-commonJS.js
-
 test/extractor.spec.js: \
-	src/extractor/extract/index.js
+	src/extractor/extract.js
 
 test/main.spec.js: \
 	src/main.js \
