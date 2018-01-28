@@ -1,39 +1,15 @@
 "use strict";
-const fs                          = require('fs');
+
 const path                        = require('path');
-const acorn                       = require('acorn');
-const acorn_loose                 = require('acorn/dist/acorn_loose');
 const _                           = require('lodash');
-const transpile                   = require('dependency-cruiser/src/extract/transpile');
-const extractES6Dependencies      = require('dependency-cruiser/src/extract/extract-ES6');
-const extractCommonJSDependencies = require('dependency-cruiser/src/extract/extract-commonJS');
-const extractAMDDependencies      = require('dependency-cruiser/src/extract/extract-AMD');
+const extractES6Dependencies      = require('dependency-cruiser/src/extract/ast-extractors/extract-ES6-deps');
+const extractCommonJSDependencies = require('dependency-cruiser/src/extract/ast-extractors/extract-commonJS-deps');
+const extractAMDDependencies      = require('dependency-cruiser/src/extract/ast-extractors/extract-AMD-deps');
+const extractTypeScript           = require('dependency-cruiser/src/extract/ast-extractors/extract-typescript-deps');
+const getJSASTCached              = require('dependency-cruiser/src/extract/parse/toJavascriptAST').getASTCached;
+const toTypescriptAST             = require('dependency-cruiser/src/extract/parse/toTypescriptAST');
 const resolve                     = require('./resolve');
 const utl                         = require('./utl');
-
-function getExtension(pFileName) {
-    let lRetval = path.extname(pFileName);
-
-    if (lRetval === ".md") {
-        return pFileName.endsWith(".coffee.md") ? ".coffee.md" : lRetval;
-    }
-    return lRetval;
-}
-
-function getASTBare(pFileName) {
-    const lFile = transpile(
-        getExtension(pFileName),
-        fs.readFileSync(pFileName, 'utf8')
-    );
-
-    try {
-        return acorn.parse(lFile, {sourceType: 'module'});
-    } catch (e) {
-        return acorn_loose.parse_dammit(lFile, {sourceType: 'module'});
-    }
-}
-const getAST = _.memoize(getASTBare);
-
 
 /**
  * Returns an array of dependencies present in the given file. Of
@@ -61,7 +37,7 @@ const getAST = _.memoize(getASTBare);
  */
 function extractDependencies(pFileName, pOptions) {
     try {
-        const lAST = getAST(pFileName);
+        const lAST = getJSASTCached(pFileName);
         let lDependencies = [];
 
         pOptions = _.defaults(
@@ -72,15 +48,25 @@ function extractDependencies(pFileName, pOptions) {
             }
         );
 
-        if (_.includes(pOptions.moduleSystems, "cjs")){
+        if (pOptions.moduleSystems.indexOf("cjs") > -1){
             extractCommonJSDependencies(lAST, lDependencies);
         }
 
-        if (_.includes(pOptions.moduleSystems, "es6")){
-            extractES6Dependencies(lAST, lDependencies);
+        if (pOptions.moduleSystems.indexOf("es6") > -1) {
+            if (path.extname(pFileName).startsWith(".ts") && toTypescriptAST.isAvailable()) {
+                lDependencies = lDependencies.concat(
+                    extractTypeScript(
+                        toTypescriptAST.getASTCached(
+                            path.join(pOptions.baseDir, pFileName)
+                        )
+                    )
+                );
+            } else {
+                extractES6Dependencies(lAST, lDependencies);
+            }
         }
 
-        if (_.includes(pOptions.moduleSystems, "amd")){
+        if (pOptions.moduleSystems.indexOf("amd") > -1){
             extractAMDDependencies(lAST, lDependencies);
         }
 

@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix src bin/js-makedepend test",
     "nsp": "nsp check",
     "npm-check-updates": "ncu --upgrade",
-    "postversion": "git push && git push --tags && npm publish",
+    "postversion": "git push && git push --tags",
     "preversion": "test `git branch | grep \"^* [a-zA-Z]\" | cut -c 3-` = 'master'",
     "test": "mocha --reporter dot test",
     "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
@@ -61,7 +61,7 @@
   "dependencies": {
     "acorn": "5.3.0",
     "commander": "2.13.0",
-    "dependency-cruiser": "2.11.0",
+    "dependency-cruiser": "2.12.1",
     "lodash": "4.17.4",
     "resolve": "1.5.0",
     "safe-regex": "1.1.0",
