@@ -96,13 +96,6 @@
             "to": { "circular": true }
         },
         {
-            "name": "to-dep-cruise",
-            "comment": "identify relations to dependency-cruiser",
-            "severity": "info",
-            "from": { "pathNot": "^(node_modules)"},
-            "to": { "path": "dependency-cruiser" }
-        },
-        {
             "name": "no-GPL-license",
             "comment": "Warn in case some dependency uses either GPL or APL (the licenses are OK, but your legal department might have 2nd thoughts about them)",
             "severity": "warn",
