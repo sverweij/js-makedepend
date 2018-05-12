@@ -90,8 +90,8 @@ push-mirrors: mirrors
 	$(GIT) push bitbucket-mirror
 	$(GIT) push gitlab-mirror
 
-test: dev-build
-	$(NPM) test
+test-cover: dev-build
+	$(NPM) run test:cover
 
 nsp:
 	$(NPM) run nsp
@@ -109,7 +109,7 @@ run-update-dependencies:
 depcruise:
 	$(NPM) run depcruise
 
-check: lint depcruise test
+check: lint depcruise test-cover
 	./bin/js-makedepend --version # if that runs the cli script works
 
 fullcheck: check outdated nsp
