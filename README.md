@@ -4,7 +4,6 @@ A `makedepend` for javascript ES6, CommonJS and AMD (/ RequireJS).
 For all two of you using `Makefiles` to build JavaScript (TypeScript/ CoffeeScript/ ...) based projects.
 
 [![Build Status](https://travis-ci.org/sverweij/js-makedepend.svg?branch=master)](https://travis-ci.org/sverweij/js-makedepend)
-[![bitHound Overall Score](https://www.bithound.io/github/sverweij/js-makedepend/badges/score.svg)](https://www.bithound.io/github/sverweij/js-makedepend)
 [![coverage report](https://gitlab.com/sverweij/js-makedepend/badges/master/coverage.svg)](https://gitlab.com/sverweij/js-makedepend/commits/master)
 [![Dependency Status](https://david-dm.org/sverweij/js-makedepend.svg)](https://david-dm.org/sverweij/js-makedepend)
 [![devDependency Status](https://david-dm.org/sverweij/js-makedepend/dev-status.svg)](https://david-dm.org/sverweij/js-makedepend#info=devDependencies)
