@@ -51,59 +51,68 @@ function transformRecursiveFlattenedDir(pDirname, pOptions){
         .concat("\n");
 }
 
+function getDepStringsForADir(pOptions, pDirOrFile, pRetval) {
+    let lOptions = _.clone(pOptions);
+
+    pOptions.moduleSystems.forEach(pModuleSystem => {
+        lOptions.moduleSystems = [pModuleSystem];
+        if (pOptions.flatDefine) {
+            const lFlattenedDependencies = transformRecursiveFlattenedDir(pDirOrFile, lOptions);
+
+            pRetval += `# ${pModuleSystem} dependencies\n`;
+            if (lFlattenedDependencies.length > 0) {
+                pRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
+            }
+        } else {
+            pRetval +=
+                `# ${pModuleSystem} dependencies\n${
+                    transformDependencies(
+                        extractorComposite.extractRecursiveDir(pDirOrFile, lOptions)
+                    )
+                }`;
+        }
+    });
+    return pRetval;
+}
+
+function getDepStringsForAFile(pOptions, pDirOrFile, lRetval) {
+    let lOptions = _.clone(pOptions);
+
+    pOptions.moduleSystems.forEach(pModuleSystem => {
+        lOptions.moduleSystems = [pModuleSystem];
+        if (pOptions.flatDefine) {
+            const lFlattenedDependencies = transformDependenciesFlat(
+                extractorComposite.extractRecursiveFlattened(pDirOrFile, lOptions)
+            );
+
+            lRetval += `# ${pModuleSystem} dependencies\n`;
+            if (lFlattenedDependencies.length > 0) {
+                lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
+            }
+        } else {
+            lRetval +=
+                `# ${pModuleSystem} dependencies\n${
+                    transformDependencies(
+                        extractorComposite.extractRecursive(pDirOrFile, lOptions)
+                    )
+                }`;
+        }
+    });
+    return lRetval;
+}
+
+
 module.exports.getDependencyStrings = (pDirOrFile, pOptions) => {
     let lRetval = "";
-    let lOptions = _.clone(pOptions);
 
     if (!pOptions.append){
         lRetval = `\n${pOptions.delimiter}\n\n`;
     }
 
     if (fs.statSync(pDirOrFile).isDirectory()){
-        pOptions.moduleSystems.forEach(pModuleSystem => {
-            lOptions.moduleSystems = [pModuleSystem];
-
-            if (pOptions.flatDefine){
-                const lFlattenedDependencies =
-                    transformRecursiveFlattenedDir(pDirOrFile, lOptions);
-
-                lRetval += `# ${pModuleSystem} dependencies\n`;
-
-                if (lFlattenedDependencies.length > 0) {
-                    lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
-                }
-            } else {
-                lRetval +=
-                    `# ${pModuleSystem} dependencies\n${
-                        transformDependencies(
-                            extractorComposite.extractRecursiveDir(pDirOrFile, lOptions)
-                        )
-                    }`;
-            }
-        });
-        return lRetval;
+        return getDepStringsForADir(pOptions, pDirOrFile, lRetval);
     } else {
-        pOptions.moduleSystems.forEach(pModuleSystem => {
-            lOptions.moduleSystems = [pModuleSystem];
-
-            if (pOptions.flatDefine){
-                const lFlattenedDependencies = transformDependenciesFlat(
-                    extractorComposite.extractRecursiveFlattened(pDirOrFile, lOptions)
-                );
-
-                lRetval += `# ${pModuleSystem} dependencies\n`;
-                if (lFlattenedDependencies.length > 0) {
-                    lRetval += `${pOptions.flatDefine}=${lFlattenedDependencies}`;
-                }
-            } else {
-                lRetval +=
-                    `# ${pModuleSystem} dependencies\n${
-                        transformDependencies(
-                            extractorComposite.extractRecursive(pDirOrFile, lOptions)
-                        )
-                    }`;
-            }
-        });
-        return lRetval;
+        return getDepStringsForAFile(pOptions, pDirOrFile, lRetval);
     }
 };
+
