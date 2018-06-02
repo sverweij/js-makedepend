@@ -11,6 +11,48 @@ const toTypescriptAST             = require('dependency-cruiser/src/extract/pars
 const resolve                     = require('./resolve');
 const utl                         = require('./utl');
 
+function getECMADependencies(pFileName, pDependencies, pOptions, pAST) {
+    if (path.extname(pFileName).startsWith(".ts") && toTypescriptAST.isAvailable()) {
+        pDependencies = pDependencies.concat(
+            extractTypeScript(
+                toTypescriptAST.getASTCached(
+                    path.join(pOptions.baseDir, pFileName)
+                )
+            )
+        );
+    } else {
+        extractES6Dependencies(pAST, pDependencies);
+    }
+    return pDependencies;
+}
+
+function getDependencies(pFileName, pOptions) {
+    const lAST = getJSASTCached(pFileName);
+    let lDependencies = [];
+
+    if (pOptions.moduleSystems.indexOf("cjs") > -1) {
+        extractCommonJSDependencies(lAST, lDependencies);
+    }
+    if (pOptions.moduleSystems.indexOf("es6") > -1) {
+        lDependencies = getECMADependencies(pFileName, lDependencies, pOptions, lAST);
+    }
+    if (pOptions.moduleSystems.indexOf("amd") > -1) {
+        extractAMDDependencies(lAST, lDependencies);
+    }
+    return lDependencies;
+}
+
+function addResolutionAttributes(pOptions, pFileName) {
+    return pDependency => {
+        const lResolved = resolve(pDependency, pOptions.baseDir, path.dirname(pFileName));
+
+        return Object.assign(lResolved, {
+            module: pDependency.moduleName,
+            moduleSystem: pDependency.moduleSystem
+        });
+    };
+}
+
 /**
  * Returns an array of dependencies present in the given file. Of
  * each dependency it returns
@@ -35,11 +77,8 @@ const utl                         = require('./utl');
  *                              "(node_modules)"). Default: none
  * @return {array}           an array of dependency objects (see above)
  */
-function extractDependencies(pFileName, pOptions) {
+module.exports = (pFileName, pOptions) => {
     try {
-        const lAST = getJSASTCached(pFileName);
-        let lDependencies = [];
-
         pOptions = _.defaults(
             pOptions,
             {
@@ -48,53 +87,13 @@ function extractDependencies(pFileName, pOptions) {
             }
         );
 
-        if (pOptions.moduleSystems.indexOf("cjs") > -1){
-            extractCommonJSDependencies(lAST, lDependencies);
-        }
-
-        if (pOptions.moduleSystems.indexOf("es6") > -1) {
-            if (path.extname(pFileName).startsWith(".ts") && toTypescriptAST.isAvailable()) {
-                lDependencies = lDependencies.concat(
-                    extractTypeScript(
-                        toTypescriptAST.getASTCached(
-                            path.join(pOptions.baseDir, pFileName)
-                        )
-                    )
-                );
-            } else {
-                extractES6Dependencies(lAST, lDependencies);
-            }
-        }
-
-        if (pOptions.moduleSystems.indexOf("amd") > -1){
-            extractAMDDependencies(lAST, lDependencies);
-        }
-
-        return _(lDependencies)
+        return _(getDependencies(pFileName, pOptions))
             .uniqBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
             .sortBy(pDependency => `${pDependency.moduleName} ${pDependency.moduleSystem}`)
-            .map(
-                pDependency => {
-                    const lResolved = resolve(
-                        pDependency,
-                        pOptions.baseDir,
-                        path.dirname(pFileName)
-                    );
-
-                    return Object.assign(
-                        lResolved,
-                        {
-                            module       : pDependency.moduleName,
-                            moduleSystem : pDependency.moduleSystem
-                        }
-                    );
-                }
-            )
+            .map(addResolutionAttributes(pOptions, pFileName))
             .filter(pDep => utl.ignore(pDep.resolved, pOptions.exclude))
             .value();
     } catch (e) {
         throw new Error(`Extracting dependencies ran afoul of...\n\n  ${e.message}\n... in ${pFileName}\n\n`);
     }
-}
-
-module.exports = extractDependencies;
+};
