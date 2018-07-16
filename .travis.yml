@@ -16,8 +16,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
-  - make lint depcruise cover
-  - npm run nsp
+  - npm run check
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

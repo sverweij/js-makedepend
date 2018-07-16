@@ -6,7 +6,7 @@ NPM=npm
 NODE=node
 MAKEDEPEND=bin/js-makedepend --exclude "node_modules|fixtures|extractor-fixtures" --system cjs
 
-.PHONY: help dev-build install check fullcheck mostlyclean clean lint cover prerequisites static-analysis test update-dependencies run-update-dependencies depend
+.PHONY: help dev-build install check fullcheck mostlyclean clean lint cover prerequisites static-analysis test depend
 
 help:
 	@echo
@@ -21,11 +21,6 @@ help:
 	@echo
 	@echo "fullcheck"
 	@echo "  - runs all possible static checks (lint, depcruise, npm outdated, nsp)"
-	@echo
-	@echo "update-dependencies"
-	@echo "  - updates node dependencies and devDependencies to latest"
-	@echo "  - autofixes any lint regressions and runs all tests"
-	@echo "  - shows the diff of package.json"
 	@echo
 	@echo "publish-patch, publish-minor, publish-major"
 	@echo "  - ups the version semver compliantly"
@@ -93,26 +88,13 @@ push-mirrors: mirrors
 test-cover: dev-build
 	$(NPM) run test:cover
 
-nsp:
-	$(NPM) run nsp
-
-outdated:
-	$(NPM) outdated
-
-update-dependencies: run-update-dependencies dev-build test lint-fix
-	$(GIT) diff package.json
-
-run-update-dependencies:
-	$(NPM) run npm-check-updates
-	$(NPM) install
-
 depcruise:
 	$(NPM) run depcruise
 
 check: lint depcruise test-cover
 	./bin/js-makedepend --version # if that runs the cli script works
 
-fullcheck: check outdated nsp
+fullcheck: check
 
 depend:
 	$(MAKEDEPEND) src/main.js
