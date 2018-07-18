@@ -16,7 +16,7 @@ module.exports = (() => {
 
     return {
         assertFileEqual (pActualFileName, pExpectedFileName) {
-            assert.equal(
+            assert.strictEqual(
                 hashString(fs.readFileSync(pActualFileName, {encoding: "utf8"})),
                 hashString(fs.readFileSync(pExpectedFileName, {encoding: "utf8"}))
             );

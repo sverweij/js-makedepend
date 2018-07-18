@@ -265,7 +265,7 @@ describe("#main", () => {
             unhookInterceptStdOut();
             unhookInterceptStdErr();
 
-            return assert.equal(
+            return assert.strictEqual(
                 lCapturedStderr,
                 "ERROR: Can't open 'this-doesnot-exist' for reading. Does it exist?\n"
             );
@@ -294,7 +294,7 @@ describe("#main", () => {
                 lCapturedStderr += pText;
             })();
 
-            return assert.equal(
+            return assert.strictEqual(
                 lCapturedStderr,
                 "ERROR: Invalid module system list: 'invalidmodulesystem'\n"
             );
@@ -320,7 +320,7 @@ describe("#main", () => {
             unhookInterceptStdOut();
             unhookInterceptStdErr();
 
-            return assert.equal(
+            return assert.strictEqual(
                 lCapturedStderr,
                 "ERROR: The exclude pattern '([A-Za-z]+)*' will probably run very slowly - cowardly refusing to run.\n"
             );

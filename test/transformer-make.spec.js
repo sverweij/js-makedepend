@@ -41,7 +41,7 @@ test/fixtures/cjs/two_only_one.js: \\
 # es6 dependencies
 `;
 
-        assert.equal(lActualDepLines, lExpectedDepLines);
+        assert.strictEqual(lActualDepLines, lExpectedDepLines);
     });
 
     it("basic operation on test/fixtures/cjs/root_two.js", () => {
@@ -71,7 +71,7 @@ test/fixtures/cjs/sub/dir.js: \\
 # es6 dependencies
 `;
 
-        assert.equal(lActualDepLines, lExpectedDepLines);
+        assert.strictEqual(lActualDepLines, lExpectedDepLines);
     });
 
 });
