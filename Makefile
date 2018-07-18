@@ -30,23 +30,11 @@ help:
 
 # production rules
 
-.npmignore: .gitignore
-	cp $< $@
-	echo "test/**" >> $@
-	echo "utl/**" >> $@
-	echo ".codeclimate.yml" >> $@
-	echo ".dependency-cruiser.json" >> $@
-	echo ".eslintignore" >> $@
-	echo ".eslintrc.json" >> $@
-	echo ".gitlab-ci.yml" >> $@
-	echo ".travis.yml" >> $@
-	echo "Makefile" >> $@
-
 # "phony" targets
 prerequisites:
 	$(NPM) install
 
-dev-build: bin/js-makedepend $(ALL_SRC) .npmignore
+dev-build: bin/js-makedepend $(ALL_SRC)
 
 lint:
 	$(NPM) run lint

@@ -5,6 +5,13 @@
   "bin": {
     "js-makedepend": "bin/js-makedepend"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "build": "make dev-build",
     "check": "npm-run-all --parallel depcruise lint test:cover",
