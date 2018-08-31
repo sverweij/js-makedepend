@@ -57,9 +57,9 @@
   },
   "devDependencies": {
     "chai": "4.1.2",
-    "eslint": "5.1.0",
-    "eslint-plugin-import": "2.13.0",
-    "eslint-plugin-mocha": "5.1.0",
+    "eslint": "5.4.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-mocha": "5.2.0",
     "eslint-plugin-node": "7.0.1",
     "eslint-plugin-security": "1.4.0",
     "intercept-stdout": "0.1.2",
@@ -69,12 +69,12 @@
     "upem": "1.0.0"
   },
   "dependencies": {
-    "acorn": "5.7.1",
-    "commander": "2.16.0",
-    "dependency-cruiser": "4.3.1",
+    "acorn": "5.7.2",
+    "commander": "2.17.1",
+    "dependency-cruiser": "4.5.0",
     "lodash": "4.17.10",
     "resolve": "1.8.1",
     "safe-regex": "1.1.0",
-    "semver": "5.5.0"
+    "semver": "5.5.1"
   }
 }
