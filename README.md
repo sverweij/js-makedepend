@@ -16,7 +16,13 @@ For all two of you using `Makefiles` to build JavaScript (TypeScript/ CoffeeScri
 ## DEPRECATION NOTICE
 From november 2018 I won't maintain js-makedepend anymore. If you need it: fork it or find an alternative.
 
-The reasons?    
+#### Timeline:
+- 2018-11-10: Add deprecation notice
+- End of december 2018: Own projects using js-makedepend don't use it anymore
+- January 2018: depcrate the package on npm
+- February 2018: Archive and/ or delete the repo
+
+#### Why?    
 - js-makedepend isn't heavily used. 
 - I need focus in what I'm working on, and removing this from the picture helps with that.
 
