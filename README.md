@@ -19,7 +19,7 @@ From november 2018 I won't maintain js-makedepend anymore. If you need it: fork 
 #### Timeline
 - 2018-11-10: Add deprecation notice.
 - December 2019: Own projects using js-makedepend don't use it anymore
-- January 2019: deprecate the package on npm, chuck everything from the README except the deprecation notice.
+- January 2019: deprecate the package on npm, chuck everything from the README except the deprecation notice. From that time on js-makedepend won't get any security updates.
 - February 2019: Archive and/ or delete the repo
 
 #### Why?    
