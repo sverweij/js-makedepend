@@ -5,10 +5,6 @@ For all two of you using `Makefiles` to build JavaScript (TypeScript/ CoffeeScri
 
 [![Build Status](https://travis-ci.org/sverweij/js-makedepend.svg?branch=master)](https://travis-ci.org/sverweij/js-makedepend)
 [![coverage report](https://gitlab.com/sverweij/js-makedepend/badges/master/coverage.svg)](https://gitlab.com/sverweij/js-makedepend/commits/master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/277ad3389416196f95bf/maintainability)](https://codeclimate.com/github/sverweij/js-makedepend/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/277ad3389416196f95bf/test_coverage)](https://codeclimate.com/github/sverweij/js-makedepend/test_coverage)
-[![Dependency Status](https://david-dm.org/sverweij/js-makedepend.svg)](https://david-dm.org/sverweij/js-makedepend)
-[![devDependency Status](https://david-dm.org/sverweij/js-makedepend/dev-status.svg)](https://david-dm.org/sverweij/js-makedepend#info=devDependencies)
 [![npm stable version](https://img.shields.io/npm/v/js-makedepend.svg)](https://npmjs.com/package/js-makedepend)
 [![total downloads on npm](https://img.shields.io/npm/dt/js-makedepend.svg?maxAge=2592000)](https://npmjs.com/package/js-makedepend)
 [![MIT licensed](https://img.shields.io/github/license/sverweij/js-makedepend.svg)](LICENSE)
