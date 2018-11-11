@@ -58,10 +58,10 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "eslint": "5.7.0",
+    "eslint": "5.9.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-mocha": "5.2.0",
-    "eslint-plugin-node": "7.0.1",
+    "eslint-plugin-node": "8.0.0",
     "eslint-plugin-security": "1.4.0",
     "intercept-stdout": "0.1.2",
     "istanbul": "0.4.5",
@@ -71,10 +71,10 @@
   },
   "dependencies": {
     "commander": "2.19.0",
-    "dependency-cruiser": "4.6.1",
+    "dependency-cruiser": "4.6.3",
     "lodash": "4.17.11",
     "resolve": "1.8.1",
-    "safe-regex": "1.1.0",
+    "safe-regex": "2.0.1",
     "semver": "5.6.0"
   }
 }
