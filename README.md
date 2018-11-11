@@ -13,7 +13,9 @@ For all two of you using `Makefiles` to build JavaScript (TypeScript/ CoffeeScri
 [![total downloads on npm](https://img.shields.io/npm/dt/js-makedepend.svg?maxAge=2592000)](https://npmjs.com/package/js-makedepend)
 [![MIT licensed](https://img.shields.io/github/license/sverweij/js-makedepend.svg)](LICENSE)
 
-## DEPRECATION NOTICE
+
+
+## :rotating_light: DEPRECATION NOTICE :rotating_light:
 From november 2018 I won't maintain js-makedepend anymore. If you need it: fork it or find an alternative.
 
 #### Timeline
