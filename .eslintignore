@@ -1,6 +1,0 @@
-node_modules
-coverage
-tmp
-test/transpile/fixtures/**
-test/fixtures/**
-test/extractor-fixtures/**
