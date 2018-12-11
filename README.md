@@ -25,17 +25,7 @@ From november 2018 I won't maintain js-makedepend anymore. If you need it: fork 
 - I need focus in what I'm working on, and removing this from the picture helps with that.
 
 ## Installation and basic usage
-(1) Install with `npm`
-```shell
-npm install -g js-makedepend
-```
-(2) Include this target in your Makefile (assuming your javascript is in `src/`):
-```makefile
-depend:
-	js-makedepend src/
-```
-(3) Run `make depend`    
-   js-makedepend will have added the dependencies in `src/` to your Makefile. See the examples below to see how that looks.
+Don't. The package is deprecated.
 
 
 ## All options

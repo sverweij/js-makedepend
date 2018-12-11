@@ -1,7 +1,7 @@
 {
   "name": "js-makedepend",
   "version": "3.0.6",
-  "description": "Determines dependencies of javascript modules and saves them in a Makefile. A bit like makedepend does for C.",
+  "description": "DEPRECATED",
   "bin": {
     "js-makedepend": "bin/js-makedepend"
   },
@@ -34,24 +34,9 @@
     "type": "git",
     "url": "git+https://github.com/sverweij/js-makedepend.git"
   },
-  "keywords": [
-    "makedepend",
-    "Makefile",
-    "javascript",
-    "typescript",
-    "coffeescript",
-    "livescript",
-    "dependencies",
-    "ES6",
-    "AMD",
-    "CommonJS",
-    "RequireJS"
-  ],
+  "keywords": [],
   "author": "Sander Verweij",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sverweij/js-makedepend/issues"
-  },
   "homepage": "https://github.com/sverweij/js-makedepend",
   "engines": {
     "node": ">=6"
