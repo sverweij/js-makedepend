@@ -1,4 +1,5 @@
 module.exports = {
+  extends: 'dependency-cruiser/configs/recommended-strict',
   forbidden: [
     {
       name: 'not-to-test',
@@ -56,37 +57,6 @@ module.exports = {
       }
     },
     {
-      name: 'not-to-unresolvable',
-      severity: 'warn',
-      from: {},
-      to: {
-        couldNotResolve: true
-      }
-    },
-    {
-      name: 'not-to-deprecated',
-      comment: 'These modules are deprecated - find an alternative.',
-      severity: 'warn',
-      from: {},
-      to: {
-        dependencyTypes: [
-          'deprecated'
-        ]
-      }
-    },
-    {
-      name: 'no-deprecated-core',
-      comment: 'These core modules are deprecated - find an alternative.',
-      severity: 'error',
-      from: {},
-      to: {
-        dependencyTypes: [
-          'core'
-        ],
-        path: '^(punycode|domain|constants|sys|_linklist)$'
-      }
-    },
-    {
       name: 'not-to-dev-dep',
       severity: 'error',
       comment: 'because an npm i --production will otherwise deliver an unreliably running module',
@@ -100,24 +70,8 @@ module.exports = {
       }
     },
     {
-      name: 'no-non-package-json',
-      severity: 'error',
-      comment: 'because an npm i --production will otherwise deliver an unreliably running module',
-      from: {
-        pathNot: '^(node_modules)'
-      },
-      to: {
-        dependencyTypes: [
-          'unknown',
-          'undetermined',
-          'npm-no-pkg',
-          'npm-unknown'
-        ]
-      }
-    },
-    {
       name: 'optional-deps-used',
-      severity: 'info',
+      severity: 'error',
       comment: 'nothing serious - but just check you have some try/ catches around the import/ require of these',
       from: {},
       to: {
@@ -129,39 +83,13 @@ module.exports = {
     {
       name: 'peer-deps-used',
       comment: 'peer dependencies are deprecated with the advent of npm 3 - and probably gone with version 4. Or with yarn.',
-      severity: 'warn',
+      severity: 'error',
       from: {},
       to: {
         dependencyTypes: [
           'npm-peer'
         ]
       }
-    },
-    {
-      name: 'no-duplicate-dep-types',
-      severity: 'warn',
-      from: {},
-      to: {
-        moreThanOneDependencyType: true
-      }
-    },
-    {
-      name: 'no-circular',
-      severity: 'error',
-      from: {
-        pathNot: '^(node_modules)'
-      },
-      to: {
-        circular: true
-      }
-    },
-    {
-      name: 'no-orphans',
-      severity: 'error',
-      from: {
-        orphan: true
-      },
-      to: {}
     },
     {
       name: 'no-GPL-license',
@@ -175,7 +103,9 @@ module.exports = {
   ],
   options: {
     exclude: 'fixtures',
-    doNotFollow: '^node_modules',
+    // node_modules is already put on 'doNotFollow' in the recommended config
+    // so no need to do this explicitly here anymore
+    // doNotFollow: '^node_modules', 
     prefix: 'https://github.com/sverweij/js-makedepend/blob/master/'
   }
 }
