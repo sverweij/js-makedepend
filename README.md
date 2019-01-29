@@ -12,7 +12,9 @@ From november 2018 isn't maintained anymore. If you need it: fork it or find an 
 - [x] 2018-11-10: Add deprecation notice.
 - [x] December 2019: Own projects using js-makedepend don't use it anymore
 - [x] January 2019: deprecate the package on npm, remove everything from the README except the deprecation notice. From that time on js-makedepend won't get any security updates.
-- [ ] February 2019: stop ci integrations
+- [ ] February 2019: stop ci integrations:
+  - [x] gitlab
+  - [ ] travis
 - [ ] February 2019: Archive and/ or delete the repo
 
 #### Why?    
