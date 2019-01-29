@@ -1,6 +1,6 @@
 {
   "name": "js-makedepend",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "DEPRECATED",
   "bin": {
     "js-makedepend": "bin/js-makedepend"
