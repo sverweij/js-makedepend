@@ -23,7 +23,7 @@
     "preversion": "test `git branch | grep \"^* [a-zA-Z]\" | cut -c 3-` = 'master'",
     "version": "npm-run-all build build:stage",
     "test": "mocha --reporter dot test",
-    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- test",
+    "test:cover": "nyc --check-coverage npm test",
     "test:long": "mocha test",
     "test:watch": "mocha --watch --watch-extensions=json --reporter=min test",
     "update-dependencies": "npm-run-all upem:update upem:install lint:fix build check",
@@ -43,23 +43,23 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "eslint": "5.12.1",
+    "eslint": "5.14.1",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.16.0",
-    "eslint-plugin-mocha": "5.2.1",
+    "eslint-plugin-mocha": "5.3.0",
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-security": "1.4.0",
     "eslint-plugin-standard": "4.0.0",
     "intercept-stdout": "0.1.2",
-    "istanbul": "0.4.5",
     "mocha": "5.2.0",
     "npm-run-all": "4.1.5",
+    "nyc": "13.3.0",
     "upem": "1.0.2"
   },
   "dependencies": {
     "commander": "2.19.0",
-    "dependency-cruiser": "4.12.1",
+    "dependency-cruiser": "4.13.1",
     "lodash": "4.17.11",
     "resolve": "1.10.0",
     "safe-regex": "2.0.1",
@@ -131,5 +131,24 @@
     "test/transpile/fixtures/**",
     "test/fixtures/**",
     "test/extractor-fixtures/**"
-  ]
+  ],
+  "nyc": {
+    "statements": 99,
+    "branches": 90,
+    "functions": 100,
+    "lines": 99,
+    "exclude": [
+      "configs/**/*",
+      "test/**/*",
+      "src/**/*.template.js",
+      "coverage/**/*",
+      "tmp*"
+    ],  
+    "reporter": [
+      "text-summary",
+      "html",
+      "lcov"
+    ],  
+    "all": true
+  }
 }
