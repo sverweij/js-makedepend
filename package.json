@@ -1,6 +1,6 @@
 {
   "name": "js-makedepend",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "DEPRECATED",
   "bin": {
     "js-makedepend": "bin/js-makedepend"
@@ -143,12 +143,12 @@
       "src/**/*.template.js",
       "coverage/**/*",
       "tmp*"
-    ],  
+    ],
     "reporter": [
       "text-summary",
       "html",
       "lcov"
-    ],  
+    ],
     "all": true
   }
 }
