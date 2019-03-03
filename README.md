@@ -15,7 +15,7 @@ From november 2018 isn't maintained anymore. If you need it: fork it or find an 
 - [ ] February 2019: stop ci integrations:
   - [x] gitlab
   - [ ] travis
-- [ ] February 2019: Archive and/ or delete the repo
+- [ ] After february 2019: Archive and/ or delete the repo
 
 #### Why?    
 - js-makedepend isn't heavily used. 
